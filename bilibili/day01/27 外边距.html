@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>外边距</title>
+    <style>
+      .box1 {
+        width: 800px;
+        height: 400px;
+        border: 10px red solid;
+      }
+
+      .box2 {
+        width: 200px;
+        height: 200px;
+        background-color: #bfa;
+        /* 可以将margin的值设置为auto，设置auto后，元素的外边距由浏览器自动计算
+            - 当我们将margin-left或margin-right中的一个设置为auto时，则浏览器会自动使其尽量的大
+            - 如果将margin-left和margin-right同时设置为auto，则浏览器会使元素左右的外边距相同
+              也就是元素会在其父元素中水平居中，通过将一个块元素的左右外边距设置为auto，以使其在父元素中水平居中
+            - 默认情况下，垂直外边距设置为auto时，浏览器会自动取0为外边距，为什么会这样？ 
+        */
+        margin-bottom: auto;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box1">
+      <div class="box2"></div>
+    </div>
+  </body>
+</html>

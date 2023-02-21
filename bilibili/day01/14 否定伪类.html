@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <style>
+      /* :not否定伪类，除了某些元素  */
+
+      /* 选中所有的p，除了class="p1"的 */
+      p:not(:nth-child(3)) {
+        color: tomato;
+      }
+
+      /* 选中所有的p，除了class="p1"的 */
+      p:not(.p1) {
+        color: tomato;
+      }
+    </style>
+  </head>
+  <body>
+    <p>锄禾日当午</p>
+    <p>桃花潭水深千尺</p>
+    <p class="p1">汪伦厕所不用纸</p>
+    <p>粒粒皆辛苦</p>
+  </body>
+</html>

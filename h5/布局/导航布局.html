@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: #ccc;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      a {
+        position: relative;
+        text-decoration: none;
+        color: #000;
+      }
+
+      .nav {
+        height: 70px;
+        background-color: #fff;
+        /* 为什么给nav设置行高，不给li设置行高？因为继承 */
+        line-height: 70px;
+      }
+
+      li {
+        /* 什么时候使用浮动？当想让多个块元素在一行显示时候用浮动（记住） */
+        float: left;
+        margin: 0 10px;
+      }
+
+      img {
+        position: absolute;
+        top: -18px;
+        right: -6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+      <ul>
+        <li><a href="javascript:;">免费课程</a></li>
+        <li><a href="javascript:;">免费课程</a></li>
+        <li><a href="javascript:;">免费课程</a></li>
+        <li>
+          <a href="javascript:;">免费课程<img src="./hot.png" /></a>
+        </li>
+        <li><a href="javascript:;">免费课程</a></li>
+        <li><a href="javascript:;">免费课程</a></li>
+      </ul>
+    </div>
+  </body>
+</html>
