@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>包含块</title>
+  </head>
+  <body>
+    <!-- 包含块（containing block）在文档流中，包含块就是离当前元素最近的祖先块元素 -->
+
+    <div class="box1">
+      <div class="box2">
+        <div class="box3"></div>
+      </div>
+    </div>
+
+    <div class="box4">
+      <span>
+        <div class="box5"></div>
+      </span>
+    </div>
+  </body>
+</html>
