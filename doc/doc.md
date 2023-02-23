@@ -1120,7 +1120,7 @@ line-height 用来设置元素的行高
 
 （2）样式与内容分离：将 css 代码定义到外部 css 中。
 
-## 后处理器(**postCss**)是什么
+## CSS 后处理器
 
 **后处理器，** 如： `postCss`，通常是在完成的样式表中根据`css`规范处理`css`，让其更加有效。目前最常做的是给`css`属性添加浏览器私有前缀，实现跨浏览器兼容性的问题。
 
@@ -1158,22 +1158,62 @@ line-height 用来设置元素的行高
 
 ## CSS 预处理器
 
-他们都是 CSS 预处理器，是 CSS 上的一种抽象层。他们是一种特殊的语法/语言编译成 CSS。 例如 Less 是一种动态样式语言，将 CSS 赋予了动态语言的特性，如变量，继承，运算， 函数，LESS 既可以在客户端上运行 (支持 IE 6+, Webkit, Firefox)，也可以在服务端运行 (借助 Node.js)。
+~~~bash
+#less定义变量
+@fontColor:pink;
+#less使用变量
+.box {
+	color:@fontColor;
+}
 
-**为什么要使用它们？**
+#导入其它less文件
+@import '文件路径';
+@import '01.less';
 
-- 结构清晰，便于扩展。 可以方便地屏蔽浏览器私有语法差异。封装对浏览器语法差异的重复处理， 减少无意义的机械劳动。
-- 可以轻松实现多重继承。 完全兼容 CSS 代码，可以方便地应用到老项目中。LESS 只是在 CSS 语法上做了扩展，所以老的 CSS 代码也可以与 LESS 代码一同编译。
+#控制当前less文件导出css的路径，less文件第一行添加
+// out: ./css/common.css
+#禁止导出css，less文件第一行添加
+// out:false
 
-### less 和 sass 区别
+#less嵌套语法
+#&不生成后代选择器，表示当前选择器
+.father {
+	color: red;
+	&:hover {
+		color: pink;
+	}
+}
 
-1. Sass`(Syntactically Awesome Stylesheets)是一种`动态样式语言`，Sass 语法属于缩排语法，比 css 比多出好些功能(如变量、嵌套、运算,混入(Mixin)、继承、颜色处理，函数等)，更容易阅读。
+.father {
+	color: red;
+}
+.father:hover {
+	color: pink;
+}
+#生成后代选择器
+.father {
+	color: red;
+	.son {
+		color: pink;
+	}
+}
 
-   Sass 与 Scss 是什么关系?
+.father {
+	color: red;
+}
+.father .son {
+	color: pink;
+}
 
-   Sass 的缩排语法，对于写惯 css 前端的 web 开发者来说很不直观，也不能将 css 代码加入到 Sass 里面，因此 sass 语法进行了改良，Sass 3 就变成了 Scss(sassy css)。与原来的语法兼容，只是用{}取代了原来的缩进。
-
-2. `Less`也是一种`动态样式语言`. 对 CSS 赋予了动态语言的特性，如**变量**，**继承**，**运算**， **函数**. Less 既可以在**客户端**上运行 (支持 IE 6+, Webkit, Firefox)，也可在**服务端**运行 (借助 Node.js)。
+#less运算
+.box1 {
+	width: 100 + 50px;
+	height: 100 * 50px
+}
+.box2 {
+	width: (100 / 50px);
+}
+~~~
 
 ## 如何判断元素是否到达可视区域
 
