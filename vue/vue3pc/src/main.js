@@ -11,5 +11,3 @@ import '@/mock' // mockjs
 const app = createApp(App)
 app.use(store).use(router).use(components)
 app.mount('#app')
-// http://zhoushugang.gitee.io/erabbit-client-pc-document/
-// https://cp_fe.gitee.io/course-advance/#/
