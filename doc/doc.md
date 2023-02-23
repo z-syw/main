@@ -351,13 +351,24 @@ W3C 对 web 标准提出了规范化的要求，也就是在实际编程中的�
 
 # CSS
 
+## 布局手段
+
+~~~bash
+布局手段
+1. 盒子模型（纵向）
+2. 浮动（横向）
+3. 定位
+~~~
+
 ## visibility
 
+~~~bash
 visibility用来设置一个元素的可见性，可选值：
 
 visible 默认值 元素可见
 
-hidden 元素是隐藏的在页面中不可见，但是依然占据页面的位置 
+hidden 元素是隐藏的在页面中不可见，但是依然占据页面的位置
+~~~
 
 ## overflow
 
@@ -445,173 +456,192 @@ transform: scale(0,0)占位置
 
 transform 不会影响布局，改了宽高会
 
-## px em rem 之间有什么区别
+## px em rem
 
 px 绝对单位(一旦设置了，就无法因为适应页面大小而改变)；em 相对单位(相对父盒子的 font-size，如果父盒子没有，往上找)；rem 相对单位(相对 html 根字号)
 
-## 水平垂直居中
+## 居中
 
-1. 使用 margin: 0 auto
+margin: 0 auto 盒子模型的等式：margin-left + 可见框宽度 + margin-right = 包含块的内容区宽度
 
-   ~~~css
-   <div class="center">此盒子会居中</div>
-   
-   .center { 
-     height: 500px; 
-     width: 500px; 
-     background-color: pink; 
-     margin: 0 auto;
-   }
-   ~~~
+~~~css
+<div class="center">此盒子会居中</div>
 
-2. 转成行内块，给父盒子设置 text-align: center
+.center { 
+  height: 500px; 
+  width: 500px; 
+  background-color: pink; 
+  margin: 0 auto;
+}
+~~~
 
-   ```css
-   <div class="father">
-     <div class="center">此盒子会居中</div>
-   </div>
-   
-   .father { 
-     text-align: center;
-   } 
-   .center { 
-     width: 400px; 
-     height: 400px; 
-     background-color: pink; 
-     display: inline-block;
-   }
-   ```
-
-3. flex
-
-   ~~~css
-   <div class="father">
-     <div class="center">我是内容盒子</div>
-   </div>
-   
-   .father { 
-     display: flex; 
-     background-color: skyblue; 
-     justify-content: center; 
-     align-items: center;
-   } 
-   .center { 
-     width:400px; 
-     height: 400px; 
-     background-color: pink;
-   }
-   ~~~
-
-4. 定位
-
-   ~~~css
-   <div class="father">
-     <div class="center">我是内容盒子</div>
-   </div>
-   
-   .father {
-     background-color: skyblue; 
-     position: relative; 
-     height: 500px;
-   } 
-   .center { 
-     width: 400px; 
-     height: 400px;
-     background-color: pink; 
-     position: absolute; 
-     left: 50%; 
-     top: 50%; 
-     transform: translate(-50%, -50%);
-   }
-   ~~~
-
-5. 文字水平垂直居中
-
-   ~~~css
-   <!DOCTYPE html>
-   <html lang="zh">
-     <head>
-       <meta charset="UTF-8" />
-       <title>Title</title>
-       <style>
-         p {
-           height: 50px;
-           border: 1px #000 solid;
-           /* 文字水平居中 */
-           text-align: center;
-           /* 将行高设置为和元素高度一样的值即可让元素垂直居中 */
-           line-height: 50px;
-         }
-       </style>
-     </head>
-     <body>
-       <p>今天天气真不错！</p>
-     </body>
-   </html>
-   ~~~
-
-[【更多方式参考】实现水平居中垂直居中](https://www.cnblogs.com/chengxs/p/11231906.html)
-
-## 在 CSS 中有哪些定位方式
-
-1. 静态定位`static` 默认值不脱离文档流，top，right，bottom，left，z-index 等属性不生效
-
-2. relative 相对定位。参照物：元素偏移前位置。设置了相对定位，左右 margin 为 auto 仍然有效、并且不会脱离文档流。
-
-3. absolute 绝对定位。参照物：最近的一级带有带定位的父级元素（static 除外）进行位置移动如果找不到，那么相对于浏览器窗口进行定位。元素会脱离正常文档流，不在占据空间。左右 margin 为 auto 将会失效。通过 left、top、bottom、right 来决定元素位置。
-
-4. fixed 固定定位。参照物：浏览器窗口。固定定位会脱离文档流。当绝对定位和固定定位参照物都是浏览器窗口时的区别： 当出现滚动条时，固定定位的元素不会跟随滚动条滚动，绝对定位会跟随滚动条滚动
-
-5. sticky 粘性定位
+转成行内块，给父盒子设置 text-align: center
 
 ```css
-.header {
-  position: sticky;
-  /* 设置盒子距离浏览器的顶部边缘，多少时开始吸顶 */
-  top: 0;
+<div class="father">
+  <div class="center">此盒子会居中</div>
+</div>
+
+.father { 
+  text-align: center;
+} 
+.center { 
+  width: 400px; 
+  height: 400px; 
+  background-color: pink; 
+  display: inline-block;
 }
 ```
 
-```html
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-  }
-  .header {
-    width: 100%;
-    height: 100px;
-    background-color: orange;
-  }
-  .nav {
-    width: 100%;
-    height: 200px;
-    background-color: pink;
-    position: sticky;
-    top: 0px;
-  }
-  .main {
-    width: 100%;
-    height: 100px;
-    background-color: skyblue;
-  }
-</style>
+flex
 
-<div class="header">我是头部</div>
-<div class="nav">我是导航</div>
-<div class="container">
-  <div class="main">我是主体部分1</div>
-  <div class="main">我是主体部分2</div>
-  <div class="main">我是主体部分3</div>
-  <div class="main">我是主体部分4</div>
-  <div class="main">我是主体部分5</div>
-  <div class="main">我是主体部分6</div>
-  <div class="main">我是主体部分7</div>
-  <div class="main">我是主体部分8</div>
+~~~css
+<div class="father">
+  <div class="center">我是内容盒子</div>
 </div>
+
+.father { 
+  display: flex; 
+  background-color: skyblue; 
+  justify-content: center; 
+  align-items: center;
+} 
+.center { 
+  width:400px; 
+  height: 400px; 
+  background-color: pink;
+}
+~~~
+
+定位。left + margin-left + 可见框宽度 + margin-right + right = 包含块的内容区宽度
+
+top + margin-top + 可见框高度 + margin-bottom + bottom = 包含块的内容区高度
+
+~~~css
+<div class="father">
+  <div class="center">我是内容盒子</div>
+</div>
+
+.father {
+  background-color: skyblue; 
+  position: relative; 
+  height: 500px;
+} 
+.center { 
+  width: 400px; 
+  height: 400px;
+  background-color: pink; 
+  position: absolute; 
+  left: 50%; 
+  top: 50%; 
+  transform: translate(-50%, -50%);
+}
+~~~
+
+文字水平垂直居中
+
+~~~css
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <style>
+      p {
+        height: 50px;
+        border: 1px #000 solid;
+        /* 文字水平居中 */
+        text-align: center;
+        /* 将行高设置为和元素高度一样的值即可让元素垂直居中 */
+        line-height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <p>今天天气真不错！</p>
+  </body>
+</html>
+~~~
+
+[【更多方式参考】实现水平居中垂直居中](https://www.cnblogs.com/chengxs/p/11231906.html)
+
+## 定位
+
+~~~bash
+position用来设置元素的定位方式，取值
+1. static默认值，元素没有开启定位，不脱离文档流，top，right，bottom，left，z-index 等属性不生效。
+2. relative相对定位，不脱离文档流。参照物：元素偏移前位置。相对定位会提升元素的层级。
+3. fixed固定定位，脱离文档流。参照物：浏览器窗口。
+4. sticky粘性定位
+5. 当绝对定位和固定定位参照物都是浏览器窗口时的区别： 当出现滚动条时，固定定位的元素不会跟随滚动条滚动，绝对定位会跟随滚动条滚动
+~~~
+
+~~~bash
+absolute绝对定位，脱离文档流。
+参照物：最近的一级带有定位的父级元素（static除外）进行位置移动，如果找不到，那么相对于浏览器窗口进行定位。
+
+参照物权威：绝对定位是参照于它的包含块进行定位的
+绝对定位元素的包含块是谁
+绝对定位元素的包含块是离它最近的开启了定位的祖先元素
+如果所有的祖先都没有开启定位，则它的包含块是初始包含块
+初始包含块的大小和视口是相同
+~~~
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .header {
+        position: sticky;
+        /* 设置盒子距离浏览器的顶部边缘，多少时开始吸顶 */
+        top: 0;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .header {
+        width: 100%;
+        height: 100px;
+        background-color: orange;
+      }
+      .nav {
+        width: 100%;
+        height: 200px;
+        background-color: pink;
+        position: sticky;
+        top: 0px;
+      }
+      .main {
+        width: 100%;
+        height: 100px;
+        background-color: skyblue;
+      }
+    </style>
+
+    <div class="header">我是头部</div>
+    <div class="nav">我是导航</div>
+    <div class="container">
+      <div class="main">我是主体部分1</div>
+      <div class="main">我是主体部分2</div>
+      <div class="main">我是主体部分3</div>
+      <div class="main">我是主体部分4</div>
+      <div class="main">我是主体部分5</div>
+      <div class="main">我是主体部分6</div>
+      <div class="main">我是主体部分7</div>
+      <div class="main">我是主体部分8</div>
+    </div>
+  </head>
+  <body></body>
+</html>
 ```
 
-## 如何理解 z-index
+## z-index
 
 z-index 元素的 position 属性需要是 relative，absolute 或是 fixed。
 
@@ -663,175 +693,60 @@ z-index 元素的 position 属性需要是 relative，absolute 或是 fixed。
 
 ## 浮动
 
-容器不设高度且子元素浮动时，容器高度不能被内容撑开，此时，内容会溢出到容器外面而影响布局，这种现象被称为浮动。
+~~~bash
+浮动flot取值
+1. none默认值，元素不浮动
+2. left向左浮动
+3. right向右浮动
 
-`清除浮动`
+浮动特点
+1. 浮动元素不会超过它上边浮动的兄弟元素，最多一边齐
+2. 浮动元素不会盖住文字，文字会环绕在浮动元素的周围
+3. 设置浮动后，元素会脱离文档流，其后的元素会自动上移
+4. 浮动后，之前的布局等式就失效了margin: 0 auto; 不可以用了
+5. 如果一行之内无法容纳所有的浮动元素，则后边的元素会自动换到下一行
 
-- 定高法（使用一个空的 div，并设置样式）
+元素脱离文档流后的特点
+块元素
+1. 块元素不再独占一行，而是水平排列
+行内元素
+1. 设置浮动行内元素可以设置宽度和高度
+总结：脱离文档流后，就不再需要区分行内和块
+~~~
 
-```html
-<div style="clear:both"></div>
-```
+`容器不设高度且子元素浮动时，容器高度不能被内容撑开，此时，内容会溢出到容器外面而影响布局，需要清除浮动`
 
-- 包含浮动元素的父级标签添加`overflow:hidden(触发了BFC)`或者`overflow:auto`
-- 最后一个浮动元素之后添加一个空的 div 标签，并添加`clear:both`样式
-- 单伪元素双伪元素清除法
+父元素添加`display:flow-root，开启BFC后，元素可以包含浮动的子元素（清除浮动）`
 
-```css
-.clearfix:after {
-  content: ""; /*设置内容为空*/
-  height: 0; /*高度为0*/
-  line-height: 0; /*行高为0*/
-  display: block; /*将文本转为块级元素*/
-  visibility: hidden; /*将元素隐藏*/
-  clear: both; /*清除浮动*/
+单伪元素双伪元素清除法：不仅可以解决浮动，还可以解决margin塌陷问题
+
+~~~css
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  display: table;
 }
-
-.clearfix {
-  zoom: 1; /*为了兼容IE*/
+.clearfix::after {
+  clear: both;
 }
-```
+~~~
 
 ## BFC
 
-`BFC块级格式化上下文，是一个独立的渲染区域，渲染区域中的元素布局不受外部影响`
+[参考文章：深入理解 BFC](https://www.cnblogs.com/xiaohuochai/p/5248536.html)
 
-1. 如何触发 BFC
+`BFC块级格式化上下文，是一个独立的渲染区域，渲染区域中的元素布局不受外部影响`，可以将BFC理解为一个隐藏的属性
+
+如何触发 BFC（由于BFC是通过一些样式间接开启的，所以都会有一些副作用）
 
 - flot属性不为none
 - position属性为absolute/fixed
-- display属性为inline-block/flex
-- overfolw属性为hidden/auto
+- display属性为inline-block/flex/`flow-root副作用最小，可能会有兼容性`
+- overfolw属性不为visible
 
-2. BFC 盒子的特点
+开启BFC解决哪些问题
 
-- BFC的区域不会与folt的元素区域重叠
-- 垂直方向上，自上而下排列，和文档流的排列方式一致
-- 计算 BFC 的高度时，需要计算浮动元素的高度
-
-3. BFC 的应用场景
-
-- 场景一：垂直方向的相邻外边距会发生外边距折叠的现象，兄弟元素间外边距会取较大值（这样设计是为了避免两个元素之间的距离过大），如何解决？
-
-  由于BFC是一个独立的区域，内部的元素和外部的元素互不影响，将两个元素变为两个BFC，就解决了margin重叠的问题
-
-```html
-<style>
-  .box1 {
-    width: 200px;
-    height: 100px;
-    background-color: red;
-    margin-bottom: 10px; /* 下外边距为 10px */
-  }
-
-  .box2 {
-    width: 200px;
-    height: 100px;
-    background-color: green;
-    margin-top: 10px; /* 上外边距为 10px */
-  }
-</style>
-
-<div class="box1"></div>
-<div class="box2"></div>
-```
-
-<img src="./images/image-20210217142711472.png" alt="image-20210217142711472" style="zoom:50%;" />
-
-下面我们让其中一个盒子触发 BFC，从而达到间隔 20px 的期望效果
-
-```css
-.box2 {
-  width: 200px;
-  height: 100px;
-  background-color: green;
-  margin-top: 10px;
-  display: inline-block; /* 通过设置 display 为 inline-block 可以触发 BFC */
-}
-```
-
-<img src="./images/image-20210217143506046.png" alt="image-20210217143506046" style="zoom:50%;" />
-
-- 场景二：清除浮动
-
-以下示例代码中， 容器元素 box1 的高度会没有高
-
-```html
-<style>
-  .box1 {
-    width: 200px;
-    background-color: red;
-  }
-
-  .box2 {
-    float: left;
-    background-color: green;
-  }
-</style>
-
-<div class="box1">
-  <div class="box2">Hello,world</div>
-  <div class="box2">Hello,world</div>
-  <div class="box2">Hello,world</div>
-</div>
-```
-
-而通过为 box1 添加 BFC 触发条件，可以让它的高度变回正常状态
-
-```css
-.box1 {
-  width: 200px;
-  background-color: red;
-  overflow: hidden;
-}
-```
-
-- 场景三：两栏布局(左边固定，右边自适应)
-
-  左侧设置`float:left`，右侧设置`overflow: hidden`。这样右边就触发了 BFC，BFC 的区域不会与浮动元素发生重叠，所以两侧就不会发生重叠，实现了自适应两栏布局
-  
-  以下示例中，box2 会被设置了浮动的 box1 覆盖
-
-```html
-<style>
-  .box1 {
-    float: left;
-    width: 300px;
-    height: 400px;
-    background-color: red;
-  }
-
-  .box2 {
-    background-color: blue;
-    height: 600px;
-  }
-</style>
-
-<div class="box1"></div>
-<div class="box2"></div>
-```
-
-<img src="./images/image-20210217145325690.png" alt="image-20210217145325690" style="zoom:30%;" />
-
-要避免这种覆盖行为，可以让 box2 触发 BFC，实现布局效果，左边固定右边自适应
-
-```css
-.box2 {
-  background-color: blue;
-  height: 600px;
-  overflow: hidden; /* 将 overflow 设置为非 visible 值可触发 BFC */
-}
-```
-
-<img src="./images/image-20210217145504963.png" alt="image-20210217145504963" style="zoom:30%;" />
-
-- 场景四：解决margin塌陷
-
-  父子元素间子元素外边距会传递给父元素，这样会导致布局出问题，需要避免该问题，常用解决办法：
-
-  给父元素设置溢出隐藏overflow:hidden
-
-  不设置margin，用padding来替代
+- `开启BFC后，子元素的垂直外边距不会传递给父元素，解决margin塌陷`
 
 ```css
 <div class="father">
@@ -841,7 +756,7 @@ z-index 元素的 position 属性需要是 relative，absolute 或是 fixed。
 .father {
   width: 400px;
   height: 400px;
-  overflow: hidden;
+  display: flow-root;
   background-color: red;
 }
 
@@ -853,9 +768,28 @@ z-index 元素的 position 属性需要是 relative，absolute 或是 fixed。
 }
 ```
 
-[参考文章：深入理解 BFC](https://www.cnblogs.com/xiaohuochai/p/5248536.html)
+- `开启BFC后，元素不会被浮动元素所覆盖`
 
-## 什么是 CSS Sprites（雪碧图/精灵图） 以及它的好处
+~~~css
+.box1 {
+  float: left;
+  width: 200px;
+  height: 200px;
+  background-color: red;
+}
+
+.box2 {
+  display: flow-root;
+  width: 200px;
+  height: 200px;
+  background-color: pink;
+}
+
+<div class="box1"></div>
+<div class="box2"></div>
+~~~
+
+## 精灵图
 
 将一个页面涉及到的所有图片都包含到一张大图中去，然后利用 CSS 的 background-image，background-repeat，background-position 属性的组合进行背景定位。
 
@@ -873,7 +807,7 @@ https://img.alicdn.com/tfs/TB1eiXTXlTH8KJjy0FiXXcRsXXa-24-595.png
 
 目前其他主流的处理图片的方案：iconfont 字体图标，svg 矢量图...
 
-## 你对媒体查询的理解是什么样的
+## 媒体查询
 
 媒体查询是 C3 加入的功能，它可以进行响应式适配。
 
@@ -936,7 +870,7 @@ https://img.alicdn.com/tfs/TB1eiXTXlTH8KJjy0FiXXcRsXXa-24-595.png
 
 [参考文章：深入理解盒模型](https://www.cnblogs.com/xiaohuochai/p/5202597.html)
 
-## 伪类/伪元素
+## 伪类 伪元素
 
 1. 伪类（用来选择元素，伪类和类选择器权重一样）
 
@@ -1038,7 +972,7 @@ stretch：拉伸，不设置高度的情况下。
 | table        | 此元素会作为块级表格来显示                                   |
 | inherit      | 规定应该从父元素继承 display 属性的值                        |
 
-## link 和@import 的区别
+## link 和@import
 
 ![image-20230223084006611](images/image-20230223084006611.png)
 
@@ -1054,7 +988,7 @@ translate 是 transform 属性的⼀个值。改变 transform 或 opacity**不�
 
 transform 使浏览器为元素创建⼀个 GPU 图层，但改变绝对定位会使⽤到 CPU。 因此**translate()更⾼效**，可以缩短平滑动画的绘制时间。 ⽽ translate 改变位置时，元素依然会占据其原始空间，绝对定位就不会发⽣这种情况。
 
-## li 与 li 之间有看不见的空白间隔是什么原因引起的？如何解决？
+## li 与 li 之间有看不见的空白间隔是什么原因引起的 如何解决
 
 浏览器会把 inline 内联元素间的空白字符（空格、换行、Tab 等）渲染成一个空格。为了美观，通常是一个`<li>`放在一行，这导致`<li>`换行后产生换行字符，它变成一个空格，占用了一个字符的宽度。
 
@@ -1080,7 +1014,7 @@ transform 使浏览器为元素创建⼀个 GPU 图层，但改变绝对定位�
 - 旋转 （transform）
 - 增加了旋转,缩放,定位,倾斜,动画,多背景
 
-## 常见的图片格式
+## 图片格式
 
 1. jpg
 
@@ -1190,7 +1124,7 @@ line-height 用来设置元素的行高
 
 **后处理器，** 如： `postCss`，通常是在完成的样式表中根据`css`规范处理`css`，让其更加有效。目前最常做的是给`css`属性添加浏览器私有前缀，实现跨浏览器兼容性的问题。
 
-## 单行/多行文本溢出隐藏
+## 单行 多行文本溢出隐藏
 
 单行文本溢出
 
@@ -1257,7 +1191,7 @@ z-index 属性在下列情况下会失效：
 - 元素没有设置 position 属性为非 static 属性。解决：设置该元素的 position 属性为 relative，absolute 或是 fixed 中的一种；
 - 元素在设置 z-index 的同时还设置了 float 浮动。解决：float 去除，改为 display：inline-block；
 
-## 怎么实现两栏布局
+## 两栏布局
 
 一般两栏布局指的是**左边一栏宽度固定，右边一栏宽度自适应**，两栏布局的具体实现
 
@@ -1296,7 +1230,7 @@ z-index 属性在下列情况下会失效：
 }
 ```
 
-## 怎么实现三栏布局
+## 三栏布局
 
 三栏布局一般指的是页面中一共有三栏，**左右两栏宽度固定，中间自适应的布局**，三栏布局的具体实现
 
