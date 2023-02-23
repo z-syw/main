@@ -12,3 +12,5 @@ const app = createApp(App)
 app.use(pinia)
 app.use(router)
 app.mount('#app')
+// https://zhoushugang.gitee.io/patient-h5-note/
+// https://vue3.chengpeiquan.com/
