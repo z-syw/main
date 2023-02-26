@@ -1,4 +1,4 @@
-# HTML
+# H5C3
 
 ## HTML 文件中的 DOCTYPE 是什么作用
 
@@ -272,11 +272,8 @@ script 标签存在两个属性，defer 和 async，因此 script 标签 的使�
 
 ## src 和 href 的区别
 
-![image-20230223082419695](images/image-20230223082419695.png)
-
-## label 标签的作用是什么
-
-label 标签来定义表单控件的关系：当用户选择 label 标签时，浏览器会自动将焦点转到和 label 标签相关的表单控件上。
+1. 当浏览器遇到href会并行下载资源(同时也是为什么建议使用 link 方式加载 CSS，而不是使用 @import 方式)
+2. 当浏览器解析到src ，会暂停其他资源的下载和处理，直到将该资源加载或执行完毕。(这也是script标签为什么放在底部而不是头部的原因)
 
 ## HTML5 为什么只需要写`<! DOCTYPE HTML>`
 
@@ -302,19 +299,7 @@ HTML 4.01 中的 doctype 需要对 DTD 进行引用，因为 HTML 4.01 基于 SG
 
 ![image-20230223083636305](images/image-20230223083636305.png)
 
-## 音视频标签的使用
-
-**audio** 标签用来向页面中引入一个外部的音视频文件，音视频文件引入时，默认情况下不允许用户自己控制播放停止
-
-```markdown
-    controls 是否允许用户自己控制播放
-    autoplay 音视频文件是否自动播放
-    loop 音视频是否进行循环播放
-```
-
-**video**标签来向网页中引入一个视频，使用方法和 audio 基本上是一样的
-
-## 说说你对 WEB 标准以及 W3C 的理解与认识
+## web标准 W3C
 
 **web 标准**简单来说可以分为**结构、表现和行为**。其中结构主要是有 HTML 标签组成。或许通俗点说，在页面 body 里面我们写入的标签都是为了页面的结构。表现即指 css 样式表，通过 css 可以是页面的结构标签更具美感。
 
@@ -339,17 +324,218 @@ W3C 对 web 标准提出了规范化的要求，也就是在实际编程中的�
    样式尽量少用行间样式表，使结构与表现分离，标签的 id 和 class 等属性命名要做到见文知义，标签越少，加载越快，用户体验提高，代码维护简单，便于改版
 
 
-## 为什么最好把 CSS 的 `<link>` 标签放在`<head></head>`之间
+## 为什么把CSS的link标签放在head之间
 
-把 `<link>` 标签放在 `<head></head>` 之间是规范要求的内容。这种做法可以让页面逐步呈现，提高了用户体验。如果将样式表放在文档底部附近，会使许多浏览器不能逐步呈现页面
+把link标签放在head之间是规范要求的内容。这种做法可以让页面逐步呈现，提高了用户体验。如果将样式表放在文档底部附近，会使许多浏览器不能逐步呈现页面
 
 一些浏览器会阻止渲染，以避免在页面样式发生变化时，重新绘制页面中的元素。这种做法可以防止呈现给用户空白的页面或没有样式的内容
 
-## 为什么最好把 JS 的 `<script>` 标签放在 `</body>` 之前
+## 样式补充
 
-脚本在下载和执行期间会阻止 HTML 解析。把 `<script>` 标签放在底部，保证 HTML 首先完成解析，将页面尽早呈现给用户
+~~~bash
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>样式</title>
+    <style>
+      .box1 {
+        width: 200px;
+        height: 200px;
+        background-color: #bfa;
+        /* border: 10px red solid; */
+        /* outline轮廓线，和边框非常像，但是outline不会影响到元素可见框的大小 */
+      }
+      .box1:hover {
+        outline: 10px red dashed;
+      }
 
-# CSS
+      .box2 {
+        width: 200px;
+        height: 200px;
+        background-color: deepskyblue;
+
+        /* 上右下左圆角的半径 */
+        border-top-left-radius: 50px;
+        border-top-right-radius: 60px;
+        border-bottom-right-radius: 70px;
+        border-bottom-left-radius: 100px;
+        /* border-radius 同时指定四个圆角的半径 */
+        border-radius: 50%;
+        /* 左上、右上、右下、左下 */
+        border-radius: 10px 40px 80px 100px;
+
+        /*
+          box-shadow 可以用来为元素指定阴影
+          box-shadow: x轴偏移量 y轴偏移量 模糊半径 扩散半径 阴影的颜色;
+          可以设置一个inset来表示内部阴影
+        */
+
+        box-shadow: 20px 20px 20px 10px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box1"></div>
+    <div class="box2"></div>
+  </body>
+</html>
+~~~
+
+
+
+## 盒子模型
+
+~~~bash
+<style>
+  .box1 {
+    width: 800px;
+    height: 500px;
+    border: 10px tomato solid;
+  }
+
+  .box2 {
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    height: 200px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: yellowgreen;
+   }
+</style>
+
+子元素会在父元素内容区中排列
+在文档流中，块元素的水平排列，必须要遵循如下一个等式：
+  子元素可见框宽度 + 子元素的水平外边距 = 包含块内容区的宽度
+    200 + 600 = 800
+    margin-left + 可见框 + margin-right = 包含块内容区的宽度
+    100 + 200 + 100 = 800  右外边距会自动修正为500
+    500 + 500 + 100 = 800  右外边距会自动修正为-200
+    100 + auto + 100 = 800 宽度为auto，会自动设置为600
+    auto + 200 + auto = 800
+    auto + auto + 200 = 800
+    - 当所有的属性值中没有auto，此时浏览器会自动调整右外边距以使等式强制满足
+    - 当只有一个属性值设置为auto，则浏览器会自动调整该值以使等式满足
+    - 当左右外边距为auto，而width有值时，则左右外边距会设置为相等的值，以使等式满足
+    - 当外边距和width同时设置为auto，则设置auto的外边距就是0
+在文档流中，块元素的垂直排列，不需要遵循等式！
+
+<div class="box1">
+  <div class="box2"></div>
+</div>
+~~~
+
+## 包含块
+
+~~~bash
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>包含块</title>
+  </head>
+  <body>
+    <!-- 包含块（containing block）在文档流中，包含块就是离当前元素最近的祖先块元素 -->
+
+    <div class="box1">
+      <div class="box2">
+        <div class="box3"></div>
+      </div>
+    </div>
+
+    <div class="box4">
+      <span>
+        <div class="box5"></div>
+      </span>
+    </div>
+  </body>
+</html>
+~~~
+
+## css书写路径
+
+~~~bash
+内部样式表
+- 可以通过style标签来创建一个内部样式表
+- 将样式编写到style标签中，降低了代码的耦合，使代码易维护
+- 内部样式表只能在当前页面中生效，无法在不同的页面中进行复用
+
+通过外部样式表，将结构和表现完全分离，使代码易于维护
+同时代码可以在不同的页面之间进行复用
+并且外部文件可以利用到浏览器的缓存机制，加快用户的访问速度
+~~~
+
+## 路径
+
+~~~bash
+1.绝对路径
+https://img0.baidu.com/it/u=3288444602,3967521966&fm=253&fmt=auto&app=120&f=JPEG?w=665&h=500
+
+2.相对路径
+相对路径，用来引入我们自己项目内的图片
+相对路径需要使用 ./开头 或 ../开头
+./表示当前目录，./可以省略
+../表示当前目录的上一级目录，几个../就表示上几级
+~~~
+
+## 块 行内块 文档流
+
+~~~bash
+在html中，元素可以被分为块元素和行内元素
+#块元素（block）
+块元素会独占页面的一行自上向下垂直排列
+块元素用来对网页进行布局，将一个页面分成一块一块的
+最常用的块元素：div
+
+#行内元素（inline）
+行内元素只会占自身的大小，自左向右水平排列
+行内元素一般用来放置文字
+最常用的行内元素：span
+
+#替换元素
+img iframe
+
+#元素的嵌套规则
+块元素中可以放置块元素，也可以放置行内元素
+行内元素中尽量不要放置块元素
+a元素中可以放置除它自身外的任何元素
+p元素中不能放置块元素
+浏览器在渲染页面时，会自动修复html中的语法错误
+
+#文档流是网页中的位置，我们所创建的元素默认都存在于文档流中
+- 文档流中的元素，必须要遵循文档流的规则在页面中排列
+- 块元素
+- 块元素在文档流中自上向下垂直排列
+- 块元素的默认宽度会将父元素撑满（默认值为auto）
+- 块元素的默认高度被内容撑开
+
+- 行内元素
+- 行内元素在文档流中会自左向右水平排列，如果一行不足以容纳所有元素，则会另起一行继续自左向右水平排列
+- 行内元素的默认宽度和高度都被内容撑开
+~~~
+
+## 超链接
+
+~~~bash
+a
+使用a标签来定义一个超链接
+通过超链接可以跳转到其他的页面
+属性
+href：指定要跳转到位置
+target：指定页面打开的位置
+可选值
+_blank在新的标签页打开链接
+_self默认值，在当前页面打开链接
+
+内部跳转的超链接，通过修改href属性可以使超链接在页面内部进行跳转
+#id表示跳转到页面的指定位置
+#表示跳转到页面的顶部
+<a href="#p3">去p3</a>
+<p id="p3"></p>
+~~~
+
+
 
 ## 布局手段
 
@@ -718,6 +904,27 @@ z-index的小坑，如果父辈元素有定位，且配置了z-index，优先按
 
 ## 精灵图
 
+<!--
+        在网页中，经常能够看到一些小图标，可以使用图片来表示这些图标
+        但是图片存在着一些不足：
+            1. 不便于缩放
+            2. 颜色无法改变
+
+​        如果这些小图标，可以任意缩放，同时又可以任意的修改颜色，那就好了！
+​        在网页中文字可以任意缩放和改变颜色！（文字是矢量图）
+​        如果我们的小图标能够像文字一样，那就好了！
+
+​        图标字体（iconfont）
+​        - 所谓的图标字体，指将小图标制作为字体文件
+​        - 可以使用一些第三方的库https://fontawesome.com/
+​        - 使用步骤：
+​            1. 下载
+​            2. 解压缩
+​            3. 复制css和webfonts目录到项目下
+​            4. 在页面中引入all.css
+​            5. 在页面中添加标签
+​        -->
+
 将一个页面涉及到的所有图片都包含到一张大图中去，然后利用 CSS 的 background-image，background-repeat，background-position 属性的组合进行背景定位。
 
 `考察：性能优化的方案`
@@ -814,11 +1021,9 @@ https://img.alicdn.com/tfs/TB1eiXTXlTH8KJjy0FiXXcRsXXa-24-595.png
 
 [参考文章：伪类与伪元素](http://www.alloyteam.com/2016/05/summary-of-pseudo-classes-and-pseudo-elements/)
 
-## 谈谈你对 flex 的理解
+## flex
 
-思考：多个盒子横向排列使用什么属性？可以使用浮动，但是浮动的盒子脱标。
-
-![image-20230131195804416](/Users/apple/Desktop/main/复盘/images/image-20230131195804416-5166285.png)
+`思考：多个盒子横向排列使用什么属性？可以使用浮动，但是浮动的盒子脱标。`
 
 在真实的应用场景中，通常会遇到各种各样不同尺⼨和分辨率的设备，为了能在所有这些设备上正常的布局我们的应用界面，就需要响应式的界⾯设计方式来满⾜这种复杂的布局需求。
 
@@ -865,7 +1070,6 @@ column-reverse：主轴方向是竖直向上
 
 - flex-wrap 父元素添加，弹性盒子多行排列效果
 
-  ![image-20230131183810532](/Users/apple/Desktop/main/复盘/images/image-20230131183810532-5161492.png)
 
 ```txt
 nowrap： 不换行（默认），如果宽度溢出，会压缩子盒子的宽度。
@@ -901,37 +1105,31 @@ stretch：拉伸，不设置高度的情况下。
 
 ## link 和@import
 
-![image-20230223084006611](images/image-20230223084006611.png)
+link 引入 css 时，在页面载入时同时加载；@import 需要页面完全载入以后在加载
 
 ## transition 和 animation 的区别
 
-**transition 是过度属性**，强调过度，它的实现需要触发一个事件（比如鼠标移动上去，焦点，点击等）才执行动画。它类似于 flash 的补间动画，设置一个开始关键帧，一个结束关键帧。
+transition 的实现需要触发一个事件，才执行动画，比如鼠标点击等。
 
-**animation 是动画属性**，它的实现不需要触发事件，设定好时间之后可以自己执行，且可以循环一个动画。它也类似于 flash 的补间动画，但是它可以设置多个关键帧（用@keyframe 定义）完成动画。
+animation 的实现不需要触发事件，设定好时间就可以自己执行。
 
-## 为什么有时候⽤**translate**来改变位置⽽不是定位
+## li 与 li 之间有看不见的空白间隔
 
-translate 是 transform 属性的⼀个值。改变 transform 或 opacity**不会触发浏览器重排**（reflow）或重绘（repaint），只会触发复合（compositions）。⽽改变**绝对定位会触发重排**，进⽽触发重绘和复合。
+浏览器会把 inline 内联元素间的空白字符（空格、换行、Tab 等）渲染成一个空格。为了美观，通常是一个 li 放在一行，这导致 li 换行后产生换行字符，它变成一个空格，占用了一个字符的宽度
 
-transform 使浏览器为元素创建⼀个 GPU 图层，但改变绝对定位会使⽤到 CPU。 因此**translate()更⾼效**，可以缩短平滑动画的绘制时间。 ⽽ translate 改变位置时，元素依然会占据其原始空间，绝对定位就不会发⽣这种情况。
+解决办法
 
-## li 与 li 之间有看不见的空白间隔是什么原因引起的 如何解决
+为 li 设置 float:left 缺点：有些容器是不能设置浮动，如左右切换的焦点图等
 
-浏览器会把 inline 内联元素间的空白字符（空格、换行、Tab 等）渲染成一个空格。为了美观，通常是一个`<li>`放在一行，这导致`<li>`换行后产生换行字符，它变成一个空格，占用了一个字符的宽度。
+将所有 li 写在同一行 缺点：代码不美观
 
-解决办法：\*\*
+将 ul 内的字符尺寸直接设为 0，即 font-size:0。缺点：ul 中的其他字符尺寸也被设为 0，需要额外重新设定其他字符尺寸，且在 Safari 浏览器依然会出现空白间隔
 
-（1）为`<li>`设置 float:left。缺点：有些容器是不能设置浮动，如左右切换的焦点图等。
+消除 ul 的字符间隔 letter-spacing:-8px 缺点：这也设置了 li 内的字符间隔，因此需要将 li 内的字符间隔设为默认 letter-spacing:normal
 
-（2）将所有`<li>`写在同一行。缺点：代码不美观。
+## C3 新特性
 
-（3）将`<ul>`内的字符尺寸直接设为 0，即 font-size:0。缺点：`<ul>`中的其他字符尺寸也被设为 0，需要额外重新设定其他字符尺寸，且在 Safari 浏览器依然会出现空白间隔。
-
-（4）消除`<ul>`的字符间隔 letter-spacing:-8px。缺点：这也设置了`<li>`内的字符间隔，因此需要将`<li>`内的字符间隔设为默认 letter-spacing:normal。
-
-## CSS3 中有哪些新特性
-
-- 新增各种 CSS 选择器 （: not(.input)：所有 class 不是“input”的节点）
+- 新增各种 CSS 选择器 : not(.input)：所有 class 不是input的节点
 - 圆角 （border-radius:8px）
 - 多列布局 （multi-column layout）
 - 阴影和反射 （Shadoweflect）
@@ -939,7 +1137,7 @@ transform 使浏览器为元素创建⼀个 GPU 图层，但改变绝对定位�
 - 文字渲染 （Text-decoration）
 - 线性渐变 （gradient）
 - 旋转 （transform）
-- 增加了旋转,缩放,定位,倾斜,动画,多背景
+- 增加了旋转，缩放，定位，倾斜，动画
 
 ## 图片格式
 
@@ -979,7 +1177,7 @@ transform 使浏览器为元素创建⼀个 GPU 图层，但改变绝对定位�
 
 6. svg
 
-   是无损的矢量图。SVG 是矢量图意味着 SVG 图片由直线和曲线以及绘制它们的方法组成。当放大 SVG 图片时，看到的还是线和曲线，而不会出现像素点。SVG 图片在放大时，不会失真，所以它适合用来绘制 Logo、Icon 等。
+   是无损的矢量图。SVG 是矢量图意味着 SVG 图片由直线和曲线以及绘制它们的方法组成。当放大 SVG 图片时，看到的还是线和曲线，而不会出现像素点。SVG 图片在放大时，不会失真，所以它适合用来绘制 Logo、Icon 等
 
 ## line-height
 
@@ -991,65 +1189,23 @@ line-height 用来设置元素的行高
 
 行高可以设置一个数字，那么行高将会是字体大小对应的倍数
 
-## CSS 优化和提高性能的方法有哪些
+## css 如何优化提高性能
 
-**加载性能：**
+css 压缩：将写好的 css 进行打包压缩，可以减小文件体积
 
-（1）css 压缩：将写好的 css 进行打包压缩，可以减小文件体积。
+减少使用@import，建议使用 link，因为后者在页面加载时一起加载，前者是等待页面加载完成之后再进行加载
 
-（2）css 单一样式：当需要下边距和左边距的时候，很多时候会选择使用 margin:top 0 bottom 0；但 margin-bottom:bottom;margin-left:left;执行效率会更高。
+关键选择器，选择器最后面的部分为关键选择器（即用来匹配目标元素的部分）css 选择符是从右到左进行匹配的。当使用后代选择器的时候，浏览器会遍历所有子元素来确定是否是指定的元素等等。尽量少的去使用后代选择器，降低选择器的权重值。后代选择器的开销是最高的，尽量将选择器的深度降到最低，最高不要超过三层，更多的使用类来关联每一个标签元素
 
-（3）减少使用@import，建议使用 link，因为后者在页面加载时一起加载，前者是等待页面加载完成之后再进行加载。
+了解哪些属性是可以通过继承而来的，然后避免对这些属性重复指定规则
 
-**选择器性能：**
+css 雪碧图，同一页面相近部分的小图标，方便使用，减少页面的请求次数，但是同时图片本身会变大，使用时，优劣考虑清楚，再使用。
 
-（1）关键选择器（key selector）。选择器的最后面的部分为关键选择器（即用来匹配目标元素的部分）。CSS 选择符是从右到左进行匹配的。当使用后代选择器的时候，浏览器会遍历所有子元素来确定是否是指定的元素等等；
+正确使用 display 的属性，由于 display 的作用，某些样式组合会无效，徒增样式体积的同时也影响解析性能。
 
-（2）如果规则拥有 ID 选择器作为其关键选择器，则不要为规则增加标签。过滤掉无关的规则（这样样式系统就不会浪费时间去匹配它们了）。
+将具有相同属性的样式抽离出来，整合并通过 class 在页面中进行使用，提高 css 的可维护性。
 
-（3）避免使用通配规则，如\*{}计算次数惊人，只对需要用到的元素进行选择。
-
-（4）尽量少的去对标签进行选择，而是用 class。
-
-###### 最高不要超过三层
-
-（5）尽量少的去使用后代选择器，降低选择器的权重值。后代选择器的开销是最高的，尽量将选择器的深度降到最低，最高不要超过三层，更多的使用类来关联每一个标签元素。
-
-（6）了解哪些属性是可以通过继承而来的，然后避免对这些属性重复指定规则。
-
-**渲染性能：**
-
-（1）慎重使用高性能属性：浮动、定位。
-
-（2）尽量减少页面重排、重绘。
-
-（3）去除空规则：｛｝。空规则的产生原因一般来说是为了预留样式。去除这些空规则无疑能减少 css 文档体积。
-
-（4）属性值为 0 时，不加单位。
-
-（5）属性值为浮动小数 0.\*\*，可以省略小数点之前的 0。
-
-（6）标准化各种浏览器前缀：带浏览器前缀的在前。标准属性在后。
-
-（7）不使用@import 前缀，它会影响 css 的加载速度。
-
-（8）选择器优化嵌套，尽量避免层级过深。
-
-（9）css 雪碧图，同一页面相近部分的小图标，方便使用，减少页面的请求次数，但是同时图片本身会变大，使用时，优劣考虑清楚，再使用。
-
-（10）正确使用 display 的属性，由于 display 的作用，某些样式组合会无效，徒增样式体积的同时也影响解析性能。
-
-（11）不滥用 web 字体。对于中文网站来说 WebFonts 可能很陌生，国外却很流行。web fonts 通常体积庞大，而且一些浏览器在下载 web fonts 时会阻塞页面渲染损伤性能。
-
-**可维护性、健壮性：**
-
-（1）将具有相同属性的样式抽离出来，整合并通过 class 在页面中进行使用，提高 css 的可维护性。
-
-（2）样式与内容分离：将 css 代码定义到外部 css 中。
-
-## CSS 后处理器
-
-**后处理器，** 如： `postCss`，通常是在完成的样式表中根据`css`规范处理`css`，让其更加有效。目前最常做的是给`css`属性添加浏览器私有前缀，实现跨浏览器兼容性的问题。
+样式与内容分离：将 css 代码定义到外部 css 中。
 
 ## 单行 多行文本溢出隐藏
 
@@ -1083,7 +1239,7 @@ line-height 用来设置元素的行高
 
 注意：由于上面的三个属性都是 C3 的属性，没有浏览器可以兼容，所以要在前面加一个`-webkit-` 来兼容一部分浏览器
 
-## CSS 预处理器
+## less
 
 ~~~bash
 #less定义变量
@@ -1142,336 +1298,313 @@ line-height 用来设置元素的行高
 }
 ~~~
 
-## 如何判断元素是否到达可视区域
+## 元素是否在可视区
 
-以图片显示为例
-
-内容达到显示区域的：`img.offsetTop < window.innerHeight + document.body.scrollTop`
-
-## z-index 属性在什么情况下会失效
-
-通常 z-index 的使用是在有两个重叠的标签，在一定的情况下控制其中一个在另一个的上方或者下方出现。z-index 值越大就越是在上层。z-index 元素的 position 属性需要是 relative，absolute 或是 fixed。
-
-z-index 属性在下列情况下会失效：
-
-- 父元素 position 为 relative 时，子元素的 z-index 失效。解决：父元素 position 改为 absolute 或 static；
-- 元素没有设置 position 属性为非 static 属性。解决：设置该元素的 position 属性为 relative，absolute 或是 fixed 中的一种；
-- 元素在设置 z-index 的同时还设置了 float 浮动。解决：float 去除，改为 display：inline-block；
+以图片显示为例，内容达到显示区域的：`img.offsetTop < window.innerHeight + document.body.scrollTop`
 
 ## 两栏布局
 
-一般两栏布局指的是**左边一栏宽度固定，右边一栏宽度自适应**，两栏布局的具体实现
+左边宽度固定，右边宽度自适应
 
-- 利用浮动，将左边元素宽度设置为 200px，并且设置向左浮动。将右边元素的 margin-left 设置为 200px，宽度设置为 auto（默认为 auto，撑满整个父元素）。
+方式一：使用浮动
 
 ```css
-.outer {
-  height: 100px;
-}
-.left {
-  float: left;
-  width: 200px;
-  background: tomato;
-}
-.right {
-  margin-left: 200px;
-  width: auto;
-  background: gold;
-}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .left {
+        float: left;
+        width: 200px;
+        background: tomato;
+      }
+      .right {
+        display: flow-root;
+        background: gold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer">
+      <div class="left">11</div>
+      <div class="right">22</div>
+    </div>
+  </body>
+</html>
 ```
 
-- 利用 flex 布局，将左边元素设置为固定宽度 200px，将右边的元素设置为 flex:1。
+方式二：利用 flex 布局，将左边元素设置为固定宽度 200px，将右边的元素设置为 flex:1
 
 ```css
-.outer {
-  display: flex;
-  height: 100px;
-}
-.left {
-  width: 200px;
-  background: tomato;
-}
-.right {
-  flex: 1;
-  background: gold;
-}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .outer {
+        display: flex;
+      }
+      .left {
+        width: 200px;
+        background: tomato;
+      }
+      .right {
+        flex: 1;
+        background: gold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer">
+      <div class="left">11</div>
+      <div class="right">22</div>
+    </div>
+  </body>
+</html>
 ```
 
 ## 三栏布局
 
-三栏布局一般指的是页面中一共有三栏，**左右两栏宽度固定，中间自适应的布局**，三栏布局的具体实现
+左右两栏宽度固定，中间自适应的布局
 
-- 利用**绝对定位**，左右两栏设置为绝对定位，中间设置对应方向大小的 margin 的值
-
-```css
-.outer {
-  position: relative;
-  height: 100px;
-}
-
-.left {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  background: tomato;
-}
-
-.right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 200px;
-  height: 100px;
-  background: gold;
-}
-
-.center {
-  margin-left: 100px;
-  margin-right: 200px;
-  height: 100px;
-  background: lightgreen;
-}
-```
-
-- 利用 flex 布局，左右两栏设置固定大小，中间一栏设置为 flex:1
+方式一：利用绝对定位，左右两栏设置为绝对定位，中间设置对应方向大小的 margin 的值
 
 ```css
-.outer {
-  display: flex;
-  height: 100px;
-}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .outer {
+        position: relative;
+      }
 
-.left {
-  width: 100px;
-  background: tomato;
-}
+      .left {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        background: tomato;
+      }
 
-.right {
-  width: 100px;
-  background: gold;
-}
+      .right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 100px;
+        background: gold;
+      }
 
-.center {
-  flex: 1;
-  background: lightgreen;
-}
+      .center {
+        margin-left: 100px;
+        margin-right: 200px;
+        height: 100px;
+        background: lightgreen;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer">
+      <div class="left">1</div>
+      <div class="center">2</div>
+      <div class="right">3</div>
+    </div>
+  </body>
+</html>
 ```
 
-## 响应式设计的概念及基本原理
+方式二：利用 flex 布局，左右两栏设置固定大小，中间一栏设置为 flex:1
 
-响应式网站设计`（Responsive Web design`）是一个网站能够兼容多个终端，而不是为每一个终端做一个特定的版本。
+```css
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .outer {
+        display: flex;
+      }
 
-关于原理： 基本原理是通过媒体查询`（@media）`查询检测不同的设备屏幕尺寸做处理。 关于兼容： 页面头部必须有 mate 声明的`viewport`。
+      .left {
+        width: 100px;
+        background: tomato;
+      }
+
+      .right {
+        width: 100px;
+        background: gold;
+      }
+
+      .center {
+        flex: 1;
+        background: lightgreen;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer">
+      <div class="left">1</div>
+      <div class="center">2</div>
+      <div class="right">3</div>
+    </div>
+  </body>
+</html>
+```
+
+## 响应式
+
+原理是通过媒体查询`（@media）`查询检测不同的设备屏幕尺寸做处理。
+
+兼容：页面头部必须有 mate 声明的`viewport`
 
 ```ini
 <meta name="’viewport’" content="”width=device-width," initial-scale="1." maximum-scale="1,user-scalable=no”"/>
 ```
 
-## display、float、position 的优先级关系
-
-（1）首先判断 display 属性是否为 none，如果为 none，则 position 和 float 属性的值不影响元素最后的表现。
-
-（2）然后判断 position 的值是否为 absolute 或者 fixed，如果是，则 float 属性失效，并且 display 的值应该被设置为 table 或者 block，具体转换需要看初始转换值。
-
-（3）如果 position 的值不为 absolute 或者 fixed，则判断 float 属性的值是否为 none，如果不是，则 display 的值则按上面的规则转换。注意，如果 position 的值为 relative 并且 float 属性的值存在，则 relative 相对于浮动后的最终位置定位。
-
-（4）如果 float 的值为 none，则判断元素是否为根元素，如果是根元素则 display 属性按照上面的规则转换，如果不是，则保持指定的 display 属性值不变。
-
-总的来说，可以把它看作是一个类似优先级的机制，"position:absolute"和"position:fixed"优先级最高，有它存在的时候，浮动不起作用，'display'的值也需要调整；其次，元素的'float'特性的值不是"none"的时候或者它是根元素的时候，调整'display'的值；最后，非根元素，并且非浮动元素，并且非绝对定位的元素，'display'特性值同设置值。
-
-## 怎么实现一个三角形
-
-宽高设为 0，给边框设置宽度，然后给一个边框设置颜色，其余边框设置透明
+## 实现一个三角形
 
 ```css
 div {
   width: 0;
   height: 0;
-  border: 100px solid transparent;
+  border: 10px solid transparent;
   border-bottom-color: red;
 }
 ```
 
-![微信截图_20221002090901.png](./images/d334874998374fcaad147e65b66a1493~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.png)
-
 ## 实现一个扇形
-
-用 CSS 实现扇形的思路和三角形基本一致，就是多了一个圆角的样式，实现一个 90° 的扇形
 
 ```css
 div{
-    border: 100px solid transparent;
-    width: 0;
-    heigt: 0;
-    border-radius: 100px;
-    border-top-color: red;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-radius: 10px;
+  border-top-color: red;
 }
 ```
 
-![微信截图_20221002090923.png](./images/ee367a95e1c34b349b7d0f0cfc615a03~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.png)
-
-## 怎么画一条 0.5px 的线
-
-采用 transform: scale()的方式，该方法用来定义元素的 2D 缩放转换
+## 画一条 0.5px 的线
 
 ```css
 transform: scale(0.5,0.5);
 ```
 
-## 移动端有哪些常见的问题，都是怎么解决的
+## 移动端有哪些常见的问题
 
 点击事件 300MS 延迟问题 解决方案：下载 fastclick 的包
 
-**H5 页面窗口自动调整到设备宽度，并禁止用户缩放页面**
+H5 页面窗口自动调整到设备宽度，并禁止用户缩放页面
 
 ```ini
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 ```
 
-**忽略 Android 平台中对邮箱地址的识别**
+忽略 Android 平台中对邮箱地址的识别
 
 ```ini
 <meta name="format-detection" content="email=no">
 ```
 
-**当网站添加到主屏幕快速启动方式，可隐藏地址栏，仅针对 ios 的 safari**
+当网站添加到主屏幕快速启动方式，可隐藏地址栏，仅针对 ios 的 safari
 
 ```xml
 <!-- ios7.0版本以后，safari上已看不到效果 -->
-
 <meta name="apple-mobile-web-app-capable" content="yes">
 ```
 
-## 如何定义使用 css 变量
-
-定义全局变量
+## css 变量
 
 ```css
+定义全局变量
 :root {
   --borderColor: #ccc;
 }
-使用：
+
+使用变量
 width:var(--borderColor);
 ```
 
-定义某元素下的变量
+## css 怎么解决浏览器兼容问题
 
-```css
-.look{
-  --borderColor: #ccc;
-}
-```
+c3 属性针对不同浏览器内核兼容写法
 
-定义媒体查询下的变量
+-webkit-针对 webkit 内核
 
-```css
-@media screen and (min-width: 1025px) {
-    :root {
-        --borderColor: #ccc;
-　　 }
-}
-使用：
-.has-border-table > tr > td {
-  border-right: 1px solid var(--borderColor);
-}
-```
+-moz-针对火狐内核
 
-less 中定义变量
+-ms-针对 IE 内核
 
-```less
-定义：
-@bg-color : #d9d9d9;
-使用：
-.has-border-table > tr > td {
-  border-right: 1px solid var(@bg-color);
-}
-```
+-o-针对 opera 内核
 
-sass 中定义变量
+手动写上述还是比较麻烦的，在工程化项目中可以使用css后处理器，如postcss，通常是在完成的样式表中根据`css`规范处理`css`，让其更加有效。目前最常做的是给`css`属性添加浏览器私有前缀，实现跨浏览器兼容性的问题。
 
-```css
-定义：
-$bg-color : #d9d9d9;
-使用：
-.has-border-table > tr > td {
-  border-right: 1px solid var($bg-color);
-}
-```
+## 文本
 
-## CSS 怎么解决浏览器兼容问题
+~~~bash
+text-align文本的水平对齐方式
+  left默认值 左对齐
+  center居中对齐
+  right右对齐
+  justify两端对齐
+  网页中，图片、行内块、都可以使用文本对齐的方式
 
-CSS3 属性针对不同浏览器内核兼容写法
+text-indent首行缩进
+  可以设置负值
+  正值文字向右移动
+  负值文字向左移动，可以利用负值隐藏网页中的一些文字
 
--webkit针对 webkit 内核
+text-decoration文本修饰
+  none 默认值 没有修饰
+  underline 下划线
+  overline 上划线
+  line-through 中间穿过
+  
+在网页中，每个文字被显示时都会有一个文本框与之对应
+ 当我们设置元素的font-size时，实际上就是在设置文本框的大小
+ 在文本框存在一个位置叫做基线（baseline）
 
--moz针对火狐内核
+文字的垂直对齐
+ 默认每个文字和父元素在垂直方向都是沿着基线对齐的
 
--ms针对 IE 内核
+vertical-align设置元素垂直对齐的方式，可选值
+baseline 默认值 子元素和父元素的基线对齐
+top 子元素文本框的顶部和父元素文本框的顶部对齐
+bottom 子元素文本框的底部和父元素文本框的底部对齐
+middle 将元素的中线和父元素基线高度 + x高度一半的位置对齐
+开发中经常通过vertical-align来消除图片下边的空白
 
--o针对 opera 内核
+font-size 字体的大小
+font-weight 字重，可选值
+normal 默认值 正常的粗细
+bold 加粗
+lighter 细的
+font-style 字体的样式，可选值
+normal 默认值 正常的
+italic 斜体
+font-family 字体族 指定使用什么字体，字体的分类
+serif 衬线字体
+sans-serif 非衬线字体
+monospace 等宽字体
+-当我们将字体设置为上述类型时，浏览器会自动选择相应的字体来显示，这三个字体一般不会单独用，一般放在最后
 
-## margin-top 的百分比相对谁
-
-margin 的百分比是相对于父元素的宽度
-
-## 列举 5 个以上的 H5 input 元素 type 属性值
-
-| 值       | 描述                                                         |
-| -------- | ------------------------------------------------------------ |
-| text     | 默认。定义单行输入字段，用户可在其中输入文本。默认是 20 个字符 |
-| password | 定义密码字段。字段中的字符会被遮蔽                           |
-| radio    | 定义单选按钮                                                 |
-| checkbox | 定义复选框                                                   |
-| submit   | 定义提交按钮。提交按钮向服务器发送数据                       |
-| button   | 定义可点击的按钮（大多与 JavaScript 使用来启动脚本）         |
-| email    | 定义用于 e-mail 地址的文本字段                               |
-| search   | 定义用于搜索的文本字段                                       |
-| file     | 定义输入字段和 "浏览..." 按钮，供文件上传                    |
-| hidden   | 定义隐藏输入字段                                             |
-| image    | 定义图像作为提交按钮                                         |
-| url      | 定义用于 URL 的文本字段                                      |
-| number   | 定义带有 spinner 控件的数字字段                              |
-| color    | 定义拾色器                                                   |
-| date     | 定义日期字段（带有 calendar 控件）                           |
-| month    | 定义日期字段的月（带有 calendar 控件）                       |
-| time     | 定义日期字段的时、分、秒（带有 time 控件）                   |
-
-## Bootstrap 栅格系统的工作原理
-
-1、行（row）必须包含在 .container (固定宽度)或 .container-fluid (100%宽度)中，以便为其赋予合适的排列（aligment）和内补（padding）
-
-2、通过行（row）在水平方向创建一组列（column）
-
-3、自己内容应当放置于列（column）内，并且只有列可以作为行（row）的直接子元素
-
-4、类似.row 和.col-xs-4 这种预定义的类，可以用来快速创建栅格布局。Bootstrap 源码 中定义的 mixin 也可以用来创建语义化布局
-
-5、通过为列设置 padding 属性，从而创建列与列之间的间隔（gutter）。通过为.row 元 素设置负值 margin 从而抵消为.container 元素设置的 padding，也就间接为行（row） 所包含的列（column）抵消掉了 padding
-
-6、栅格系统的列是通过指定 1 到 12 的值来表示其跨越范围。例如三个等宽的列可以使用 三个.col-xs-4 来创建
-
-7、如果一行（row）中包含了的列（column）大于 12，多余的列所在的元素将作为一个 整体另起一行排列
-
-8、栅格类适用于与屏幕宽度大于或等于分界点大小的设备，并且针对小屏幕覆盖栅格类
-
-## 使用 CSS 怎么让 Chrome 支持小于 12px 的文字比如 10px
-
-针对谷歌浏览器内核，加 webkit 前缀，用 transform:scale()这个属性进行缩放
-
-```xml
-  <style>
-    p span {
-      font-size: 12px;
-      -webkit-transform: scale(0.83);
-      display: block;
-    }
-  </style>
-<body>
-  <p>
-    <span>使用 CSS 怎么让 Chrome 支持小于 12px 的文字</span>
-  </p>
-</body>
-```
+font简写属性，语法：font: 任意 font-size/line-height font-family
+~~~
 
 # JS
 
@@ -4115,7 +4248,7 @@ revert => 撤销某个版本内容的内容修改 `git revert -n 版本号`
 
 # Vue
 
-## 01. MVVM（设计模式）
+## MVVM
 
 MVVM 是一种双向数据绑定的模式，通过 ViewModel 建立起 Model 数据层和 View 视图层的连接。数据变化，视图自动更新。视图变化，数据自动更新。
 
@@ -4133,26 +4266,7 @@ export default {
 </script>
 ```
 
-## 02. MVVM 的优缺点（不重要）
-
-- 优点
-
-1. 实现了视图（View）和模型（Model）的分离，降低代码耦合、提⾼视图或逻辑的复⽤性
-2. 能⾃动更新 DOM，利⽤双向绑定，数据更新后视图⾃动更新，让开发者从繁琐的⼿动操作 DOM 中解放出来
-
-- 缺点
-
-1. Bug 难被调试：因为使⽤了双向绑定的模式，当我们看到界⾯发生异常了，有可能是 View 的代码产生的 Bug，也有可能是 Model 代码的问题。数据绑定使得⼀个位置的 Bug 被快速传递到别的位置，要定位原始出问题的地⽅就变得不那么容易了
-
-   可采用的调试方案：
-
-   注释掉一段代码，确定代码的位置
-
-   debugger 打断点或者 console 进行调试
-
-2. 在⼀个⼤的模块中 Model 也会很⼤，虽然使⽤上来说⽅便，但如果⻓期不释放内存，会造成更多的内存消耗，占用的是浏览器的内存
-
-## 03. 生命周期
+## 生命周期
 
 组件实例从创建到销毁的整个过程就是生命周期。
 
@@ -4160,30 +4274,35 @@ export default {
 
 这⼀系列过程我们称之为 Vue 的⽣命周期。
 
-![image-20230201104943314](/Users/apple/Desktop/main/复盘/images/image-20230201104943314.png)
+| 生命周期      | 执行时机                                                     |      |      |      |      |
+| ------------- | ------------------------------------------------------------ | ---- | ---- | ---- | ---- |
+| beforeCreate  | data 数据初始化之前，组件还没有数据，访问不到 data、watch 等 |      |      |      |      |
+| created       | data 数据初始化之后，可以获取到组件数据，可以访问 data、watch 等，但是 DOM 还没渲染。 |      |      |      |      |
+| beforeMount   | DOM 渲染之前，DOM 还没渲染，相关的 render 函数首次被调用，实例已完成以下配置：编译模板，把 data 里的数据和模板生成 html。此时还没有挂载 html 到页面上。在这之前，包括这，都无法获取 DOM，想要获取 DOM 使用 nextTick()。 |      |      |      |      |
+| mounted       | DOM 渲染之后，可以操作 DOM 了                                |      |      |      |      |
+| beforeUpdate  | 响应式数据更新时调用，此时虽然响应式数据更新了，但是对应的真实 DOM 还没有被渲染。 |      |      |      |      |
+| updated       | 数据更改导致虚拟 DOM 重新渲染和打补丁之后调用。此时 DOM 已经根据响应式数据的变化更新了 |      |      |      |      |
+| beforeDestory | 组件实例销毁前调用。这一步，实例仍然完全可用，`this` 仍能获取到实例。 |      |      |      |      |
 
-| 生命周期      | 执行时机                                                                                                                                                                                                                |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| beforeCreate  | data 数据初始化之前，组件还没有数据，访问不到 data、watch 等                                                                                                                                                            |
-| created       | data 数据初始化之后，可以获取到组件数据，可以访问 data、watch 等，但是 DOM 还没渲染。                                                                                                                                   |
-| beforeMount   | DOM 渲染之前，DOM 还没渲染，相关的 render 函数首次被调用，实例已完成以下配置：编译模板，把 data 里的数据和模板生成 html。此时还没有挂载 html 到页面上。在这之前，包括这，都无法获取 DOM，想要获取 DOM 使用 nextTick()。 |
-| mounted       | DOM 渲染之后，可以操作 DOM 了                                                                                                                                                                                           |
-| beforeUpdate  | 响应式数据更新时调用，此时虽然响应式数据更新了，但是对应的真实 DOM 还没有被渲染。                                                                                                                                       |
-| updated       | 数据更改导致虚拟 DOM 重新渲染和打补丁之后调用。此时 DOM 已经根据响应式数据的变化更新了。                                                                                                                                |
-| activited     | 组件被激活时调用。用 keep-alive 包裹的组件在切换时不会销毁，而是缓存到内存中，切换时不会再次执行 created。                                                                                                              |
-| deactivated   | 组件被停用时调⽤。                                                                                                                                                                                                      |
-| beforeDestory | 组件实例销毁前调用。这一步，实例仍然完全可用，`this` 仍能获取到实例。                                                                                                                                                   |
-| destoryed     | 组件实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。 (定时器、webscoket...跟 vue 没有太大关联的资源，需要手动释放)                                          |
+## 网络请求在哪个生命周期
 
-![./images/声明周期.png](/Users/apple/Desktop/main/复盘/images/生命周期.png)
+如果请求在methods中封装好了，在beforeCreate调用时，beforeCreate阶段是拿不到methods里的方法的，会报错，所以不可以在beforeCreate里
 
-## 04. 网络请求应该放在哪个生命周期中发起
+如果我们的业务是父组件引入了子组件，并且优先加载子组件的数据，那么父组件的请求最好放在mounted里。如果没有依赖关系，放在created或者mounted里都可以
 
-在 created 里 data 才生成，而请求返回的数据需要挂载到 data 上，所以要在 created 里发请求。
+## 父组件引入子组件，生命周期执行顺序
 
-但是 created 这时候 DOM 还没初始化，mounted 里 DOM 才初始化，如果我们的请求不需要依赖/借助 DOM，这时候请求可以放在 created，反之则可以放在 mounted 里。
+~~~bash
+先执行父：beforeCreate created beforeMount
+在执行子：beforeCreate created beforeMount mounted
+在执行父：mounted
+~~~
 
-## 05. 组件之间如何进行通信
+## keep-alive
+
+如果使用了keep-alive组件，当前的组件会额外增加两个生命周期activated deactivated，第一次进入当前组件时会执行五个生命周期beforeCreate created beforeMount mounted activated，下次再次进入这个组件时，只会执行activated这一个生命周期。
+
+## 组件通信
 
 1. 父子通信 props。props[验证](https://cn.vuejs.org/v2/guide/components-props.html#Prop-%E9%AA%8C%E8%AF%81)
 
@@ -4266,15 +4385,11 @@ export default {
    }
    ```
 
-## 06. computed 和 watch 的区别
-
-computed 有缓存，只有当它依赖的属性值发生了改变，才会重新计算。watch 没有缓存。
-
-## 07. vue 双向绑定原理是什么（如何理解 vue 响应式系统）
+## vue 双向绑定原理是什么
 
 通过 Object.defineProperty()来劫持各个属性的 setter/getter（访问和设置），通过观察者模式，完成数据驱动视图的更新
 
-## 08. 观察者模式
+## 观察者模式
 
 观察者模式：当对象间存在 **一对多** 关系时，则使用观察者模式（Observer Pattern）
 
@@ -4358,7 +4473,7 @@ dep: [
 
 总结概述: vue 采用的是观察者模式, 是一种`一对多`的关系, 一上来 vue 在解析渲染时, 会进行依赖收集, 会将渲染 watcher、计算属性 watcher、侦听器 watcher, 都收集到对应的 dep 中, 将来 Object.defineProperty 监听到数据变化, 就根据依赖关系, 派发更新
 
-## 09. Vue 中的 key 到底有什么用
+## Vue 中的 key 到底有什么用
 
 `key` 是为 Vue 中的虚拟 DOM 节点（vNode）标记唯⼀性的 id。
 
@@ -4382,7 +4497,7 @@ dep: [
 
 ![image-20210309155633728](images/image-20210309155633728.png)
 
-### 9.2 key 的常见应用场景
+### 的常见应用场景
 
 key 的常见应用场景 => v-for, v-for 遍历的列表中的项的顺序, 非常的容易改变
 
@@ -4424,82 +4539,7 @@ key 的常见应用场景 => v-for, v-for 遍历的列表中的项的顺序, 非
 
 **总结: key 就是给 虚拟 dom 添加了一个 标识, 优化了对比策略!!!**
 
-## 10. Vue 跳转路由时的传参方式 (query 和 params 的区别)
-
-1. 通过 query 传参
-
-```jsx
-this.$router.push("/login?username=pp&age=18&desc=xx")
-
-this.$router.push({
-  path: "/login",
-  query: {
-    username: "pp",
-    age: 18,
-    desc: "xxx",
-  },
-})
-
-this.$router.push({
-  name: "login",
-  query: {
-    username: "pp",
-    age: 18,
-    desc: "xxx",
-  },
-})
-```
-
-**获取: this.$route.query.username**
-
-2. 通过 params 传参, 必须通过命名路由的方式传递!
-
-```jsx
-this.$router.push({
-  name: "login",
-  params: {
-    username: "pp",
-    age: 18,
-  },
-})
-```
-
-**获取: this.$route.params.username**
-
-**区别:**
-
-1. params 传参, 必须要用命名路由的方式传值
-
-2. params 传参, 不会显示在地址栏中, 刷新会丢失
-
-   可以配合 localStorage 使用
-
-   (1) A 跳转路由到 B, 通过 params 传值
-
-   (2) B 页面中, 立刻通过 this.$route.params 获取参数
-
-   (获取参数的逻辑, 优先从$route 中拿, 如果拿不到(说明刷新了), 从本地取即可)
-
-   (3) 拿到参数后, 立刻存到本地 (保证刷新丢失后, 还能从本地拿)
-
-   (4) 实现功能...
-
-B 页面的逻辑
-
-```jsx
-created () {
-    let username = this.$route.params.username
-    if (username) {
-        // 刚跳过来, 有参数, 立刻存起来
-        localStorage.setItem('myParams', JSON.stringify(this.$route.params))
-    } else {
-        // 没有, 说明用户刷新了, 丢失了params, username参数, 本地拿
-        username = JSON.parse(localStorage.getItem('myParams')).username
-    }
-}
-```
-
-## 11. SEO
+## SEO
 
 1. `SSR 服务器渲染`
 
@@ -4557,7 +4597,7 @@ created () {
 
 博客参考： [SEO 优化方案](https://www.jb51.net/article/164285.htm)
 
-## 12. 权限处理
+## 权限处理
 
 现在权限相关管理系统用的框架都是 element 提供的[vue-element-admin](https://panjiachen.github.io/vue-element-admin-site/zh/)模板框架比较常见。
 
@@ -4593,40 +4633,7 @@ created () {
 
    (5) 利用 vuex 中的 routes, 动态渲染菜单
 
-## 13. 项目支付功能
-
-支付宝方式：点击支付宝支付，调用后台接口(携带订单号)，后台返回一个 form 表单(HTML 字符串结构)
-
-提交 form 就可以调用支付宝支付
-
-```jsx
-//  alipayWap: 后台接口返回的form 片段
-<div v-html="alipayWap" ref="alipayWap"></div>
-
-methods: {
-  toAlipay () {
-  this.$axios.get('xxx').then (res = > {
-    this.alipayWap = res
-       // 等待dom更新, 等页面中有这个form表单了
-    this.$nextTick(() => {
-       this.$refs.alipayWap.children[0].submit()
-     })
-   })
-  }
-}
-```
-
-![image-20210309032653781](images/image-20210309032653781.png)
-
-微信支付：需要自己根据后台返回的 url 生成二维码页面，如图所示
-
-![image-20210309032629631](images/image-20210309032629631.png)
-
-博客参考 1: https://blog.csdn.net/qq_36710522/article/details/90480914
-
-博客参考 2: https://blog.csdn.net/zyg1515330502/article/details/94737044
-
-## 14. 如何处理项目(首屏)加载过慢的问题
+## 如何处理项目(首屏)加载过慢的问题
 
 SPA 单页面应用：所有的功能，都在一个页面中，单页面跳转就是切换组件，仅刷新局部资源，公共资源（js、html、css 等）仅需要加载一次。
 
@@ -4659,21 +4666,7 @@ SPA 单页面应用：所有的功能，都在一个页面中，单页面跳转�
 
 博客: https://www.cnblogs.com/xidian-Jingbin/p/10643391.html
 
-## 15. 你在项目中遇到过什么技术难题
-
-`考察解决问题的能力！`
-
-话术：前端要学的东西确实很多，但是并不夸张，肯多花点时间沉淀一般都会有解决方案。
-
-一般遇到难题 (这些前端所谓的难题，一般都是一些没有做过，没有尝试过得一些业务)，我们要时刻保持独立思考，**知道自己要做什么业务**，**由此决定要学什么知识**，然后**实现业务**，举一反三，总结归纳！
-
-比如：如果之前没有做过国际化，换肤，没有做过支付，权限控制，没有做过即时通信 websocket，excel 导入导出，就会觉得很难，但其实真正上手花时间去学着做了，也都能逐步思考解决相关页面。
-
-有时候, `复杂的或者困难的`，并不是技术层面的，而是`业务需求方面`的，需要进行大量树形结构的处理，展示列表式数据时，展示图表数据时，筛选条件关联条件多了，`组件与组件的联动关系`的控制也比较麻烦，将联动的条件，存 vuex，然后进行分模块管理也是比较合适的选择，还有后台给的数据非常的难搞，需要进行大量的遍历处理。前一家公司给的数据都是处理好的。
-
-![image-20210309034800953](images/image-20210309034800953.png)
-
-## 16. 发布订阅模式（自定义事件）
+## 发布订阅模式（自定义事件）
 
 ```html
 <!DOCTYPE html>
@@ -4730,9 +4723,637 @@ SPA 单页面应用：所有的功能，都在一个页面中，单页面跳转�
 </html>
 ```
 
-## 17. 什么是组件
+## 什么是组件
 
 组件就是一个可以复用的普通 js 对象
+
+
+
+
+
+## 1. vue 的基本原理
+
+当你把一个普通的 js 对象传入 Vue 实例作为 data 选项，Vue 将遍历此对象所有的属性(property)，并使用 object.defineProperty 把这些属性全部转为 getter/setter。
+
+当一个 Vue 实例创建时，Vue 会遍历 data 中的属性，用 **Object.defineProperty**（vue3.0 使用 proxy ）将它们转为 getter/setter，并且在内部追踪相关依赖，在属性被访问和修改时通知变化。 每个组件实例都有相应的 **watcher 程序实例**，它会在组件渲染的过程中把属性记录为依赖，之后当依赖项的 setter 被调用时，会通知 watcher 重新计算，从而致使它关联的组件得以更新。
+
+![Snipaste_2022-10-07_10-07-50.png](./images/2369052cf3e244d5ac21c9505da97259~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
+
+### Vue 的优点
+
+- 轻量级框架：只关注视图层，是一个构建数据的视图集合，大小只有几十 `kb`
+- 简单易学：国人开发，中文文档，不存在语言障碍 ，易于理解和学习
+- 双向数据绑定：保留了 `angular` 的特点，在数据操作方面更为简单
+- 组件化：保留了 `react` 的优点，实现了 `html` 的封装和重用，在构建单页面应用方面有着独特的优势
+- 视图，数据，结构分离：使数据的更改更为简单，不需要进行逻辑代码的修改，只需要操作数据就能完成相关操作
+- 虚拟 DOM：`dom` 操作是非常耗费性能的，不再使用原生的 `dom` 操作节点，极大解放 `dom` 操作，但具体操作的还是 `dom` 不过是换了另一种方式
+- 运行速度更快：相比较于 `react` 而言，同样是操作虚拟 `dom`，就性能而言， `vue` 存在很大的优势
+
+## 2. Vue 响应式的原理
+
+### 什么是数据劫持
+
+通过 Object.defineProperty 对 data 对象的每一个属性进行监听，给每一个属性设置 get/set，实现响应式。
+
+怎么对每一个属性进行监听？封装一个函数完事。
+
+### 发布者模式 / 订阅者模式
+
+在软件架构中，**发布订阅**是一种消息范式，消息的发送者（称为发布者）不会将消息直接发送给特定的接收者（称为订阅者）。而是将发布的消息分为不同的类别，无需了解哪些订阅者（如果有的话）可能存在。同样的，订阅者可以表达对一个或多个类别的兴趣，只接收感兴趣的消息，无需了解哪些发布者（如果有的话）存在。
+
+这里很明显了，区别就在于，不同于观察者和被观察者，**发布者和订阅者是互相不知道对方的存在的，发布者只需要把消息发送到订阅器里面，订阅者只管接受自己需要订阅的内容**
+
+### 响应式原理
+
+Vue 响应式的原理就是采用**数据劫持**结合**发布者-订阅者模式**的方式，通过**Object.defineProperty()** 来劫持各个属性的 setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。主要分为以下几个步骤：
+
+**Observe**(被劫持的数据对象) **Compile**(vue 的编译器) **Wather**(订阅者) **Dep**(用于收集 Watcher 订阅者们)
+
+1.需要给**Observe**的数据对象进行递归遍历，包括子属性对象的属性，都加上**setter**和**getter**这样的属性，给这个对象的某个值赋值，就会触发**setter**，那么就能监听到了数据变化。
+
+2.**Compile**解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图
+
+3.**Watcher**订阅者是**Observer**和**Compile**之间通信的桥梁，主要做的事情是: ① 在自身实例化时往属性订阅器(**Dep**)里面添加自己 ② 自身必须有一个**update**()方法 ③ 待属性变动**dep.notice()** 通知时，能调用自身的**update()** 方法，并触发**Compile**中绑定的回调，则功成身退。
+
+4.MVVM 作为数据绑定的入口，整合**Observer**、**Compile**和**Watcher**三者，通过**Observer**来监听自己的**model**数据变化，通过**Compile**来解析编译模板指令，最终利用**Watcher**搭起**Observer**和**Compile**之间的通信桥梁，达到数据变化 -> 视图更新；视图交互变化(input) -> 数据 model 变更的双向绑定效果。
+
+![Snipaste_2022-10-07_10-09-27.png](./images/c8b6808985354109a11d2ce29c6903de~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
+
+## 3. Object.defineProperty 的使用方式 有什么缺点
+
+在对一些属性进行操作时，使用这种方法无法拦截，比如**通过下标方式修改数组**数据或者**给对象新增属性**，这都不能触发组件的重新渲染，因为 Object.defineProperty 不能拦截到这些操作。更精确的来说，对于数组而言，大部分操作都是拦截不到的，只是 Vue 内部通过重写函数的方式解决了这个问题。
+
+在 Vue3.0 中已经不使用这种方式了，而是通过使用 Proxy 对对象进行代理，从而实现数据劫持。使用 Proxy 的好处是它可以完美的监听到任何方式的数据改变，唯一的缺点是兼容性的问题，因为 Proxy 是 ES6 的语法
+
+
+
+## 为什么避免 v-for 和 v-if 在一起使用
+
+Vue 处理指令时，v-for 比 v-if 具有更高的`优先级`，虽然用起来也没报错好使，但是性能不高，如果你有 5 个元素被 v-for 循环，v-if 也会分别执行 5 次
+
+## v-for 循环为什么一定要绑定 key
+
+> 提升 vue 渲染性能
+
+- 1.vue 在渲染的时候,会 先把 新 DOM 与 旧 DOM 进行对比， 如果 dom 结构一致，则 vue 会复用旧的 dom。 （此时可能造成数据渲染异常）
+- 2.使用 key 可以给 dom 添加一个标识符，让 vue 强制更新 dom
+
+比如有一个列表 li1 到 li4，我们需要在中间插入一个 li3，`li1` 和 `li2` 不会重新渲染，而 `li3、li4、li5` 都会重新渲染
+
+因为在不使用 `key` 或者列表的 `index` 作为 `key` 的时候，每个元素对应的位置关系都是 index，直接导致我们插入的元素到后面的全部元素，对应的位置关系都发生了变更，所以全部都会执行更新操作, 这是不可取的
+
+而在使用唯一 `key` 的情况下，每个元素对应的位置关系就是 `key`，来看一下使用唯一 `key` 值的情况下
+
+这样如图中的 `li3` 和 `li4` 就不会重新渲染，因为元素内容没发生改变，对应的位置关系也没有发生改变。
+
+这也是为什么 v-for 必须要写 key，而且不建议开发中使用数组的 index 作为 key 的原因
+
+总结一下：
+
+- key 的作用主要是为了更高效的更新虚拟 DOM，因为它可以非常精确的找到相同节点，因此 patch 过程会非常高效
+- Vue 在 patch 过程中会判断两个节点是不是相同节点时，key 是一个必要条件。比如渲染列表时，如果不写 key，Vue 在比较的时候，就可能会导致频繁更新元素，使整个 patch 过程比较低效，影响性能
+- 应该避免使用数组下标作为 key，因为 key 值不是唯一的话可能会导致上面图中表示的 bug，使 Vue 无法区分它他，还有比如在使用相同标签元素过渡切换的时候，就会导致只替换其内部属性而不会触发过渡效果
+- 从源码里可以知道，Vue 判断两个节点是否相同时主要判断两者的元素类型和 key 等，如果不设置 key，就可能永远认为这两个是相同节点，只能去做更新操作，就造成大量不必要的 DOM 更新操作，明显是不可取的
+
+### 11.2 为什么不建议用 index 索引作为 key?
+
+使用 index 作为 key 和没写基本上没区别，因为不管数组的顺序怎么颠倒，index 都是 0, 1, 2...这样排列，导致 Vue 会复用错误的旧子节点，做很多额外的工作。
+
+## 什么是插件
+
+**插件通常用来为 `Vue` 添加全局功能**。插件的功能范围没有严格的限制——一般有下面几种：
+
+- 添加全局方法或者属性。如: `vue-custom-element`
+- 添加全局资源：指令/过滤器/过渡等。如 `vue-touch`
+- 添加全局公共组件 Vue.component()
+- 添加全局公共指令 Vue.directive()
+- 通过全局混入来添加一些组件选项。如`vue-router`
+- 添加 `Vue` 实例方法，通过把它们添加到 `Vue.prototype` 上实现。
+- 一个库，提供自己的 `API`，同时提供上面提到的一个或多个功能。如`vue-router`
+
+### 18.2 Vue2 和 Vue3 怎么注册全局组件
+
+Vue2 使用 `Vue.component('组件名'，组件对象)`
+
+Vue3 使用
+
+```scss
+const app = createApp(App)
+app.component('组件名'，组件对象)
+复制代码
+```
+
+### 18.3 Vue2、Vue3 怎么封装自定义插件并使用/ Vue.use() （install）
+
+**Vue2**
+
+在 compoents.index.js 里，定义一个函数或对象，在里面可以使用 Vue.compoent 全局注册组件，并暴露出去
+
+在 main.js 里使用 Vue.use( )，参数类型必须是 object 或 Function
+
+**Vue3**
+
+在 compoents.index.ts 里，定义一个函数或对象，在里面可以使用 app.compoent 全局注册组件，并暴露出去
+
+在 main.ts 里使用 app.use( )，参数类型必须是 object 或 Function
+
+---
+
+如果是 Function 那么这个函数就被当做 install 方法
+
+如果是 object 则需要定义一个 install 方法
+
+## Vue 为什么采用异步渲染呢
+
+`Vue` 是组件级更新，如果不采用异步更新，那么每次更新数据都会对当前组件进行重新渲染，所以为了性能，`Vue` 会在本轮数据更新后，在异步更新视图。核心思想`nextTick` 。
+
+`dep.notify（）` 通知 watcher 进行更新，`subs[i].update` 依次调用 watcher 的`update` ，`queueWatcher` 将 watcher 去重放入队列， nextTick（`flushSchedulerQueue` ）在下一 tick 中刷新 watcher 队列（异步）。
+
+## $nextTick 原理及作用
+
+其实一句话就可以把`$nextTick`这个东西讲明白：就是你放在`$nextTick`当中的操作不会立即执行，而是等数据更新、DOM 更新完成之后再执行，这样我们拿到的肯定就是最新的了。
+
+Vue 的响应式并不是只数据发生变化之后，DOM 就立刻发生变化，而是按照一定的策略进行 DOM 的更新。
+
+DOM 更新有两种选择，一个是在本次事件循环的最后进行一次 DOM 更新，另一种是把 DOM 更新放在下一轮的事件循环当中。Vue 优先选择第一种，只有当环境不支持的时候才触发第二种机制。
+
+虽然性能上提高了很多，但这个时候问题就出现了。我已经把数据改掉了，但是它的更新异步的，而我在获取的时候，它还没有来得及改，这个时候就需要用到 nextTick
+
+**原理：**
+
+**Vue 的 nextTick 其本质是对 JavaScript 执行原理 `EventLoop` 的一种应用。**
+
+- Vue2 刚开始的时候, $nextTick 是宏任务(setTimeout)，但是宏任务的性能太差。
+- 后来改成了微任务 Mutation Observer，但是还是有一些问题：
+  - 速度太快了，在一些特殊场景下，DOM 还没更新就去获取了
+  - 兼容性不好，很多浏览器不支持
+- 后来又更新成了微宏并行阶段：先判断是否支持 Mutation Observer，如果支持就使用，否则使用宏任务
+- Vue2.5 版本之后，修复了微任务的那些问题，目前最新的$nextTick 采用的是纯微任务。
+
+由于 Vue 的 DOM 操作是异步的，所以，在上面的情况中，就要将 DOM2 获取数据的操作写在`$nextTick`中。
+
+![16.png](./images/6276978f438f46bca595ef1b9e340578~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
+
+所以，在以下情况下，会用到 nextTick：
+
+- **在数据变化后执行的某个操作，而这个操作需要使用随数据变化而变化的 DOM 结构的时候，这个操作就需要方法在`nextTick()`的回调函数中。**
+- **在 vue 生命周期中，如果在 created()钩子进行 DOM 操作，也一定要放在`nextTick()`的回调函数中。**
+
+因为在 created()钩子函数中，页面的 DOM 还未渲染，这时候也没办法操作 DOM，所以，此时如果想要操作 DOM，必须将操作的代码放在`nextTick()`的回调函数中。
+
+## 描述下 Vue2 的自定义指令
+
+在 Vue2.0 中，代码复用和抽象的主要形式是组件。然而，有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用到自定义指令。 一般需要对 DOM 元素进行底层操作时使用，尽量只用来操作 DOM 展示，不修改内部的值。当使用自定义指令直接修改 value 值时绑定 v-model 的值也不会同步更新；如必须修改可以在自定义指令中使用 keydown 事件，在 vue 组件中使用 change 事件，回调中修改 vue 数据;
+
+**（1）自定义指令基本内容**
+
+- 全局定义：`Vue.directive("focus",{})`
+
+- 局部定义：`directives:{focus:{}}`
+
+- 钩子函数：指令定义对象提供钩子函数
+
+  1. ```bash
+     bind：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
+     复制代码
+     ```
+
+  2. ```
+     inSerted：被绑定元素插入父节点时调用（仅保证父节点存在，但不一定已被插入文档中）。
+     复制代码
+     ```
+
+  3. ```sql
+     update：所在组件的VNode更新时调用，但是可能发生在其子VNode更新之前调用。指令的值可能发生了改变，也可能没有。但是可以通过比较更新前后的值来忽略不必要的模板更新。
+     复制代码
+     ```
+
+  4. ```
+     ComponentUpdate：指令所在组件的 VNode及其子VNode全部更新后调用。
+     复制代码
+     ```
+
+  5. ```
+     unbind：只调用一次，指令与元素解绑时调用。
+     复制代码
+     ```
+
+- 钩子函数的参数 ：
+
+  1. el：指令所绑定的元素，可以用来直接操作 DOM
+  2. bing： 一个对象，包含以下属性：
+     - name: 指令名，不包括 v- 前缀。
+     - value: 指令的绑定值， 例如： v-my-directive="1 + 1", value 的值是 2。
+     - oldValue: 指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用。无论值是否改变都可用。
+     - expression: 绑定值的表达式或变量名。 例如 v-my-directive="1 + 1", expression 的值是 "1 + 1"。
+     - arg: 传给指令的参数。例如 v-my-directive:foo， arg 的值是 "foo"。
+     - modifiers: 一个包含修饰符的对象。 例如： v-my-directive.foo.bar, 修饰符对象 modifiers 的值是 { foo: true, bar: true }。
+  3. vnode： 编译生成的虚拟节点
+  4. oldVnode：上一个虚拟节点（更新钩子函数中才有用）
+
+**（2）使用场景**
+
+- 普通 DOM 元素进行底层操作的时候，可以使用自定义指令
+- 自定义指令是用来操作 DOM 的。尽管 Vue 推崇数据驱动视图的理念，但并非所有情况都适合数据驱动。自定义指令就是一种有效的补充和扩展，不仅可用于定义任何的 DOM 操作，并且是可复用的。
+
+**（3）使用案例**
+
+初级应用：
+
+- 鼠标聚焦
+- 下拉菜单
+- 相对时间转换
+- 滚动动画
+
+高级应用：
+
+- 自定义指令实现图片懒加载
+- 自定义指令集成第三方插件
+
+## 简述 mixin、extends 的覆盖逻辑
+
+**（1）mixin 和 extends** mixin 和 extends 均是用于合并、拓展组件的，两者均通过 mergeOptions 方法实现合并。
+
+- mixins 接收一个混入对象的数组，其中混入对象可以像正常的实例对象一样包含实例选项，这些选项会被合并到最终的选项中。Mixin 钩子按照传入顺序依次调用，并在调用组件自身的钩子之前被调用。
+- extends 主要是为了便于扩展单文件组件，接收一个对象或构造函数。
+
+![Snipaste_2022-08-12_09-13-37.jpg](./images/0c1220980f0b4116a3a4db1991a7db8b~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
+
+**（2）mergeOptions 的执行过程**
+
+- 规范化选项（normalizeProps、normalizelnject、normalizeDirectives)
+- 对未合并的选项，进行判断
+
+![Snipaste_2022-08-12_09-15-16.jpg](./images/eeddefe3d5ca471f97fb6fd6ac9c71a6~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
+
+- 合并处理。根据一个通用 Vue 实例所包含的选项进行分类逐一判断合并，如 props、data、 methods、watch、computed、生命周期等，将合并结果存储在新定义的 options 对象里。
+- 返回合并结果 options。
+
+### extend 有什么作用
+
+这个 API 很少用到，作用是扩展组件生成一个构造器，通常会与 `$mount` 一起使用。
+
+### 什么是 mixin ？
+
+Mixin 使我们能够为 Vue 组件编写可插拔和可重用的功能。
+
+如果希望在多个组件之间重用一组组件选项，例如生命周期 hook、 方法等，则可以将其编写为 mixin，并在组件中简单的引用它。
+
+然后将 mixin 的内容合并到组件中。如果你要在 mixin 中定义生命周期 hook，那么它在执行时将优化于组件自已的 hook。
+
+### mixin 和 mixins 区别
+
+`mixin` 用于全局混入，会影响到每个组件实例，通常插件都是这样做初始化的。
+
+虽然文档不建议在应用中直接使用 `mixin`，但是如果不滥用的话也是很有帮助的，比如可以全局混入封装好的 `ajax` 或者一些工具函数等等。
+
+`mixins` 应该是最常使用的扩展组件的方式了。如果多个组件中有相同的业务逻辑，就可以将这些逻辑剥离出来，通过 `mixins` 混入代码，比如上拉下拉加载数据这种逻辑等等。 另外需要注意的是 `mixins` 混入的钩子函数会先于组件内的钩子函数执行，并且在遇到同名选项的时候也会有选择性的进行合并。
+
+## data 为什么是一个函数而不是对象
+
+对象是引用数据类型，复用组件时，由于数据都指向同一个 data，当在一个组件中修改 data 时，其它复用组件中的 data 会同时被修改。
+
+使用函数返回对象，每次返回的都是一个新对象，则不会出现这个问题。
+
+## 动态给 vue 的 data 添加一个新的属性时会发生什么 怎样解决
+
+1. `vue2`是用过`Object.defineProperty`实现数据响应式
+2. 当我们访问定义的属性或者修改属性值的时候都能够触发`setter`与`getter`
+3. 但是我们为`obj`添加新属性的时候，却无法触发事件属性的拦截
+4. 原因是一开始`obj`的要定义的属性被设成了响应式数据，而`新增的属性`并没有通过`Object.defineProperty`设置成响应式数据
+
+**解决方案:**
+
+1. Vue.set()
+   - 通过`Vue.set`向响应式对象中添加一个`property`，并确保这个新 `property`同样是响应式的，且触发视图更新
+2. Object.assign()
+   - 直接使用`Object.assign()`添加到对象的新属性不会触发更新
+   - 应创建一个新的对象，合并原对象和混入对象的属性
+3. $forceUpdate
+   - 如果你发现你自己需要在 `Vue`中做一次强制更新，99.9% 的情况，是你在某个地方做错了事
+   - `$forceUpdate`迫使`Vue` 实例重新渲染
+   - PS：仅仅影响实例本身和插入插槽内容的子组件，而不是所有子组件。
+
+总结
+
+- 如果为对象添加**少量**的新属性，可以直接采用`Vue.set()`
+- 如果需要为新对象添加**大量**的新属性，则通过`Object.assign()`创建新对象
+- 如果你实在不知道怎么操作时，可采取`$forceUpdate()`进行强制刷新 (不建议)
+
+PS：`vue3`是用过`proxy`实现数据响应式的，直接动态添加新属性仍可以实现数据响应式
+
+## data 中某一个属性的值发生改变后 视图会立即同步执行重新渲染吗
+
+**不会立即同步执行重新渲染**。Vue 实现响应式并不是数据发生变化之后 DOM 立即变化，而是按一定的策略进行 DOM 的更新。Vue 在更新 DOM 时是`异步`执行的。只要侦听到数据变化， Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。
+
+如果同一个 watcher 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作是非常重要的。然后，在下一个的事件循环 tick 中，Vue 刷新队列并执行实际（已去重的）工作。
+
+vue 在检测到你的数据发生变化时，将开启一个异步更新队列，通过 diff 算法找出实际需要更新的 dom 元素，需要等队列中所有数据变化完成之后，才统一进行实际 dom 更新。
+
+## vue2 中如何监听对象或者数组某个属性的变化
+
+当在项目中直接设置数组的某一项的值，或者直接设置对象的某个属性值，这个时候，你会发现页面并没有更新。这是因为 Object.defineProperty()限制，监听不到变化。
+
+解决方式：
+
+- this.$set(你要改变的数组/对象，你要改变的位置/key，你要改成什么 value)
+
+```kotlin
+this.$set(this.arr, 0, "OBKoro1"); // 改变数组
+this.$set(this.obj, "c", "OBKoro1"); // 改变对象
+```
+
+- 调用以下几个数组的方法
+
+```scss
+splice()、push()、pop()、shift()、unshift()、sort()、reverse()
+```
+
+vue 源码里缓存了 array 的原型链，然后重写了这几个方法，触发这几个方法的时候会 observer 数据，意思是使用这些方法不用我们再进行额外的操作，视图自动进行更新。 推荐使用 splice 方法会比较好自定义，因为 splice 可以在数组的任何位置进行删除/添加操作。
+
+###### vm.`$set` 的实现原理是
+
+- 如果目标是数组，直接使用数组的 splice 方法触发相应式
+- 如果目标是对象，会先判读属性是否存在、对象是否是响应式，最终如果要对属性进行响应式处理，则是通过调用 defineReactive 方法进行响应式处理（ defineReactive 方法就是 Vue 在初始化对象时，给对象属性采用 Object.defineProperty 动态添加 getter 和 setter 的功能所调用的方法）
+
+1. 
+
+## assets 和 static
+
+- **相同点：** `assets` 和 `static` 两个都是存放静态资源文件。项目中所需要的资源文件图片，字体图标，样式文件等都可以放在这两个文件下，这是相同点
+- **不相同点：** `assets` 中存放的静态资源文件在项目打包时，也就是运行 `npm run build` 时会将 `assets` 中放置的静态资源文件进行打包上传，所谓打包简单点可以理解为压缩体积，代码格式化。而压缩后的静态资源文件最终也都会放置在 `static` 文件中跟着 `index.html` 一同上传至服务器。`static` 中放置的静态资源文件就不会要走打包压缩格式化等流程，而是直接进入打包好的目录，直接上传至服务器。因为避免了压缩直接进行上传，在打包时会提高一定的效率，但是 `static` 中的资源文件由于没有进行压缩等操作，所以文件的体积也就相对于 `assets` 中打包后的文件提交较大点。在服务器中就会占据更大的空间。
+- **建议：** 将项目中 `template`需要的样式文件 js 文件等都可以放置在 `assets` 中，走打包这一流程。减少体积。而项目中引入的第三方的资源文件如`iconfoont.css` 等文件可以放置在 `static` 中，因为这些引入的第三方文件已经经过处理，不再需要处理，直接上传。
+
+## Vue 的 template 模版编译原理
+
+vue 中的模板 template 无法被浏览器解析并渲染，因为这不属于浏览器的标准，不是正确的 HTML 语法，所有需要将 template 转化成一个 JavaScript 函数，这样浏览器就可以执行这一个函数并渲染出对应的 HTML 元素，就可以让视图跑起来了，这一个转化的过程，就成为模板编译。模板编译又分三个阶段，解析 parse，优化 optimize，生成 generate，最终生成可执行函数 render。
+
+- **解析阶段**：使用大量的正则表达式对 template 字符串进行解析，将标签、指令、属性等转化为抽象语法树 AST。
+- **优化阶段**：遍历 AST，找到其中的一些静态节点并进行标记，方便在页面重渲染的时候进行 diff 比较时，直接跳过这一些静态节点，优化 runtime 的性能。
+- **生成阶段**：将最终的 AST 转化为 render 函数字符串。
+
+## template 和 jsx 的有什么分别
+
+对于 runtime 来说，只需要保证组件存在 render 函数即可，而有了预编译之后，只需要保证构建过程中生成 render 函数就可以。在 webpack 中，使用`vue-loader`编译.vue 文件，内部依赖的`vue-template-compiler`模块，在 webpack 构建过程中，将 template 预编译成 render 函数。与 react 类似，在添加了 jsx 的语法糖解析器`babel-plugin-transform-vue-jsx`之后，就可以直接手写 render 函数。
+
+所以，**template 和 jsx 的都是 render 的一种表现形式**，不同的是：JSX 相对于 template 而言，具有更高的灵活性，在复杂的组件中，更具有优势，而 template 虽然显得有些呆滞。但是 template 在代码结构上更符合视图与逻辑分离的习惯，更简单、更直观、更好维护。
+
+## 讲讲什么是 JSX
+
+jsx 是 JavaScript 的一种语法扩展，它跟模板语言很接近，但是它充分具备 JavaScript 的能力 当 Facebook 第一次发布 React 时，他们还引入了一种新的 JS 方言 JSX，将原始 HTML 模板嵌入到 JS 代码中。JSX 代码本身不能被浏览器读取，必须使用 Babel 和 webpack 等工具将其转换为传统的 JS。 JSX 中的标签可以是单标签，也可以是双标签，但必须保证标签是闭合的。
+
+## 对 SSR 的理解
+
+SSR 也就是服务端渲染，也就是将 Vue 在客户端把标签渲染成 HTML 的工作放在服务端完成，然后再把 html 直接返回给客户端
+
+**SSR 的优势**：
+
+- 更好的 SEO
+- 首屏加载速度更快
+
+**SSR 的缺点**：
+
+- 开发条件会受到限制，服务器端渲染只支持 beforeCreate 和 created 两个钩子；
+- 当需要一些外部扩展库时需要特殊处理，服务端渲染应用程序也需要处于 Node.js 的运行环境；
+- 更多的服务端负载。
+
+## vue 初始化页面闪动问题
+
+使用 vue 开发时，在 vue 初始化之前，由于 div 是不归 vue 管的，所以我们写的代码在还没有解析的情况下会容易出现花屏现象，看到类似于{{message}}的字样，虽然一般情况下这个时间很短暂，但是还是有必要让解决这个问题的。
+
+首先：在 css 里加上以下代码：
+
+![17.png](./images/5e0a4cd18fa8432aaaa7ec5951c58836~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
+
+如果没有彻底解决问题，则在根元素加上`style="display: none;" :style="{display: 'block'}"`
+
+
+
+## 使用异步组件有什么好处
+
+所谓的异步组件就是通过 import 或者 require 导入的 vue 组件
+
+vue 开发过程中，我们会做出特别多的组件，包括 login,header,footer,main 等等，会使页面打开很慢
+
+可以避免页面一加载时就去加载全部的组件，从而导致页面访问时间变长的问题。使用异步加载组件后，只有当需要某个组件时才会去加载需要的组件。
+
+## 42.https://www.jianshu.com/p/16081205159c
+
+## 怎样理解 Vue 的单向数据流
+
+所有的 prop 都使得其父子 prop 之间形成了一个**单向下行绑定**：父级 prop 的更新会向下流动到子组件中，但是反过来则不行。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。
+
+额外的，每次父级组件发生更新时，子组件中所有的 prop 都将会刷新为最新的值。这意味着你不应该在一个子组件内部改变 prop。如果你这样做了，Vue 会在浏览器的控制台中发出警告。子组件想修改时，只能通过 $emit 派发一个自定义事件，父组件接收到后，由父组件修改。
+
+有两种常见的试图改变一个 prop 的情形
+
+- **这个 prop 用来传递一个初始值；这个子组件接下来希望将其作为一个本地的 prop 数据来使用。** 在这种情况下，最好定义一个本地的 data 属性并将这个 prop 用作其初始值
+
+```kotlin
+props: ['initialCounter'],
+data: function () {
+  return {
+    counter: this.initialCounter
+  }
+}
+```
+
+- **这个 prop 以一种原始的值传入且需要进行转换。** 在这种情况下，最好使用这个 prop 的值来定义一个计算属性
+
+```javascript
+props: ['size'],
+computed: {
+  normalizedSize: function () {
+    return this.size.trim().toLowerCase()
+  }
+}
+```
+
+## 在什么阶段才能访问操作 DOM
+
+在钩子函数 mounted 被调用前，Vue 已经将编译好的模板挂载到页面上，所以在 mounted 中可以访问操作 DOM
+
+## 父组件可以监听到子组件的生命周期吗
+
+比如有父组件 Parent 和子组件 Child，如果父组件监听到子组件挂载 mounted 就做一些逻辑处理，可以通过以下写法实现
+
+```typescript
+// Parent.vue
+<Child @mounted="doSomething"/>
+
+// Child.vue
+mounted() {
+  this.$emit("mounted");
+}
+```
+
+以上需要手动通过 $emit 触发父组件的事件，更简单的方式可以在父组件引用子组件时通过 @hook 来监听即可，如下所示
+
+```typescript
+//  Parent.vue
+<Child @hook:mounted="doSomething" ></Child>
+
+doSomething() {
+   console.log('父组件监听到 mounted 钩子函数 ...');
+},
+
+//  Child.vue
+mounted(){
+   console.log('子组件触发 mounted 钩子函数 ...');
+},
+
+// 以上输出顺序为：
+// 子组件触发 mounted 钩子函数 ...
+// 父组件监听到 mounted 钩子函数 ...
+```
+
+当然 @hook 方法不仅仅是可以监听 mounted，其它的生命周期事件，例如：created，updated 等都可以监听
+
+## 4.Vue 怎么用 vm.$set()解决对象新增属性不能响应的问题
+
+```kotlin
+export function set (target: Array<any> | Object, key: any, val: any): any {
+  // target 为数组
+  if (Array.isArray(target) && isValidArrayIndex(key)) {
+    // 修改数组的长度, 避免索引>数组长度导致splcie()执行有误
+    target.length = Math.max(target.length, key)
+    // 利用数组的splice变异方法触发响应式
+    target.splice(key, 1, val)
+    return val
+  }
+  // key 已经存在，直接修改属性值
+  if (key in target && !(key in Object.prototype)) {
+    target[key] = val
+    return val
+  }
+  const ob = (target: any).__ob__
+  // target 本身就不是响应式数据, 直接赋值
+  if (!ob) {
+    target[key] = val
+    return val
+  }
+  // 对属性进行响应式处理
+  defineReactive(ob.value, key, val)
+  ob.dep.notify()
+  return val
+}
+```
+
+我们阅读以上源码可知，vm.$set 的实现原理是
+
+- 如果目标是数组，直接使用数组的 splice 方法触发相应式
+- 如果目标是对象，会先判读属性是否存在、对象是否是响应式，最终如果要对属性进行响应式处理，则是通过调用 defineReactive 方法进行响应式处理（ defineReactive 方法就是 Vue 在初始化对象时，给对象属性采用 Object.defineProperty 动态添加 getter 和 setter 的功能所调用的方法）
+
+## 请说下封装 vue 组件的过程
+
+> 有复用的地方就有封装（js 如此，vue 也是如此）
+
+- 1.先分析需求：确定业务需求，把页面中可以复用的结构，样式以及功能
+  - 找出业务需求中存在复用的地方
+- 2.具体步骤：Vue.component 或者在 new Vue 配置项 components 中, 定义组件名, 可以在 props 中接受给组件传的参数和值，子组件修改好数据后，想把数据传递给父组件。可以采用$emit 方法
+
+## scoped 作用与原理
+
+- 作用：组件 css 作用域，避免`子组件`内部的 css 样式被`父组件`覆盖
+  - 默认情况下，如果子组件和父组件 css 选择器权重相同，优先加载父组件 css 样式
+- 原理：给元素添加一个自定义属性 v-data-xxxxx
+  - `一针见血答案`： 通过属性选择题来提高 css 权重值
+
+## Vue 中如何扩展一个组件
+
+1. 常见的组件扩展方法有：mixins，slots，extends 等
+2. 混入 mixins 是分发 Vue 组件中可复用功能的非常灵活的方式。混入对象可以包含任意组件选项。当组件使用混入对象时，所有混入对象的选项将被混入该组件本身的选项。
+
+```scss
+// 复用代码：它是一个配置对象，选项和组件里面一样
+const mymixin = {
+   methods: {
+      dosomething(){}
+   }
+}
+// 全局混入：将混入对象传入
+Vue.mixin(mymixin)
+
+// 局部混入：做数组项设置到mixins选项，仅作用于当前组件
+const Comp = {
+   mixins: [mymixin]
+}
+
+复制代码
+```
+
+1. 插槽主要用于 vue 组件中的内容分发，也可以用于组件扩展。如果要精确分发到不同位置可以使用具名插槽，如果要使用子组件中的数据可以使用作用域插槽。
+2. 组件选项中还有一个不太常用的选项 extends，也可以起到扩展组件的目的
+3. 混入的数据和方法**不能明确判断来源**且可能和当前组件内变量**产生命名冲突**，vue3 中引入的 composition api，可以很好解决这些问题，利用独立出来的响应式模块可以很方便的编写独立逻辑并提供响应式的数据，然后在 setup 选项中组合使用，增强代码的可读性和维护性
+
+## 13. 说说从 template 到 render 处理过程(compiler 的工作原理)
+
+1. Vue 中有个独特的编译器模块，称为“compiler”，它的主要作用是将用户编写的 template 编译为 js 中可执行的 render 函数。
+2. 之所以需要这个编译过程是为了便于前端程序员能高效的编写视图模板。相比而言，我们还是更愿意用 HTML 来编写视图，直观且高效。手写 render 函数不仅效率底下，而且失去了编译期的优化能力。
+3. 在 Vue 中编译器会先对 template 进行解析，这一步称为 parse，结束之后会得到一个 JS 对象，我们成为抽象语法树 AST，然后是对 AST 进行深加工的转换过程，这一步成为 transform，最后将前面得到的 AST 生成为 JS 代码，也就是 render 函数。
+
+## 14. Vue 实例挂载的过程中发生了什么?
+
+1. 挂载过程指的是 app.mount()过程，这个过程中整体上做了两件事：**初始化**和**建立更新机制**
+2. 初始化会创建组件实例、初始化组件状态，创建各种响应式数据
+3. 建立更新机制这一步会立即执行一次组件更新函数，这会首次执行组件渲染函数并执行 patch 将前面获得 vnode 转换为 dom；同时首次执行渲染函数会创建它内部响应式数据之间和组件更新函数之间的依赖关系，这使得以后数据变化时会执行对应的更新函数。
+
+## beforeDestroy 钩子的作用
+
+如果页面上有很多定时器，可以在 data 选项中创建一个对象 timer，给每个定时器取个名字一一映射在对象 timer 中，在 beforeDestroy 构造函数中循环遍历所有定时器 ，一次性取消
+
+```scss
+for(let k in this.timer){
+    clearInterval(k)
+    }；
+复制代码
+```
+
+如果页面只有单个定时器，可以这么做。
+
+```javascript
+const timer = setInterval(() => {}, 500)
+this.$once("hook:beforeDestroy", () => {
+  clearInterval(timer)
+})
+```
+
+## Vue 初始化过程中 new Vue(options)都做了什么
+
+- 处理组件配置项；初始化根组件时进行了选项合并操作，将全局配置合并到根组件的局部配置上；初始化每个子组件时做了一些性能优化，将组件配置对象上的一些深层次属性放到 vm.$options 选项中，以提高代码的执行效率
+- 初始化组件实例的关系属性，比如 parent、parent、children、r o o t 、 root、root、refs 等 处理自定义事件
+- 调用 beforeCreate 钩子函数
+- 初始化组件的 inject 配置项，得到 ret[key] = val 形式的配置对象，然后对该配置对象进行响应式处理，并代理每个 key 到 vm 实例上
+- 数据响应式，处理 props、methods、data、computed、watch 等选项
+- 解析组件配置项上的 provide 对象，将其挂载到 vm.\_provided 属性上 调用 created 钩子函数
+- 如果发现配置项上有 el 选项，则自动调用 mount 方法，也就是说有了 el 选项，就不需要再手动调用 mount 方法，也就是说有了 el 选项，就不需要再手动调用 mount 方法，反之，没提供 el 选项则必须调用 $mount
+
+## 什么是函数式组件
+
+函数式组件，我们可以理解为没有内部状态，没有生命周期钩子函数，没有`this`(不需要实例化的组件)。
+
+**为什么使用函数式组件**
+
+1. 最主要最关键的原因是函数式组件不需要实例化，无状态，没有生命周期，所以渲染性能要好于普通组件
+2. 函数式组件结构比较简单，代码结构更清晰
+
+**函数式组件与普通组件的区别**
+
+函数式组件需要在声明组件是指定 functional
+
+函数式组件不需要实例化，所以没有`this，`this`通过`render 函数的第二个参数来代替
+
+函数式组件没有生命周期钩子函数，不能使用计算属性，watch 等等
+
+函数式组件不能通过$emit 对外暴露事件，调用事件只能通过`context.listeners.click`的方式调用外部传入的事件
+
+因为函数式组件是没有实例化的，所以在外部通过`ref`去引用组件时，实际引用的是`HTMLElement`
+
+函数式组件的`props`可以不用显示声明，所以没有在`props`里面声明的属性都会被自动隐式解析为`prop`。而普通组件所有未声明的属性都被解析到`$attrs`里面，并自动挂载到组件根元素上面(可以通过`inheritAttrs`属性禁止)
+
+## Vue2 怎么内部监听生命周期钩子(hook)
+
+在`Vue`组件中，可以用过`$on，$once`去监听所有的生命周期钩子函数，如监听组件的`updated`钩子函数可以写成 `this.$on('hook:updated', () => {})`
 
 # Vue3
 
@@ -8832,1286 +9453,6 @@ Fibonacci(1000) // 7.0330367711422765e+208 还是没有压力复制代码
 
 尾递归优化可以在数量较大的计算中，可以起到很好的作用
 
-# Vue
-
-## 1. vue 的基本原理
-
-当你把一个普通的 js 对象传入 Vue 实例作为 data 选项，Vue 将遍历此对象所有的属性(property)，并使用 object.defineProperty 把这些属性全部转为 getter/setter。
-
-当一个 Vue 实例创建时，Vue 会遍历 data 中的属性，用 **Object.defineProperty**（vue3.0 使用 proxy ）将它们转为 getter/setter，并且在内部追踪相关依赖，在属性被访问和修改时通知变化。 每个组件实例都有相应的 **watcher 程序实例**，它会在组件渲染的过程中把属性记录为依赖，之后当依赖项的 setter 被调用时，会通知 watcher 重新计算，从而致使它关联的组件得以更新。
-
-![Snipaste_2022-10-07_10-07-50.png](./images/2369052cf3e244d5ac21c9505da97259~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-### Vue 的优点
-
-- 轻量级框架：只关注视图层，是一个构建数据的视图集合，大小只有几十 `kb`
-- 简单易学：国人开发，中文文档，不存在语言障碍 ，易于理解和学习
-- 双向数据绑定：保留了 `angular` 的特点，在数据操作方面更为简单
-- 组件化：保留了 `react` 的优点，实现了 `html` 的封装和重用，在构建单页面应用方面有着独特的优势
-- 视图，数据，结构分离：使数据的更改更为简单，不需要进行逻辑代码的修改，只需要操作数据就能完成相关操作
-- 虚拟 DOM：`dom` 操作是非常耗费性能的，不再使用原生的 `dom` 操作节点，极大解放 `dom` 操作，但具体操作的还是 `dom` 不过是换了另一种方式
-- 运行速度更快：相比较于 `react` 而言，同样是操作虚拟 `dom`，就性能而言， `vue` 存在很大的优势
-
-## 2. Vue 响应式的原理
-
-### 什么是数据劫持
-
-通过 Object.defineProperty 对 data 对象的每一个属性进行监听，给每一个属性设置 get/set，实现响应式。
-
-怎么对每一个属性进行监听？封装一个函数完事。
-
-### 发布者模式 / 订阅者模式
-
-在软件架构中，**发布订阅**是一种消息范式，消息的发送者（称为发布者）不会将消息直接发送给特定的接收者（称为订阅者）。而是将发布的消息分为不同的类别，无需了解哪些订阅者（如果有的话）可能存在。同样的，订阅者可以表达对一个或多个类别的兴趣，只接收感兴趣的消息，无需了解哪些发布者（如果有的话）存在。
-
-这里很明显了，区别就在于，不同于观察者和被观察者，**发布者和订阅者是互相不知道对方的存在的，发布者只需要把消息发送到订阅器里面，订阅者只管接受自己需要订阅的内容**
-
-### 响应式原理
-
-Vue 响应式的原理就是采用**数据劫持**结合**发布者-订阅者模式**的方式，通过**Object.defineProperty()** 来劫持各个属性的 setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。主要分为以下几个步骤：
-
-**Observe**(被劫持的数据对象) **Compile**(vue 的编译器) **Wather**(订阅者) **Dep**(用于收集 Watcher 订阅者们)
-
-1.需要给**Observe**的数据对象进行递归遍历，包括子属性对象的属性，都加上**setter**和**getter**这样的属性，给这个对象的某个值赋值，就会触发**setter**，那么就能监听到了数据变化。
-
-2.**Compile**解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图
-
-3.**Watcher**订阅者是**Observer**和**Compile**之间通信的桥梁，主要做的事情是: ① 在自身实例化时往属性订阅器(**Dep**)里面添加自己 ② 自身必须有一个**update**()方法 ③ 待属性变动**dep.notice()** 通知时，能调用自身的**update()** 方法，并触发**Compile**中绑定的回调，则功成身退。
-
-4.MVVM 作为数据绑定的入口，整合**Observer**、**Compile**和**Watcher**三者，通过**Observer**来监听自己的**model**数据变化，通过**Compile**来解析编译模板指令，最终利用**Watcher**搭起**Observer**和**Compile**之间的通信桥梁，达到数据变化 -> 视图更新；视图交互变化(input) -> 数据 model 变更的双向绑定效果。
-
-![Snipaste_2022-10-07_10-09-27.png](./images/c8b6808985354109a11d2ce29c6903de~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-## 3. Object.defineProperty 的使用方式 有什么缺点
-
-在对一些属性进行操作时，使用这种方法无法拦截，比如**通过下标方式修改数组**数据或者**给对象新增属性**，这都不能触发组件的重新渲染，因为 Object.defineProperty 不能拦截到这些操作。更精确的来说，对于数组而言，大部分操作都是拦截不到的，只是 Vue 内部通过重写函数的方式解决了这个问题。
-
-在 Vue3.0 中已经不使用这种方式了，而是通过使用 Proxy 对对象进行代理，从而实现数据劫持。使用 Proxy 的好处是它可以完美的监听到任何方式的数据改变，唯一的缺点是兼容性的问题，因为 Proxy 是 ES6 的语法
-
-## 07. Vue的内置组件
-
-### **component**
-
-渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染
-
-在一个多标签的界面中使用 is attribute 来切换不同的组件：tap 栏切换
-
-### **transition**
-
-用于在 Vue 插入、更新或者移除 DOM 时， 提供多种不同方式的应用过渡、动画效果。
-
-### **transition-group**
-
-`<transition-group>` 用于给列表统一设置过渡动画。
-
-### **keep-alive**
-
-- 主要用于保留组件状态或避免组件重新渲染。
-- **include** 属性用于指定哪些组件会被缓存，具有多种设置方式。
-- **exclude** 属性用于指定哪些组件不会被缓存。
-- **max** 属性用于设置最大缓存个数。
-
-### slot
-
-## 8. v-if v-show v-html 的原理
-
-`v-if`会调用 addIfCondition 方法，生成 vnode 的时候会忽略对应节点，render 的时候就不会渲染
-
-`v-show`会生成 vnode，render 的时候也会渲染成真实节点，只是在 render 过程中会在节点的属性中修改 show 属性值，也就是常说的 display
-
-`v-html`会先移除节点下的所有节点，调用 html 方法，通过 addProp 添加 innerHTML 属性，归根结底还是设置 innerHTML 为 v-html 的值
-
-## $$$ 9. v-show 和 v-if 的区别
-
-## 10. 为什么避免 v-for 和 v-if 在一起使用
-
-Vue 处理指令时，v-for 比 v-if 具有更高的`优先级`，虽然用起来也没报错好使，但是性能不高，如果你有 5 个元素被 v-for 循环，v-if 也会分别执行 5 次
-
-## 11. v-for 循环为什么一定要绑定 key
-
-> 提升 vue 渲染性能
-
-- 1.vue 在渲染的时候,会 先把 新 DOM 与 旧 DOM 进行对比， 如果 dom 结构一致，则 vue 会复用旧的 dom。 （此时可能造成数据渲染异常）
-- 2.使用 key 可以给 dom 添加一个标识符，让 vue 强制更新 dom
-
-比如有一个列表 li1 到 li4，我们需要在中间插入一个 li3，`li1` 和 `li2` 不会重新渲染，而 `li3、li4、li5` 都会重新渲染
-
-因为在不使用 `key` 或者列表的 `index` 作为 `key` 的时候，每个元素对应的位置关系都是 index，直接导致我们插入的元素到后面的全部元素，对应的位置关系都发生了变更，所以全部都会执行更新操作, 这是不可取的
-
-而在使用唯一 `key` 的情况下，每个元素对应的位置关系就是 `key`，来看一下使用唯一 `key` 值的情况下
-
-这样如图中的 `li3` 和 `li4` 就不会重新渲染，因为元素内容没发生改变，对应的位置关系也没有发生改变。
-
-这也是为什么 v-for 必须要写 key，而且不建议开发中使用数组的 index 作为 key 的原因
-
-总结一下：
-
-- key 的作用主要是为了更高效的更新虚拟 DOM，因为它可以非常精确的找到相同节点，因此 patch 过程会非常高效
-- Vue 在 patch 过程中会判断两个节点是不是相同节点时，key 是一个必要条件。比如渲染列表时，如果不写 key，Vue 在比较的时候，就可能会导致频繁更新元素，使整个 patch 过程比较低效，影响性能
-- 应该避免使用数组下标作为 key，因为 key 值不是唯一的话可能会导致上面图中表示的 bug，使 Vue 无法区分它他，还有比如在使用相同标签元素过渡切换的时候，就会导致只替换其内部属性而不会触发过渡效果
-- 从源码里可以知道，Vue 判断两个节点是否相同时主要判断两者的元素类型和 key 等，如果不设置 key，就可能永远认为这两个是相同节点，只能去做更新操作，就造成大量不必要的 DOM 更新操作，明显是不可取的
-
-### 11.2 为什么不建议用 index 索引作为 key?
-
-使用 index 作为 key 和没写基本上没区别，因为不管数组的顺序怎么颠倒，index 都是 0, 1, 2...这样排列，导致 Vue 会复用错误的旧子节点，做很多额外的工作。
-
-## $$$ 12. v-model
-
-## $$$ 13. v-model 可以被用在自定义组件上吗 如果可以 如何使用
-
-## $$$ 14. v-model 和.sync 的对比
-
-## 18. 什么是插件
-
-**插件通常用来为 `Vue` 添加全局功能**。插件的功能范围没有严格的限制——一般有下面几种：
-
-- 添加全局方法或者属性。如: `vue-custom-element`
-- 添加全局资源：指令/过滤器/过渡等。如 `vue-touch`
-- 添加全局公共组件 Vue.component()
-- 添加全局公共指令 Vue.directive()
-- 通过全局混入来添加一些组件选项。如`vue-router`
-- 添加 `Vue` 实例方法，通过把它们添加到 `Vue.prototype` 上实现。
-- 一个库，提供自己的 `API`，同时提供上面提到的一个或多个功能。如`vue-router`
-
-### 18.2 Vue2 和 Vue3 怎么注册全局组件
-
-Vue2 使用 `Vue.component('组件名'，组件对象)`
-
-Vue3 使用
-
-```scss
-const app = createApp(App)
-app.component('组件名'，组件对象)
-复制代码
-```
-
-### 18.3 Vue2、Vue3 怎么封装自定义插件并使用/ Vue.use() （install）
-
-**Vue2**
-
-在 compoents.index.js 里，定义一个函数或对象，在里面可以使用 Vue.compoent 全局注册组件，并暴露出去
-
-在 main.js 里使用 Vue.use( )，参数类型必须是 object 或 Function
-
-**Vue3**
-
-在 compoents.index.ts 里，定义一个函数或对象，在里面可以使用 app.compoent 全局注册组件，并暴露出去
-
-在 main.ts 里使用 app.use( )，参数类型必须是 object 或 Function
-
----
-
-如果是 Function 那么这个函数就被当做 install 方法
-
-如果是 object 则需要定义一个 install 方法
-
-## 21. 生命周期
-
-**第一阶段：创建前 / 后**
-
-**beforeCreate（创建前）** ：数据观测和初始化事件还未开始，此时 data 的响应式追踪、event/watcher 都还没有被设置，也就是说不能访问到 data、computed、watch、methods 上的方法和数据。
-
-**created（创建后）** ：实例创建完成，实例上配置的 options 包括 data、computed、watch、methods 等都配置完成，但是此时渲染得节点还未挂载到 DOM，所以不能访问到 `$el` 属性。
-
-**beforeMount（挂载前）** ：在挂载开始之前被调用，相关的 render 函数首次被调用。实例已完成以下的配置：编译模板，把 data 里面的数据和模板生成 html。此时还没有挂载 html 到页面上。
-
-**mounted（挂载后）** ：在 el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用。实例已完成以下的配置：用上面编译好的 html 内容替换 el 属性指向的 DOM 对象。完成模板中的 html 渲染到 html 页面中。此过程中进行 ajax 交互。
-
-**另外三个生命周期函数不常用**
-
-另外还有 `keep-alive` 独有的生命周期，分别为 `activated` 和 `deactivated` 。用 `keep-alive` 包裹的组件在切换时不会进行销毁，而是缓存到内存中并执行 `deactivated` 钩子函数，命中缓存渲染后会执行 `activated` 钩子函数。
-
-`errorCapured`钩子，当捕获一个来自子孙组件的错误时被调用。此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 `false` 以阻止该错误继续向上传播。
-
-![Snipaste_2022-08-11_21-23-58.jpg](./images/89deb213d6fe4b64b0724f1cb1e09978~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-## 22. 组件缓存 keep-alive
-
-**组件缓存**
-
-组件的缓存可以在进行动态组件切换的时候对组件内部数据进行缓存,而不是走销毁流程
-
-使用场景: 多表单切换,对表单内数据进行保存
-
-**keep-alive**
-
-包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。
-
-是一个抽象组件：它自身不会渲染一个 DOM 元素，也不会出现在父组件链中。 当组件在`<keep-alive>`内被切换，它的`activated`和 `deactivated`这两个生命周期钩子函数将会被对应执行 。
-
-### keep-alive 的参数(include,exclude)
-
-- include(包含): 名称匹配的组件会被缓存-->include 的值为组件的 name。
-- exclude(排除): 任何名称匹配的组件都不会被缓存。
-- max - 数量 决定最多可以缓存多少组件。
-
-### **keep-alive 的使用**
-
-1. 搭配`<component></component>`使用
-2. 搭配路由使用 ( 需配置路由 meta 信息的`keepAlive`属性 )
-3. 清除缓存组件
-   - 在组件跳转之前使用后置路由守卫判断组件是否缓存
-   - ( beforeRouteLeave( to, from, next ){ from.meta.keepAlive = false }
-
-### **keep-alive 的两个钩子函数**
-
-| activated                            | deactivated                      |
-| ------------------------------------ | -------------------------------- |
-| 在 `keep-alive` 组件激活时调用       | 在`keep-alive` 组件停用时调用    |
-| 该钩子函数在服务器端渲染期间不被调用 | 该钩子在服务器端渲染期间不被调用 |
-
-使用`keep-alive`会将数据保留在内存中，如果要在每次进入页面的时候获取最新的数据，需要在 `activated`阶段获取数据，承担原来`created`钩子函数中获取数据的任务。
-
-**注意：** 只有组件被`keep-alive`包裹时，这两个生命周期函数才会被调用，如果作为正常组件使用，是不会被调用的
-
-使用 exclude 排除之后，就算被包裹在 keep-alive 中，这两个钩子函数依然不会被调用！在服务端渲染时，此钩子函数也不会被调用。
-
-设置了缓存的组件钩子调用情况：
-
-第一次进入：beforeRouterEnter ->created->…->activated->…->deactivated> beforeRouteLeave
-
-后续进入时：beforeRouterEnter ->activated->deactivated> beforeRouteLeave
-
-### **keep-alive 主要流程**
-
-1. 判断组件 name ，不在 include 或者在 exclude 中，直接返回 vnode，说明该组件不被缓存。
-2. 获取组件实例 key ，如果有获取实例的 key，否则重新生成。
-3. key 生成规则，cid +"∶∶"+ tag ，仅靠 cid 是不够的，因为相同的构造函数可以注册为不同的本地组件。
-4. 如果缓存对象内存在，则直接从缓存对象中获取组件实例给 vnode ，不存在则添加到缓存对象中。 5.最大缓存数量，当缓存组件数量超过 max 值时，清除 keys 数组内第一个组件。
-
-### **keep-alive 的实现**
-
-![Snipaste_2022-08-11_21-33-22.jpg](./images/846880f48f1e450198f2e28444d0f6a9~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-## $$$ 23. 过滤器
-
-## $$$ 24. 插槽
-
-## 25. Vue 为什么采用异步渲染呢
-
-`Vue` 是组件级更新，如果不采用异步更新，那么每次更新数据都会对当前组件进行重新渲染，所以为了性能，`Vue` 会在本轮数据更新后，在异步更新视图。核心思想`nextTick` 。
-
-`dep.notify（）` 通知 watcher 进行更新，`subs[i].update` 依次调用 watcher 的`update` ，`queueWatcher` 将 watcher 去重放入队列， nextTick（`flushSchedulerQueue` ）在下一 tick 中刷新 watcher 队列（异步）。
-
-## 25. $nextTick 原理及作用
-
-其实一句话就可以把`$nextTick`这个东西讲明白：就是你放在`$nextTick`当中的操作不会立即执行，而是等数据更新、DOM 更新完成之后再执行，这样我们拿到的肯定就是最新的了。
-
-Vue 的响应式并不是只数据发生变化之后，DOM 就立刻发生变化，而是按照一定的策略进行 DOM 的更新。
-
-DOM 更新有两种选择，一个是在本次事件循环的最后进行一次 DOM 更新，另一种是把 DOM 更新放在下一轮的事件循环当中。Vue 优先选择第一种，只有当环境不支持的时候才触发第二种机制。
-
-虽然性能上提高了很多，但这个时候问题就出现了。我已经把数据改掉了，但是它的更新异步的，而我在获取的时候，它还没有来得及改，这个时候就需要用到 nextTick
-
-**原理：**
-
-**Vue 的 nextTick 其本质是对 JavaScript 执行原理 `EventLoop` 的一种应用。**
-
-- Vue2 刚开始的时候, $nextTick 是宏任务(setTimeout)，但是宏任务的性能太差。
-- 后来改成了微任务 Mutation Observer，但是还是有一些问题：
-  - 速度太快了，在一些特殊场景下，DOM 还没更新就去获取了
-  - 兼容性不好，很多浏览器不支持
-- 后来又更新成了微宏并行阶段：先判断是否支持 Mutation Observer，如果支持就使用，否则使用宏任务
-- Vue2.5 版本之后，修复了微任务的那些问题，目前最新的$nextTick 采用的是纯微任务。
-
-由于 Vue 的 DOM 操作是异步的，所以，在上面的情况中，就要将 DOM2 获取数据的操作写在`$nextTick`中。
-
-![16.png](./images/6276978f438f46bca595ef1b9e340578~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-所以，在以下情况下，会用到 nextTick：
-
-- **在数据变化后执行的某个操作，而这个操作需要使用随数据变化而变化的 DOM 结构的时候，这个操作就需要方法在`nextTick()`的回调函数中。**
-- **在 vue 生命周期中，如果在 created()钩子进行 DOM 操作，也一定要放在`nextTick()`的回调函数中。**
-
-因为在 created()钩子函数中，页面的 DOM 还未渲染，这时候也没办法操作 DOM，所以，此时如果想要操作 DOM，必须将操作的代码放在`nextTick()`的回调函数中。
-
-## 26. 描述下 Vue2 的自定义指令
-
-在 Vue2.0 中，代码复用和抽象的主要形式是组件。然而，有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用到自定义指令。 一般需要对 DOM 元素进行底层操作时使用，尽量只用来操作 DOM 展示，不修改内部的值。当使用自定义指令直接修改 value 值时绑定 v-model 的值也不会同步更新；如必须修改可以在自定义指令中使用 keydown 事件，在 vue 组件中使用 change 事件，回调中修改 vue 数据;
-
-**（1）自定义指令基本内容**
-
-- 全局定义：`Vue.directive("focus",{})`
-
-- 局部定义：`directives:{focus:{}}`
-
-- 钩子函数：指令定义对象提供钩子函数
-
-  1. ```bash
-     bind：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
-     复制代码
-     ```
-
-  2. ```
-     inSerted：被绑定元素插入父节点时调用（仅保证父节点存在，但不一定已被插入文档中）。
-     复制代码
-     ```
-
-  3. ```sql
-     update：所在组件的VNode更新时调用，但是可能发生在其子VNode更新之前调用。指令的值可能发生了改变，也可能没有。但是可以通过比较更新前后的值来忽略不必要的模板更新。
-     复制代码
-     ```
-
-  4. ```
-     ComponentUpdate：指令所在组件的 VNode及其子VNode全部更新后调用。
-     复制代码
-     ```
-
-  5. ```
-     unbind：只调用一次，指令与元素解绑时调用。
-     复制代码
-     ```
-
-- 钩子函数的参数 ：
-
-  1. el：指令所绑定的元素，可以用来直接操作 DOM
-  2. bing： 一个对象，包含以下属性：
-     - name: 指令名，不包括 v- 前缀。
-     - value: 指令的绑定值， 例如： v-my-directive="1 + 1", value 的值是 2。
-     - oldValue: 指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用。无论值是否改变都可用。
-     - expression: 绑定值的表达式或变量名。 例如 v-my-directive="1 + 1", expression 的值是 "1 + 1"。
-     - arg: 传给指令的参数。例如 v-my-directive:foo， arg 的值是 "foo"。
-     - modifiers: 一个包含修饰符的对象。 例如： v-my-directive.foo.bar, 修饰符对象 modifiers 的值是 { foo: true, bar: true }。
-  3. vnode： 编译生成的虚拟节点
-  4. oldVnode：上一个虚拟节点（更新钩子函数中才有用）
-
-**（2）使用场景**
-
-- 普通 DOM 元素进行底层操作的时候，可以使用自定义指令
-- 自定义指令是用来操作 DOM 的。尽管 Vue 推崇数据驱动视图的理念，但并非所有情况都适合数据驱动。自定义指令就是一种有效的补充和扩展，不仅可用于定义任何的 DOM 操作，并且是可复用的。
-
-**（3）使用案例**
-
-初级应用：
-
-- 鼠标聚焦
-- 下拉菜单
-- 相对时间转换
-- 滚动动画
-
-高级应用：
-
-- 自定义指令实现图片懒加载
-- 自定义指令集成第三方插件
-
-## 27. 简述 mixin、extends 的覆盖逻辑
-
-**（1）mixin 和 extends** mixin 和 extends 均是用于合并、拓展组件的，两者均通过 mergeOptions 方法实现合并。
-
-- mixins 接收一个混入对象的数组，其中混入对象可以像正常的实例对象一样包含实例选项，这些选项会被合并到最终的选项中。Mixin 钩子按照传入顺序依次调用，并在调用组件自身的钩子之前被调用。
-- extends 主要是为了便于扩展单文件组件，接收一个对象或构造函数。
-
-![Snipaste_2022-08-12_09-13-37.jpg](./images/0c1220980f0b4116a3a4db1991a7db8b~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-**（2）mergeOptions 的执行过程**
-
-- 规范化选项（normalizeProps、normalizelnject、normalizeDirectives)
-- 对未合并的选项，进行判断
-
-![Snipaste_2022-08-12_09-15-16.jpg](./images/eeddefe3d5ca471f97fb6fd6ac9c71a6~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-- 合并处理。根据一个通用 Vue 实例所包含的选项进行分类逐一判断合并，如 props、data、 methods、watch、computed、生命周期等，将合并结果存储在新定义的 options 对象里。
-- 返回合并结果 options。
-
-### extend 有什么作用
-
-这个 API 很少用到，作用是扩展组件生成一个构造器，通常会与 `$mount` 一起使用。
-
-### 什么是 mixin ？
-
-Mixin 使我们能够为 Vue 组件编写可插拔和可重用的功能。
-
-如果希望在多个组件之间重用一组组件选项，例如生命周期 hook、 方法等，则可以将其编写为 mixin，并在组件中简单的引用它。
-
-然后将 mixin 的内容合并到组件中。如果你要在 mixin 中定义生命周期 hook，那么它在执行时将优化于组件自已的 hook。
-
-### mixin 和 mixins 区别
-
-`mixin` 用于全局混入，会影响到每个组件实例，通常插件都是这样做初始化的。
-
-虽然文档不建议在应用中直接使用 `mixin`，但是如果不滥用的话也是很有帮助的，比如可以全局混入封装好的 `ajax` 或者一些工具函数等等。
-
-`mixins` 应该是最常使用的扩展组件的方式了。如果多个组件中有相同的业务逻辑，就可以将这些逻辑剥离出来，通过 `mixins` 混入代码，比如上拉下拉加载数据这种逻辑等等。 另外需要注意的是 `mixins` 混入的钩子函数会先于组件内的钩子函数执行，并且在遇到同名选项的时候也会有选择性的进行合并。
-
-## $$$ 28. data 为什么是一个函数而不是对象
-
-对象是引用数据类型，复用组件时，由于数据都指向同一个 data，当在一个组件中修改 data 时，其它复用组件中的 data 会同时被修改。
-
-使用函数返回对象，每次返回的都是一个新对象，则不会出现这个问题。
-
-## 29. 动态给 vue 的 data 添加一个新的属性时会发生什么 怎样解决
-
-1. `vue2`是用过`Object.defineProperty`实现数据响应式
-2. 当我们访问定义的属性或者修改属性值的时候都能够触发`setter`与`getter`
-3. 但是我们为`obj`添加新属性的时候，却无法触发事件属性的拦截
-4. 原因是一开始`obj`的要定义的属性被设成了响应式数据，而`新增的属性`并没有通过`Object.defineProperty`设置成响应式数据
-
-**解决方案:**
-
-1. Vue.set()
-   - 通过`Vue.set`向响应式对象中添加一个`property`，并确保这个新 `property`同样是响应式的，且触发视图更新
-2. Object.assign()
-   - 直接使用`Object.assign()`添加到对象的新属性不会触发更新
-   - 应创建一个新的对象，合并原对象和混入对象的属性
-3. $forceUpdate
-   - 如果你发现你自己需要在 `Vue`中做一次强制更新，99.9% 的情况，是你在某个地方做错了事
-   - `$forceUpdate`迫使`Vue` 实例重新渲染
-   - PS：仅仅影响实例本身和插入插槽内容的子组件，而不是所有子组件。
-
-总结
-
-- 如果为对象添加**少量**的新属性，可以直接采用`Vue.set()`
-- 如果需要为新对象添加**大量**的新属性，则通过`Object.assign()`创建新对象
-- 如果你实在不知道怎么操作时，可采取`$forceUpdate()`进行强制刷新 (不建议)
-
-PS：`vue3`是用过`proxy`实现数据响应式的，直接动态添加新属性仍可以实现数据响应式
-
-## $$$ 30. data 中某一个属性的值发生改变后 视图会立即同步执行重新渲染吗
-
-**不会立即同步执行重新渲染**。Vue 实现响应式并不是数据发生变化之后 DOM 立即变化，而是按一定的策略进行 DOM 的更新。Vue 在更新 DOM 时是`异步`执行的。只要侦听到数据变化， Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。
-
-如果同一个 watcher 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作是非常重要的。然后，在下一个的事件循环 tick 中，Vue 刷新队列并执行实际（已去重的）工作。
-
-vue 在检测到你的数据发生变化时，将开启一个异步更新队列，通过 diff 算法找出实际需要更新的 dom 元素，需要等队列中所有数据变化完成之后，才统一进行实际 dom 更新。
-
-## 31. vue2 中如何监听对象或者数组某个属性的变化
-
-当在项目中直接设置数组的某一项的值，或者直接设置对象的某个属性值，这个时候，你会发现页面并没有更新。这是因为 Object.defineProperty()限制，监听不到变化。
-
-解决方式：
-
-- this.$set(你要改变的数组/对象，你要改变的位置/key，你要改成什么 value)
-
-```kotlin
-this.$set(this.arr, 0, "OBKoro1"); // 改变数组
-this.$set(this.obj, "c", "OBKoro1"); // 改变对象
-```
-
-- 调用以下几个数组的方法
-
-```scss
-splice()、push()、pop()、shift()、unshift()、sort()、reverse()
-```
-
-vue 源码里缓存了 array 的原型链，然后重写了这几个方法，触发这几个方法的时候会 observer 数据，意思是使用这些方法不用我们再进行额外的操作，视图自动进行更新。 推荐使用 splice 方法会比较好自定义，因为 splice 可以在数组的任何位置进行删除/添加操作。
-
-###### vm.`$set` 的实现原理是
-
-- 如果目标是数组，直接使用数组的 splice 方法触发相应式
-- 如果目标是对象，会先判读属性是否存在、对象是否是响应式，最终如果要对属性进行响应式处理，则是通过调用 defineReactive 方法进行响应式处理（ defineReactive 方法就是 Vue 在初始化对象时，给对象属性采用 Object.defineProperty 动态添加 getter 和 setter 的功能所调用的方法）
-
-## **32. assets 和 static 的区别**
-
-- **相同点：** `assets` 和 `static` 两个都是存放静态资源文件。项目中所需要的资源文件图片，字体图标，样式文件等都可以放在这两个文件下，这是相同点
-- **不相同点：** `assets` 中存放的静态资源文件在项目打包时，也就是运行 `npm run build` 时会将 `assets` 中放置的静态资源文件进行打包上传，所谓打包简单点可以理解为压缩体积，代码格式化。而压缩后的静态资源文件最终也都会放置在 `static` 文件中跟着 `index.html` 一同上传至服务器。`static` 中放置的静态资源文件就不会要走打包压缩格式化等流程，而是直接进入打包好的目录，直接上传至服务器。因为避免了压缩直接进行上传，在打包时会提高一定的效率，但是 `static` 中的资源文件由于没有进行压缩等操作，所以文件的体积也就相对于 `assets` 中打包后的文件提交较大点。在服务器中就会占据更大的空间。
-- **建议：** 将项目中 `template`需要的样式文件 js 文件等都可以放置在 `assets` 中，走打包这一流程。减少体积。而项目中引入的第三方的资源文件如`iconfoont.css` 等文件可以放置在 `static` 中，因为这些引入的第三方文件已经经过处理，不再需要处理，直接上传。
-
-## 34. Vue 的 template 模版编译原理
-
-vue 中的模板 template 无法被浏览器解析并渲染，因为这不属于浏览器的标准，不是正确的 HTML 语法，所有需要将 template 转化成一个 JavaScript 函数，这样浏览器就可以执行这一个函数并渲染出对应的 HTML 元素，就可以让视图跑起来了，这一个转化的过程，就成为模板编译。模板编译又分三个阶段，解析 parse，优化 optimize，生成 generate，最终生成可执行函数 render。
-
-- **解析阶段**：使用大量的正则表达式对 template 字符串进行解析，将标签、指令、属性等转化为抽象语法树 AST。
-- **优化阶段**：遍历 AST，找到其中的一些静态节点并进行标记，方便在页面重渲染的时候进行 diff 比较时，直接跳过这一些静态节点，优化 runtime 的性能。
-- **生成阶段**：将最终的 AST 转化为 render 函数字符串。
-
-## 35. template 和 jsx 的有什么分别？
-
-对于 runtime 来说，只需要保证组件存在 render 函数即可，而有了预编译之后，只需要保证构建过程中生成 render 函数就可以。在 webpack 中，使用`vue-loader`编译.vue 文件，内部依赖的`vue-template-compiler`模块，在 webpack 构建过程中，将 template 预编译成 render 函数。与 react 类似，在添加了 jsx 的语法糖解析器`babel-plugin-transform-vue-jsx`之后，就可以直接手写 render 函数。
-
-所以，**template 和 jsx 的都是 render 的一种表现形式**，不同的是：JSX 相对于 template 而言，具有更高的灵活性，在复杂的组件中，更具有优势，而 template 虽然显得有些呆滞。但是 template 在代码结构上更符合视图与逻辑分离的习惯，更简单、更直观、更好维护。
-
-## 35.2 讲讲什么是 JSX ？
-
-jsx 是 JavaScript 的一种语法扩展，它跟模板语言很接近，但是它充分具备 JavaScript 的能力 当 Facebook 第一次发布 React 时，他们还引入了一种新的 JS 方言 JSX，将原始 HTML 模板嵌入到 JS 代码中。JSX 代码本身不能被浏览器读取，必须使用 Babel 和 webpack 等工具将其转换为传统的 JS。 JSX 中的标签可以是单标签，也可以是双标签，但必须保证标签是闭合的。
-
-## 36. 对 SSR 的理解
-
-SSR 也就是服务端渲染，也就是将 Vue 在客户端把标签渲染成 HTML 的工作放在服务端完成，然后再把 html 直接返回给客户端
-
-**SSR 的优势**：
-
-- 更好的 SEO
-- 首屏加载速度更快
-
-**SSR 的缺点**：
-
-- 开发条件会受到限制，服务器端渲染只支持 beforeCreate 和 created 两个钩子；
-- 当需要一些外部扩展库时需要特殊处理，服务端渲染应用程序也需要处于 Node.js 的运行环境；
-- 更多的服务端负载。
-
-## 37. vue 初始化页面闪动问题
-
-使用 vue 开发时，在 vue 初始化之前，由于 div 是不归 vue 管的，所以我们写的代码在还没有解析的情况下会容易出现花屏现象，看到类似于{{message}}的字样，虽然一般情况下这个时间很短暂，但是还是有必要让解决这个问题的。
-
-首先：在 css 里加上以下代码：
-
-![17.png](./images/5e0a4cd18fa8432aaaa7ec5951c58836~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-如果没有彻底解决问题，则在根元素加上`style="display: none;" :style="{display: 'block'}"`
-
-## $$$ 38. 虚拟 DOM
-
-## $$$ 39. Diff 算法
-
-## $$$ 40. SPA 单页面应用
-
-## $$$ 41. 使用异步组件有什么好处
-
-所谓的异步组件就是通过 import 或者 require 导入的 vue 组件
-
-vue 开发过程中，我们会做出特别多的组件，包括 login,header,footer,main 等等，会使页面打开很慢
-
-可以避免页面一加载时就去加载全部的组件，从而导致页面访问时间变长的问题。使用异步加载组件后，只有当需要某个组件时才会去加载需要的组件。
-
-## 42.https://www.jianshu.com/p/16081205159c
-
-# 路由
-
-## 对前端路由的理解
-
-在前端技术早期，一个 url 对应一个页面，如果要从 A 页面切换到 B 页面，那么必然伴随着页面的刷新。这个体验并不好，不过在最初也是无奈之举，用户只有在刷新页面的情况下，才可以重新去请求数据。
-
-后来，改变发生了，Ajax 出现了，它允许人们在不刷新页面的情况下发起请求；与之共生的，还有“不刷新页面即可更新页面内容”这种需求。在这样的背景下，出现了 **SPA（单页面应用**）。
-
-SPA 极大地提升了用户体验，它允许页面在不刷新的情况下更新页面内容，使内容的切换更加流畅。但是在 SPA 诞生之初，人们并没有考虑到“定位”这个问题——在内容切换前后，页面的 URL 都是一样的，这就带来了两个问题
-
-- SPA 其实并不知道当前的页面“进展到了哪一步”。可能在一个站点下经过了反复的“前进”才终于唤出了某一块内容，但是此时只要刷新一下页面，一切就会被清零，必须重复之前的操作、才可以重新对内容进行定位——SPA 并不会“记住”你的操作
-- 由于有且仅有一个 URL 给页面做映射，这对 SEO 也不够友好，搜索引擎无法收集全面的信息
-
-**为了解决这个问题，前端路由出现了**。
-
-前端路由可以帮助我们在仅有一个页面的情况下，“记住”用户当前走到了哪一步——为 SPA 中的各个视图匹配一个唯一标识。这意味着用户前进、后退触发的新内容，都会映射到不同的 URL 上去。此时即便他刷新页面，因为当前的 URL 可以标识出他所处的位置，因此内容也不会丢失。
-
-那么如何实现这个目的呢？首先要解决两个问题
-
-- 当用户刷新页面时，浏览器会默认根据当前 URL 对资源进行重新定位（发送请求）。这个动作对 SPA 是不必要的，因为我们的 SPA 作为单页面，无论如何也只会有一个资源与之对应。此时若走正常的请求-刷新流程，反而会使用户的前进后退操作无法被记录。
-- 单页面应用对服务端来说，就是一个 URL、一套资源，那么如何做到用“不同的 URL”来映射不同的视图内容呢？
-
-从这两个问题来看，服务端已经完全救不了这个场景了。所以要靠咱们前端自力更生，不然怎么叫“前端路由”呢？作为前端，可以提供这样的解决思路
-
-- 拦截用户的刷新操作，避免服务端盲目响应、返回不符合预期的资源内容。把刷新这个动作完全放到前端逻辑里消化掉。
-- 感知 URL 的变化。这里不是说要改造 URL、凭空制造出 N 个 URL 来。而是说 URL 还是那个 URL，只不过我们可以给它做一些微小的处理——这些处理并不会影响 URL 本身的性质，不会影响服务器对它的识别，只有我们前端感知的到。一旦我们感知到了，我们就根据这些变化、用 JS 去给它生成不同的内容。
-
-## 路由跳转和 location.href 有什么区别
-
-- 使用 `location.href= /url`来跳转，简单方便，但是刷新了页面
-- 使用 `history.pushState( /url )` ，无刷新页面，静态跳转
-- 引进 router ，然后使用 `router.push( /url )` 来跳转，使用了`diff`算法，实现了按需加载，减少了 dom 的消耗。其实使用 router 跳转和使用 `history.pushState()` 没什么差别的，因为 vue-router 就是用了 `history.pushState()` ，尤其是在 history 模式下
-
-## 如何获取页面的 hash 变化
-
-**（1）监听$route 的变化**
-
-![111.png](./images/3d5a3474579e498f81c52466ad40ee60~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-**（2）window.location.hash 读取#值**
-
-window.location.hash 的值可读可写，读取来判断状态是否改变，写入时可以在不重载网页的前提下，添加一条历史访问记录
-
-# Vuex
-
-## 1. 什么是 Vuex 谈谈你对它的理解
-
-1. 首先 vuex 的出现是为了解决 web 组件化开发的过程中，各组件之间传值的复杂和混乱的问题
-2. 将我们在多个组件中需要共享的数据放到 state 中
-3. 要获取或格式化数据需要使用 getters
-4. 改变 state 中的数据，可以使用 mutation，但是只能包含同步的操作，在具体组件里面调用的方式`this.$store.commit('xxxx')`
-5. Action 也是改变 state 中的数据，不过是提交的 mutation，并且可以包含异步操作，在组件中的调用方式`this.$store.dispatch('xxx')`
-
-**Vuex**是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 devtools extension，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能
-
-## 2. Vuex 各模块在核心流程中的主要功能
-
-`Vue Components`∶ Vue 组件。HTML 页面上，负责接收用户操作等交互行为，执行 dispatch 方法触发对应 action 进行回应。
-
-`dispatch`∶ 操作行为触发方法，是唯一能执行 action 的方法。
-
-`actions`∶ 操作行为处理模块。负责处理 Vue Components 接收到的所有交互行为。包含同步/异步操作，支持多个同名方法，按照注册的顺序依次触发。向后台 API 请求的操作就在这个模块中进行，包括触发其他 action 以及提交 mutation 的操作。该模块提供了 Promise 的封装，以支持 action 的链式触发。
-
-`commit`∶ 状态改变提交操作方法。对 mutation 进行提交，是唯一能执行 mutation 的方法。
-
-`mutations`∶ 状态改变操作方法。是 Vuex 修改 state 的唯一推荐方法，其他修改方式在严格模式下将会报错。该方法只能进行同步操作，且方法名只能全局唯一。操作之中会有一些 hook 暴露出来，以进行 state 的监控等。
-
-`state`∶ 页面状态管理容器对象。集中存储 Vuecomponents 中 data 对象的零散数据，全局唯一，以进行统一的状态管理。页面显示所需的数据从该对象中进行读取，利用 Vue 的细粒度数据响应机制来进行高效的状态更新
-
-`getters`∶ state 对象读取方法。图中没有单独列出该模块，应该被包含在了 render 中，Vue Components 通过该方法读取全局 state 对象
-
-## 2.1 简述 Vuex 的数据传输流程
-
-当组件进行数据修改的时候我们需要调**用 dispatch 来触发 actions 里面的方法**。actions 里面的每个方法中都会有一个 commit 方法，当方法执行的时候会通过**commit 来触发 mutations 里面的方法进行数据的修改**。mutations 里面的每个函数都会有一个 state 参数，这样就可以在**mutations 里面进行 state 的数据修改**，当数据修改完毕后，会传导给页面。页面的数据也会发生改变
-
-## 3. vuex 中有几个核心属性 分别是什么
-
-一共有 5 个核心属性，分别是:
-
-- `state`唯一数据源，Vue 实例中的 data 遵循相同的规则
-- `mutation`更改 Vuex 的 store 中的状态的唯一方法是提交 mutation，非常类似于事件，通过 store.commit 方法触发
-- `action`类似于 mutation，不同在于 action 提交的是 mutation，而不是直接变更状态，action 可以包含任意异步操作
-- `module` 由于使用单一状态树，应用的所有状态会集中到一个比较大的对象。当应用变得非常复杂时，store 对象就有可能变得相当臃肿。为了解决以上问题，Vuex 允许我们将 store 分割成模块（module）。
-
-```css
-const moduleA = {
-  state: () => ({ ... }),
-  mutations: { ... },
-  actions: { ... },
-  getters: { ... }
-}
-
-const moduleB = {
-  state: () => ({ ... }),
-  mutations: { ... },
-  actions: { ... }
-}
-
-const store = new Vuex.Store({
-  modules: {
-    a: moduleA,
-    b: moduleB
-  }
-})
-
-store.state.a // -> moduleA 的状态
-store.state.b // -> moduleB 的状态
-```
-
-- `getters` 可以认为是 store 的计算属性，就像计算属性一样，getter 的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算。Getter 会暴露为 store.getters 对象，你可以以属性的形式访问这些值
-
-```php
-const store = new Vuex.Store({
-  state: {
-    todos: [
-      { id: 1, text: '...', done: true },
-      { id: 2, text: '...', done: false }
-    ]
-  },
-  getters: {
-    doneTodos: state => {
-      return state.todos.filter(todo => todo.done)
-    }
-  }
-})
-
-store.getters.doneTodos // -> [{ id: 1, text: '...', done: true }]
-```
-
-## 4. Vuex 中 action 和 mutation 的区别
-
-`mutation`中的操作是一系列的同步函数，用于修改 state 中的变量的的状态。当使用 vuex 时需要通过 commit 来提交需要操作的内容。mutation 非常类似于事件：每个 mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。这个回调函数就是实际进行状态更改的地方，并且它会**接受 state 作为第一个参数**
-
-![221.png](./images/f9dd15a982994d2592ddd126acccebff~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-当触发一个类型为 increment 的 mutation 时，需要调用此函数
-
-![222.png](./images/03c650fd2cf646a2b38035694aed0cd6~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-而`action`类似于 mutation，不同点在于
-
-- action 可以包含任意异步操作
-- action 提交的是 mutation，而不是直接变更状态
-
-![223.png](./images/54727d1d6a70479abec170367d52e8bc~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-`action`函数接受一个与 store 实例具有相同方法和属性的 context 对象，因此你可以调用 context.commit 提交一个 mutation，或者通过 context.state 和 context.getters 来获取 state 和 getters。 所以，两者的不同点如下
-
-- mutation 专注于修改 State，理论上是修改 State 的唯一途径；action 用来处理业务代码、异步请求
-- mutation：必须同步执行；action ：可以异步，但不能直接操作 State
-- 在视图更新时，先触发 actions，actions 再触发 mutation
-- mutation 的参数是 state，它包含 store 中的数据；store 的参数是 context，它是 state 的父级，包含 state、getters
-
-## 5. vuex 的 getter 的作用
-
-`getter`有点类似 Vue.js 的**计算属性**，当我们需要从 store 的 state 中派生出一些状态，那么我们就需要使用 getter，getter 会接收 state 作为第 一个参数，而且 getter 的返回值会根据它的依赖被缓存起来，只有 getter 中的依赖值（state 中的某个需要派生状态的值）发生改变的时候才会被重新计算。
-
-## 6. Vuex 和 localStorage 的区别
-
-**（1）** **最重要的区别**
-
-- vuex 存储在**内存**中
-- localstorage 则以**文件**的方式存储在**本地**，只能存储字符串类型的数据，存储对象需要 JSON 的 stringify 和 parse 方法进行处理。 读取内存比读取硬盘速度要快
-
-**（2）应用场景**
-
-- Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。vuex 用于组件之间的传值。
-- localstorage 是本地存储，是将数据存储到浏览器的方法，**一般是在跨页面传递数据时使用 。**
-- Vuex 能做到数据的响应式，localstorage 不能
-
-**（3）永久性**
-
-**刷新页面时 vuex 存储的值会丢失，localstorage 不会。**
-
-**注意：** 对于不变的数据确实可以用 localstorage 可以代替 vuex，但是当两个组件共用一个数据源（对象或数组）时，如果其中一个组件改变了该数据源，希望另一个组件响应该变化时，localstorage 无法做到，原因就是上面的最重要的区别。
-
-## 7. Vuex 页面刷新时丢失怎么处理
-
-用 sessionstorage 或者 localstorage 存储数据
-
-存储： sessionStorage.setItem( '名', JSON.stringify(值) ) 使用： sessionStorage.getItem('名') 得到的值为字符串类型，用 JSON.parse()去引号
-
-## 8. Vuex 和单纯的全局对象有什么区别
-
-- Vuex 的状态存储是**响应式**的。当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会相应地得到高效更新。
-- 不能直接改变 store 中的状态。改变 store 中的状态的唯一途径就是显式地提交 (commit) mutation。这样可以方便地跟踪每一个状态的变化，从而能够实现一些工具帮助更好地了解我们的应用。
-
-## 9. react 的 Redux 和 Vuex 有什么区别 它们的共同思想
-
-**（1）Redux 和 Vuex 区别**
-
-- Vuex 改进了 Redux 中的 Action 和 Reducer 函数，以 mutations 变化函数取代 Reducer，无需 switch，只需在对应的 mutation 函数里改变 state 值即可
-- Vuex 由于 Vue 自动重新渲染的特性，无需订阅重新渲染函数，只要生成新的 State 即可
-- Vuex 数据流的顺序是 ∶View 调用 store.commit 提交对应的请求到 Store 中对应的 mutation 函数->store 改变（vue 检测到数据变化自动渲染）
-
-通俗点理解就是，vuex 弱化 dispatch，通过 commit 进行 store 状态的一次更变;取消了 action 概念，不必传入特定的 action 形式进行指定变更;弱化 reducer，基于 commit 参数直接对数据进行转变，使得框架更加简易;
-
-**（2）共同思想**
-
-- 单—的数据源
-- 变化可以预测
-
-本质上：redux 与 vuex 都是对 mvvm 思想的服务，将数据从视图中抽离的一种方案; 形式上：vuex 借鉴了 redux，将 store 作为全局的数据中心，进行 mode 管理;
-
-## 10. 为什么要用 Vuex 或者 Redu
-
-由于传参的方法对于多层嵌套的组件将会非常繁琐，并且对于兄弟组件间的状态传递无能为力。我们经常会采用父子组件直接引用或者通过事件来变更和同步状态的多份拷贝。以上的这些模式非常脆弱，通常会导致代码无法维护。
-
-所以需要把组件的**共享**状态抽取出来，以一个全局单例模式管理。在这种模式下，组件树构成了一个巨大的"视图"，不管在树的哪个位置，任何组件都能获取状态或者触发行为。
-
-另外，通过定义和隔离状态管理中的各种概念并强制遵守一定的规则，代码将会变得更结构化且易维护。
-
-## 11. 为什么 Vuex 的 mutation 中不能做异步操作
-
-- Vuex 中所有的状态更新的唯一途径都是 mutation，异步操作通过 Action 来提交 mutation 实现，这样可以方便地跟踪每一个状态的变化，从而能够实现一些工具帮助更好地了解我们的应用。
-- 每个 mutation 执行完成后都会对应到一个新的状态变更，这样 devtools 就可以打个快照存下来，然后就可以实现 time-travel 了。如果 mutation 支持异步操作，就没有办法知道状态是何时更新的，无法很好的进行状态的追踪，给调试带来困难。
-
-## 12. Vuex 的严格模式是什么 有什么作用 如何开启
-
-在严格模式下，无论何时发生了状态变更且不是由 mutation 函数引起的，将会抛出错误。这能保证所有的状态变更都能被调试工具跟踪到。
-
-在 Vuex.Store 构造器选项中开启,如下
-
-![224.png](./images/49de6f4128c6475aa2d9d596b5378c08~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-## 13. 如何在组件中批量使用 Vuex 的 getter 属性
-
-使用`mapGetters`辅助函数, 利用对象展开运算符将 getter 混入 computed 对象中
-
-![225.png](./images/8ab1d1eb07b74f2ab5ce4eba357bfc4d~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-## 14. 如何在组件中重复使用 Vuex 的 mutation
-
-使用`mapMutations`辅助函数,在组件中这么使用
-
-![226.png](./images/96b565782e5648f58c65a7c97e678438~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-然后调用`this.setNumber(10)`相当调用`this.$store.commit('SET_NUMBER',10)`
-
-## 15. Vuex 的辅助函数怎么用
-
-比如当一个组件需要获取多个状态时候，将这些状态都声明为计算属性会有些重复和冗余。为了解决这个问题，我们可以使用 `mapState`辅助函数帮助我们生成计算属性，让你少按几次键。
-
-### mapState
-
-```javascript
-import { mapState } from "vuex"
-
-export default {
-  // ...
-  computed: {
-    ...mapState({
-      // 箭头函数可使代码更简练
-      count: state => state.count,
-      // 传字符串参数 'count' 等同于 `state => state.count`
-      countAlias: "count",
-
-      // 为了能够使用 `this` 获取局部状态，必须使用常规函数
-      countPlusLocalState(state) {
-        return state.count + this.localCount
-      },
-    }),
-  },
-}
-```
-
-定义的属性名与 state 中的名称相同时，可以传入一个数组
-
-```scss
-//定义state
-const state={
-    count:1,
-}
-
-//在组件中使用辅助函数
-computed:{
-    ...mapState(['count'])
-}
-```
-
-### mapGetters
-
-```perl
-computed:{
-    ...mapGetters({
-      // 把 `this.doneCount` 映射为 `this.$store.getters.doneTodosCount`
-      doneCount: 'doneTodosCount'
-    })
-}
-```
-
-当属性名与 getters 中定义的相同时，可以传入一个数组
-
-总结：
-
-- mapState 与 mapGetters 都用 computed 来进行映射
-- 在组件中映射完成后，通过 this.映射属性名进行使用
-
-### mapMutations
-
-```css
-methods: {
-  ...mapMutations({
-        add: "increment" // 将 `this.add()` 映射为 `this.$store.commit( increment )`
-    });
-}
-```
-
-当属性名与 mapMutatios 中定义的相同时，可以传入一个数组
-
-```perl
-methods:{
-    ...mapMutations([
-        'increment', // 将 `this.increment()` 映射为 `this.$store.commit('increment')`
-
-        // `mapMutations` 也支持载荷：
-        'incrementBy' // 将 `this.incrementBy(amount)` 映射为 `this.$store.commit('incrementBy', amount)`
-    ]),
-}
-```
-
-### mapActions
-
-```css
-mathods: {
-  ...mapActions({
-        add: "increment" // 将 `this.add()` 映射为 `this.$store.dispatch( increment )`
-    });
-}
-```
-
-当属性名与 mapActios 中定义的相同时，可以传入一个数组
-
-```perl
-methods:{
-    ...mapActions([
-        'increment', // 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
-        // `mapActions` 也支持载荷：
-        'incrementBy' // 将 `this.incrementBy(amount)` 映射为 `this.$store.dispatch('incrementBy', amount)`
-    ]),
-}
-```
-
-总结
-
-- mapMutations 与 mapActios 都在 methods 中进行映射
-- 映射之后变成一个方法
-
-# Vue2
-
-## 1.怎样理解 Vue 的单向数据流
-
-所有的 prop 都使得其父子 prop 之间形成了一个**单向下行绑定**：父级 prop 的更新会向下流动到子组件中，但是反过来则不行。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。
-
-额外的，每次父级组件发生更新时，子组件中所有的 prop 都将会刷新为最新的值。这意味着你不应该在一个子组件内部改变 prop。如果你这样做了，Vue 会在浏览器的控制台中发出警告。子组件想修改时，只能通过 $emit 派发一个自定义事件，父组件接收到后，由父组件修改。
-
-有两种常见的试图改变一个 prop 的情形
-
-- **这个 prop 用来传递一个初始值；这个子组件接下来希望将其作为一个本地的 prop 数据来使用。** 在这种情况下，最好定义一个本地的 data 属性并将这个 prop 用作其初始值
-
-```kotlin
-props: ['initialCounter'],
-data: function () {
-  return {
-    counter: this.initialCounter
-  }
-}
-```
-
-- **这个 prop 以一种原始的值传入且需要进行转换。** 在这种情况下，最好使用这个 prop 的值来定义一个计算属性
-
-```javascript
-props: ['size'],
-computed: {
-  normalizedSize: function () {
-    return this.size.trim().toLowerCase()
-  }
-}
-```
-
-## 2.在什么阶段才能访问操作 DOM
-
-在钩子函数 mounted 被调用前，Vue 已经将编译好的模板挂载到页面上，所以在 mounted 中可以访问操作 DOM
-
-## 3. 父组件可以监听到子组件的生命周期吗
-
-比如有父组件 Parent 和子组件 Child，如果父组件监听到子组件挂载 mounted 就做一些逻辑处理，可以通过以下写法实现
-
-```typescript
-// Parent.vue
-<Child @mounted="doSomething"/>
-
-// Child.vue
-mounted() {
-  this.$emit("mounted");
-}
-```
-
-以上需要手动通过 $emit 触发父组件的事件，更简单的方式可以在父组件引用子组件时通过 @hook 来监听即可，如下所示
-
-```typescript
-//  Parent.vue
-<Child @hook:mounted="doSomething" ></Child>
-
-doSomething() {
-   console.log('父组件监听到 mounted 钩子函数 ...');
-},
-
-//  Child.vue
-mounted(){
-   console.log('子组件触发 mounted 钩子函数 ...');
-},
-
-// 以上输出顺序为：
-// 子组件触发 mounted 钩子函数 ...
-// 父组件监听到 mounted 钩子函数 ...
-```
-
-当然 @hook 方法不仅仅是可以监听 mounted，其它的生命周期事件，例如：created，updated 等都可以监听
-
-## 4.Vue 怎么用 vm.$set()解决对象新增属性不能响应的问题
-
-```kotlin
-export function set (target: Array<any> | Object, key: any, val: any): any {
-  // target 为数组
-  if (Array.isArray(target) && isValidArrayIndex(key)) {
-    // 修改数组的长度, 避免索引>数组长度导致splcie()执行有误
-    target.length = Math.max(target.length, key)
-    // 利用数组的splice变异方法触发响应式
-    target.splice(key, 1, val)
-    return val
-  }
-  // key 已经存在，直接修改属性值
-  if (key in target && !(key in Object.prototype)) {
-    target[key] = val
-    return val
-  }
-  const ob = (target: any).__ob__
-  // target 本身就不是响应式数据, 直接赋值
-  if (!ob) {
-    target[key] = val
-    return val
-  }
-  // 对属性进行响应式处理
-  defineReactive(ob.value, key, val)
-  ob.dep.notify()
-  return val
-}
-```
-
-我们阅读以上源码可知，vm.$set 的实现原理是
-
-- 如果目标是数组，直接使用数组的 splice 方法触发相应式
-- 如果目标是对象，会先判读属性是否存在、对象是否是响应式，最终如果要对属性进行响应式处理，则是通过调用 defineReactive 方法进行响应式处理（ defineReactive 方法就是 Vue 在初始化对象时，给对象属性采用 Object.defineProperty 动态添加 getter 和 setter 的功能所调用的方法）
-
-## 5. 请说下封装 vue 组件的过程
-
-> 有复用的地方就有封装（js 如此，vue 也是如此）
-
-- 1.先分析需求：确定业务需求，把页面中可以复用的结构，样式以及功能
-  - 找出业务需求中存在复用的地方
-- 2.具体步骤：Vue.component 或者在 new Vue 配置项 components 中, 定义组件名, 可以在 props 中接受给组件传的参数和值，子组件修改好数据后，想把数据传递给父组件。可以采用$emit 方法
-
-## 6. 讲一下组件的命名规范
-
-- 给组件命名有两种方式(在 Vue.Component/components 时)，一种是使用链式命名"my-component"，一种是使用大驼峰命名"MyComponent"
-- 因为要遵循 W3C 规范中的自定义组件名 (字母全小写且必须包含一个连字符)，避免和当前以及未来的 HTML 元素相冲突
-
-## 7.scoped 作用与原理
-
-- 作用：组件 css 作用域，避免`子组件`内部的 css 样式被`父组件`覆盖
-  - 默认情况下，如果子组件和父组件 css 选择器权重相同，优先加载父组件 css 样式
-- 原理：给元素添加一个自定义属性 v-data-xxxxx
-  - `一针见血答案`： 通过属性选择题来提高 css 权重值
-
-## 8. 第一次加载页面会触发哪几个钩子函数
-
-四个钩子
-
-- beforeCreate
-- created
-- beforeMount
-- mounted
-
-## 9. Vue 中如何扩展一个组件
-
-1. 常见的组件扩展方法有：mixins，slots，extends 等
-2. 混入 mixins 是分发 Vue 组件中可复用功能的非常灵活的方式。混入对象可以包含任意组件选项。当组件使用混入对象时，所有混入对象的选项将被混入该组件本身的选项。
-
-```scss
-// 复用代码：它是一个配置对象，选项和组件里面一样
-const mymixin = {
-   methods: {
-      dosomething(){}
-   }
-}
-// 全局混入：将混入对象传入
-Vue.mixin(mymixin)
-
-// 局部混入：做数组项设置到mixins选项，仅作用于当前组件
-const Comp = {
-   mixins: [mymixin]
-}
-
-复制代码
-```
-
-1. 插槽主要用于 vue 组件中的内容分发，也可以用于组件扩展。如果要精确分发到不同位置可以使用具名插槽，如果要使用子组件中的数据可以使用作用域插槽。
-2. 组件选项中还有一个不太常用的选项 extends，也可以起到扩展组件的目的
-3. 混入的数据和方法**不能明确判断来源**且可能和当前组件内变量**产生命名冲突**，vue3 中引入的 composition api，可以很好解决这些问题，利用独立出来的响应式模块可以很方便的编写独立逻辑并提供响应式的数据，然后在 setup 选项中组合使用，增强代码的可读性和维护性
-
-## 10. 如果让你从零开始写一个 vue 路由，说说你的思路
-
-一个 SPA 应用的路由需要解决的问题是**页面跳转内容改变同时不刷新**，同时路由还需要以插件形式存在，所以：
-
-1. 首先我会定义一个`createRouter`函数，返回路由器实例，实例内部做几件事：
-   - 保存用户传入的配置项
-   - 监听 hash 或者 popstate 事件
-   - 回调里根据 path 匹配对应路由
-2. 将 router 定义成一个 Vue 插件，即实现 install 方法，内部做两件事：
-   - 实现两个全局组件：router-link 和 router-view，分别实现页面跳转和内容显示
-   - 定义两个全局变量：route 和*r**o**u**t**e*和 router，组件内可以访问当前路由和路由器实例
-
-## 11. 从 0 到 1 自己构架一个 vue 项目，说说有哪些步骤、哪些重要插件、目录结构你会怎么组织
-
-1. 从 0 创建一个项目我大致会做以下事情：项目构建、引入必要插件、代码规范、提交规范、常用库和组件
-2. 目前 vue3 项目我会用 vite 或者 create-vue 创建项目
-3. 接下来引入必要插件：路由插件 vue-router、状态管理 vuex/pinia、ui 库我比较喜欢 element-plus 和 antd-vue、http 工具我会选 axios
-4. 其他比较常用的库有 vueuse，nprogress，图标可以使用 vite-svg-loader
-5. 下面是代码规范：结合 prettier 和 eslint 即可
-6. 最后是提交规范，可以使用 husky，lint-staged，commitlint
-
----
-
-- 目录结构我有如下习惯： `.vscode`：用来放项目中的 vscode 配置
-
-  `plugins`：用来放 vite 插件的 plugin 配置
-
-  `public`：用来放一些诸如 页头 icon 之类的公共文件，会被打包到 dist 根目录下
-
-  `src`：用来放项目代码文件
-
-  `api`：用来放 http 的一些接口配置
-
-  `assets`：用来放一些 CSS 之类的静态资源
-
-  `components`：用来放项目通用组件
-
-  `layout`：用来放项目的布局
-
-  `router`：用来放项目的路由配置
-
-  `store`：用来放状态管理 Pinia 的配置
-
-  `utils`：用来放项目中的工具方法类
-
-  `views`：用来放项目的页面文件
-
-## 12. 实际工作中，你总结的 vue 最佳实践有哪些？
-
-### 编码风格方面：
-
-- 命名组件时使用“多词”风格避免和 HTML 元素冲突
-- 使用“细节化”方式定义属性而不是只有一个属性名
-- 属性名声明时使用“驼峰命名”，模板或 jsx 中使用“肉串命名”
-- 使用 v-for 时务必加上 key，且不要跟 v-if 写在一起
-
-### 性能方面：
-
-- 路由懒加载减少应用尺寸
-- 利用 SSR 减少首屏加载时间
-- 利用 v-once 渲染那些不需要更新的内容
-- 一些长列表可以利用虚拟滚动技术避免内存过度占用
-- 对于深层嵌套对象的大数组可以使用 shallowRef 或 shallowReactive 降低开销
-- 避免不必要的组件抽象
-
-### 安全：
-
-- 不使用不可信模板，例如使用用户输入拼接模板：`template: <div> + userProvidedString + </div>`
-- 小心使用 v-html，:url，:style 等，避免 html、url、样式等注入
-
-## 13. 说说从 template 到 render 处理过程(compiler 的工作原理)
-
-1. Vue 中有个独特的编译器模块，称为“compiler”，它的主要作用是将用户编写的 template 编译为 js 中可执行的 render 函数。
-2. 之所以需要这个编译过程是为了便于前端程序员能高效的编写视图模板。相比而言，我们还是更愿意用 HTML 来编写视图，直观且高效。手写 render 函数不仅效率底下，而且失去了编译期的优化能力。
-3. 在 Vue 中编译器会先对 template 进行解析，这一步称为 parse，结束之后会得到一个 JS 对象，我们成为抽象语法树 AST，然后是对 AST 进行深加工的转换过程，这一步成为 transform，最后将前面得到的 AST 生成为 JS 代码，也就是 render 函数。
-
-## 14. Vue 实例挂载的过程中发生了什么?
-
-1. 挂载过程指的是 app.mount()过程，这个过程中整体上做了两件事：**初始化**和**建立更新机制**
-2. 初始化会创建组件实例、初始化组件状态，创建各种响应式数据
-3. 建立更新机制这一步会立即执行一次组件更新函数，这会首次执行组件渲染函数并执行 patch 将前面获得 vnode 转换为 dom；同时首次执行渲染函数会创建它内部响应式数据之间和组件更新函数之间的依赖关系，这使得以后数据变化时会执行对应的更新函数。
-
-## 15. 组件中的 name 属性有什么用？
-
-1. 项目使用 keep-alive 时，可搭配组件 name 进行缓存过滤
-2. DOM 做递归组件时需要调用自身 name
-3. Vue-devtools 调试工具里显示的组见名称是由 Vue 中组件 name 决定的
-4. 动态切换组件
-
-## 16 . 怎么在组件中监听路由参数的变化？
-
-有两种方法可以监听路由参数的变化，但是只能用在包含的组件内。
-
-**1. 侦听器** watch:{'this.$route'，(to,from){ //在此处监听 }, },
-
-**2. 前置路由守卫** beforeRouteUpdate(to,from,next){ //这里监听 },
-
-## 17. beforeDestroy 钩子的作用
-
-如果页面上有很多定时器，可以在 data 选项中创建一个对象 timer，给每个定时器取个名字一一映射在对象 timer 中，在 beforeDestroy 构造函数中循环遍历所有定时器 ，一次性取消
-
-```scss
-for(let k in this.timer){
-    clearInterval(k)
-    }；
-复制代码
-```
-
-如果页面只有单个定时器，可以这么做。
-
-```javascript
-const timer = setInterval(() => {}, 500)
-this.$once("hook:beforeDestroy", () => {
-  clearInterval(timer)
-})
-复制代码
-```
-
-## 18. 说说在 vue 中踩过的坑
-
-**1.** 给对象添加属性或者数组通过下标修改值的时候，直接通过给 data 里面的对象添加属性然后赋值，新添加的属性不是响应式的。
-
-**原因：** Object.definepropety 方法拦截不到这些操作，
-
-【解决办法】通过 Vue.set(对象，属性，值)这种方式就可以达到，对象新添加的属性是响应式的。数组也可以用 splice()方法修改值
-
-**2.** 在 created 操作 dom 的时候，是报错的，获取不到 dom，这个时候实例 Vue 实例没有挂载 【解决办法】通过：Vue.nextTick(回调函数进行获取) ， 或者在 mounted 钩子里获取 dom
-
-**3.** 父组件调用子组件的方法，发送请求，修改子组件数据 ，子组件的视图没有更新。
-
-**原因**：由于 Vue 的 DOM 操作是异步的，修改数据的时候子组件的 DOM 还没生成，this.$refs 获取不到。
-
-【解决办法】通过：Vue.nextTick() , 在 nextTick 里面去发送请求修改数据。
-
-## 19. is 这个特性你用过吗？是怎么用的？
-
-**is 的作用**
-
-**解决 html 模板的限制**
-
-比如 ul 里面嵌套 li 的写法是 html 语法的固定写法，如果想在 ul 里面嵌套自己的组件，但是 html 在渲染 dom 的时候，组件对 ul 来说并不是有效的 dom。
-
-解决办法
-
-```xml
-<ul>
-  <li is='my-component'></li>
-</ul>
-复制代码
-```
-
-**动态组件(组件切换)**
-
-componentName 可以是在本页面已经注册的局部组件名和全局组件名, 也可以是一个组件的选项对象。当控制 componentName 改变时就可以动态切换选择组件。
-
-```ruby
-<component :is="componentName"></component>
-复制代码
-```
-
-## 21. 后端接口还没有开发好 怎么使用 mock 数据
-
-Mock: 模拟数据，拦截请求
-
-```javascript
-// mock/index.js
-Mock.mock('/api/users', 'get', (req, res) => {
-  // 通过 req 拿到前端的信息
-  // 根据此信息返回对应的数据（Mock 的数据）
-  res.send({ mock 的数据 })
-})
-// main.js
-import './mock'
-```
-
-## 22. vue 动画怎么实现
-
-在 vue 中，显示隐藏，创建移除，一个元素或者一个组件的时候，可以通过 transition 实现动画
-
-- 进入（显示，创建）
-- - v-enter-from 进入前
-  - v-enter-active 进入中
-  - v-enter-to 进入后
-- 离开（隐藏，移除）
-- - v-leave-from 进入前
-  - v-leave-active 进入中
-  - v-leave-to 进入后
-
-两个步骤
-
-1. 给要加动画的盒子，包裹一个 transition 标签
-2. 在动画类名中写样式
-
-多个 transition 使用不同动画，可以添加 nam 属性，name 属性的值替换 v 即可
-
-## 23. Vue 初始化过程中 new Vue(options)都做了什么
-
-- 处理组件配置项；初始化根组件时进行了选项合并操作，将全局配置合并到根组件的局部配置上；初始化每个子组件时做了一些性能优化，将组件配置对象上的一些深层次属性放到 vm.$options 选项中，以提高代码的执行效率
-- 初始化组件实例的关系属性，比如 parent、parent、children、r o o t 、 root、root、refs 等 处理自定义事件
-- 调用 beforeCreate 钩子函数
-- 初始化组件的 inject 配置项，得到 ret[key] = val 形式的配置对象，然后对该配置对象进行响应式处理，并代理每个 key 到 vm 实例上
-- 数据响应式，处理 props、methods、data、computed、watch 等选项
-- 解析组件配置项上的 provide 对象，将其挂载到 vm.\_provided 属性上 调用 created 钩子函数
-- 如果发现配置项上有 el 选项，则自动调用 mount 方法，也就是说有了 el 选项，就不需要再手动调用 mount 方法，也就是说有了 el 选项，就不需要再手动调用 mount 方法，反之，没提供 el 选项则必须调用 $mount
-
-## 24. vue 中 data 的属性可以和 methods 中方法同名吗 为什么
-
-可以同名，methods 的方法名会被 data 的属性覆盖；调试台也会出现报错信息，但是不影响执行
-
-## 25. 什么是函数式组件
-
-函数式组件，我们可以理解为没有内部状态，没有生命周期钩子函数，没有`this`(不需要实例化的组件)。
-
-**为什么使用函数式组件**
-
-1. 最主要最关键的原因是函数式组件不需要实例化，无状态，没有生命周期，所以渲染性能要好于普通组件
-2. 函数式组件结构比较简单，代码结构更清晰
-
-**函数式组件与普通组件的区别**
-
-函数式组件需要在声明组件是指定 functional
-
-函数式组件不需要实例化，所以没有`this，`this`通过`render 函数的第二个参数来代替
-
-函数式组件没有生命周期钩子函数，不能使用计算属性，watch 等等
-
-函数式组件不能通过$emit 对外暴露事件，调用事件只能通过`context.listeners.click`的方式调用外部传入的事件
-
-因为函数式组件是没有实例化的，所以在外部通过`ref`去引用组件时，实际引用的是`HTMLElement`
-
-函数式组件的`props`可以不用显示声明，所以没有在`props`里面声明的属性都会被自动隐式解析为`prop`。而普通组件所有未声明的属性都被解析到`$attrs`里面，并自动挂载到组件根元素上面(可以通过`inheritAttrs`属性禁止)
-
-## 26. Vue2 怎么内部监听生命周期钩子(hook)
-
-在`Vue`组件中，可以用过`$on，$once`去监听所有的生命周期钩子函数，如监听组件的`updated`钩子函数可以写成 `this.$on('hook:updated', () => {})`
-
 # Vue3
 
 ## 1. vue2 和 vue3 的区别
@@ -10509,268 +9850,19 @@ app.directive('lazy'，{  // app.directive('指令名‘，配置对象)
 })
 ```
 
-## 16. Vite 和 Webpack 的区别
-
-- 都是现代化打包工具
-- 启动方式不一样。vite 在启动的时候不需要打包，所以不用分析模块与模块之间的依赖关系，不用进行编译。这种方式就类似于我们在使用某个 UI 框架的时候，可以对其进行按需加载。同样的，vite 也是这种机制，当浏览器请求某个模块时，再根据需要对模块内容进行编译。按需动态编译可以缩减编译时间，当项目越复杂，模块越多的情况下，vite 明显优于 webpack
-- 热更新方面，效率更高。当改动了某个模块的时候，也只用让浏览器重新请求该模块，不需要像 webpack 那样将模块以及模块依赖的模块全部编译一次
-
-缺点
-
-- vite 相关生态没有 webpack 完善，vite 可以作为开发的辅助
-
-## 17. pinia 的好处
-
-## 18. Vue3 的 v-model 语法
-
-# TS
-
-## 1. TypeScript 是什么
-
-## 2. TypeScript 与 JavaScript 的区别
-
-## 3. TypeScript 的类型
-
-## 4. TS 中的 class 类的关键字
-
-## 5. 类型推断 类型断言 非空断言
-
-## 6. 泛型
-
-## 7. TS 内置的常用工具类型
-
-## 8. Vue3 中父子传值 用 TS 怎么写 怎么设置默认值
-
-## 9. TS 怎么给引入的第三方库设置类型声明文件
-
-## 10. 说说你对 TypeScript 装饰器的理解
-
-装饰器是一种特殊类型的声明，它能够被附加到类声明，方法， 访问符，属性或参数上
-
-是一种在不改变原类和使用继承的情况下，动态地扩展对象功能
-
-同样的，本质也不是什么高大上的结构，就是一个普通的函数，`@expression` 的形式其实是`Object.defineProperty`的语法糖
-
-`expression`求值后必须也是一个函数，它会在运行时被调用，被装饰的声明信息做为参数传入
-
-## 11. 说说对 TypeScript 中命名空间与模块的理解
-
-###### 模块
-
-`TypeScript` 与`ECMAScript` 2015 一样，任何包含顶级 `import` 或者 `export` 的文件都被当成一个模块
-
-相反地，如果一个文件不带有顶级的`import`或者`export`声明，那么它的内容被视为全局可见的
-
-###### 命名空间
-
-命名空间一个最明确的目的就是解决重名问题
-
-命名空间定义了标识符的可见范围，一个标识符可在多个名字空间中定义，它在不同名字空间中的含义是互不相干的
-
-这样，在一个新的名字空间中可定义任何标识符，它们不会与任何已有的标识符发生冲突，因为已有的定义都处于其他名字空间中
-
-## 12. TS 怎么自定义类型声明文件
-
 # Node
 
 ## 1. Node 是什么
 
-node 是 js 的运行环境，node 可以让前端去创建服务器，服务器一般由后端去写，但是 node 学习成本低（因为 node 走的 js），适合前端，localhost:8080 就是由 node 做支持。
+node 是 js 的运行环境，node 可以让前端去创建服务器，服务器一般由后端去写，但是 node 学习成本低（因为 node 走的 js），适合前端，localhost:8080 就是由 node 做支持
 
-怎么理解 localhost:8080？
-
-项目里的各个组件已经做好了关联，但是需要一个平台去呈现，当打开 localhost:8080 之后就会去走入口文件，这里的入口文件相当于 index.html
-
-## 2. Node 解决了哪些问题
-
-Node 在处理高并发，I/O 密集场景有明显的性能优势
-
-- 高并发，是指在同一时间并发访问服务器
-- I/O 密集指的是文件操作、网络操作、数据库相对的有 CPU 密集。CPU 密集指的是逻辑处理运算、压缩、解压、加密、解密
-
-> Web 主要场景就是接收客户端的请求读取静态资源和渲染界面,所以 Node 非常适合 Web 应用的开发
-
-## 3. Node 的应用场景
-
-一般来说，node 主要应用于以下几个方面
-
-- 自动化构建等工具
-- 中间层
-- 小项目
-
-第一点对于前端同学来说应该是重中之重了，什么工程化、自动构建工具就是用 node 写出来的，它是前端的一大分水岭之一
-
-## 4. 请介绍一下 Node 事件循环的流程
-
-- 在进程启动时，Node 便会创建一个类似于 while(true)的循环，每执行一次循环体的过程我们成为 Tick
-- 每个 Tick 的过程就是查看是否有事件待处理。如果有就取出事件及其相关的回调函数。然后进入下一个循环，如果不再有事件处理，就退出进程
-
-![img](./images/324dacf44f0243c4b85845503f94af74~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-### 4.2 浏览器和 Node.js 中的事件循环机制有什么区别
-
-Node.js 中宏任务分成了几种类型，并且放在了不同的 task queue(事件队列)里。不同的 task queue 在执行顺序上也有区别，微任务放在了每个 task queue 的末尾
-
-- `setTimeout/setInterval` 属于 timers 类型
-- `setImmediate` 属于 check 类型
-- socket 的 close 事件属于 close callbacks 类型
-- 其他 MacroTask 都属于 poll 类型
-- `process.nextTick` 本质上属于 MicroTask，但是它先于所有其他 MicroTask 执行
-- 所有 MicroTask 的执行时机在不同类型的 MacroTask 切换后
-- idle/prepare 仅供内部调用，我们可以忽略
-- pending callbacks 不太常见，我们也可以忽略
-
-## 5. 在每个 tick 的过程中 如何判断是否有事件需要处理呢
-
-- 每个事件循环中有一个或者多个观察者，而判断是否有事件需要处理的过程就是向这些观察者询问是否有要处理的事件
-- 在 Node 中，事件主要来源于网络请求、文件的 I/O 等，这些事件对应的观察者有文件 I/O 观察者，网络 I/O 的观察者
-- 事件循环是一个典型的生产者/消费者模型。异步 I/O，网络请求等则是事件的生产者，源源不断为 Node 提供不同类型的事件，这些事件被传递到对应的观察者那里，事件循环则从观察者那里取出事件并处理
-- 在 windows 下，这个循环基于 IOCP 创建，在 nix 下则基于多线程创建
-
-## 6. 请描述一下整个异步 I/O 的流程
-
-![img](./images/3f31bb3ab0e34b0a8fc27d9bf73a91e4~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
-
-## 7. Express
-
-### 7.1 Express 框架介绍
-
-1.Express 是 NodeJS 开发中一个非常重量级的第三方框架，它对于 NodeJS 服务端就相当于 Jquery 对于 HTML 客户端
-
-- 如果连 Express 都不会用，基本上都不好意思跟别人说你会 NodeJS
-
-  2.Express 官网是这样介绍自己的：基于 Node.js 平台，快速、开放、极简的 web 开发框架
-
-- Express 一个非常重要的亮点就是它没有改变 nodejs 已有的特性，而是在它的基础上进行了拓展
-
-  - 也就是说，使用 Express 你既可以使用 nodejs 原生的任何 API，也能使用 Express 的 API
-
-### 7.2 Express 三大核心功能
-
-- 托管静态资源
-  - 第二天讲的 nodejs 实现静态服务器功能在 express 中只需要一行代码
-- 路由
-  - express 自带路由功能，让 Node 服务端开发变得极其简单
-  - express 支持链式语法，可以让代码看起来更加简洁
-- 中间件
-  - Express 最为核心的技术和思想，万物皆中间件
-    - 中间件虽然理解起来有点困难，但是使用起来非常方便，类似于`bootstrap插件`
-
-## 08. 模块化
+## 模块化
 
 ### 什么是模块化 模块化有什么好处
 
 - 什么叫模块化
 
   `一个js文件`可以`引入另一个js文件中的数据`, 这种开发方式就叫做模块化开发
-
-- 模块化开发好处
-  - 将功能分离出来
-
-    一个 js 文件只负责处理一个功能，这样做的好处是业务逻辑清晰，便于维护
-
-  - 按需导入
-
-    用到哪一个功能，就导入哪一个 js 文件，模块化开发是`渐进式框架`的共同特征
-
-  - 避免变量污染
-
-    一个 js 文件(模块)，都是一个独立的作用域，互不干扰，不用考虑变量名冲突问题
-
-### 模块化语法规范
-
-任何一个语法，都需要遵循一定的规范。不同的平台需要遵循的规范不同。一般情况下，模块化语法规范主要有三种
-
-- CommonJS 规范：nodejs 默认支持的
-
-  文档：[javascript.ruanyifeng.com/nodejs/modu…](https://link.juejin.cn/?target=http%3A%2F%2Fjavascript.ruanyifeng.com%2Fnodejs%2Fmodule.html%23toc1)
-
-- ES6 规范：前端的 ES6 语法支持的规范
-
-  文档：[es6.ruanyifeng.com/#docs/modul…](https://link.juejin.cn/?target=https%3A%2F%2Fes6.ruanyifeng.com%2F%23docs%2Fmodule)
-
-- CMD 和 AMD 模块化规范：ES6 语法之前的模块化语法规范，现在已经几乎不用了
-
-### CommonJS 语法
-
-- CommonJS 规范只有两句话
-
-  - 模块必须要使用 `require()` 导入
-  - 模块必须要使用 `module.exports` 导出
-
-- exports 与 module.exports 区别
-  - 如果分不清两者区别，就使用 `module.exports`
-  - exports 不能去修改堆地址，只能往堆地址里面加数据
-    - 错误写法：exports = { name:'张三' }
-
-      这样写是修改堆地址
-
-    - 正确写法：exports.name = '张三'
-
-      这样写没有修改堆地址，而是往堆地址中加数据
-
-### 模块缓存机制
-
-- 当一个模块第一次加载时，nodejs 会执行里面的 js 代码，并且导出模块
-- nodejs 会将导出的模块放入缓存中
-- 当重复导入一个模块的时候，nodejs 会先从缓存中读取模块，如果缓存中有，就从缓存读取，缓存没有重复步骤 1
-
-### node 三种模块及 require 加载原理
-
-- 第一种： 核心模块、内置模块
-
-  nodejs 作者写的，这些模块 js 文件会随着安装 nodejs 的时候一起安装，因此我们可以直接使用，而无需下载
-
-  例如： fs 、path、http 都是核心模块
-
-- 第二种：第三方模块
-
-  npm 官网上面的模块，这些都是大佬写的模块。需要下载后使用
-
-  例如： express、cors、bod-parser
-
-- 第三种：自定义模块
-
-  我们自己写的 js 文件
-
-- require('文件路径')加载原理
-
-  1. 自定义模块：必须要写文件路径， `require()`会得到这个模块里面的 `module.exports` 对象
-
-  2. 第三方模块 ：写模块名，nodejs 会自动从你的 node_module 文件夹里面去找这个模块的名字，然后执行模块里面的`index.js`代码，得到里面的`module.exports。`
-
-     如果当前目录没有 module.exports 就会从上级目录找，以此类推。一直找到你的磁盘根目录。 还找不到就会报错提示 模块不存在（有点类似于变量作用域就近原则）
-
-  3. 核心模块：写模块名，nodejs 会自动从你的 node 安装包路径里面去找
-
-### require 和 import 的区别
-
-1. 导入`require` 导出 `exports/module.exports` 是 `CommonJS` 的标准，通常适用范围如 `Node.js`
-2. import/export 是 ES6 的标准，通常适用范围如 React
-3. `require` 是**赋值过程**并且是**运行时才执行**，也就是**同步加载**
-4. `require` 可以理解为一个全局方法，因为它是一个方法所以意味着可以在任何地方执行
-5. `import` 是**解构过程**并且是**编译时执行**，理解为**异步加载**
-6. `import` 会提升到整个模块的头部，具有置顶性，但是建议写在文件的顶部
-
-## 9. 说说前端渲染和后端渲染 以及他们的优缺点
-
-**前端渲染**
-
-指的是后端返回 JSON 数据，前端利用预先写的 html 模板，循环读取 JSON 数据，拼接字符串（ES6 的模板字符串特性大大减少了拼接字符串的的成本），并插入页面
-
-**后端渲染**
-
-前端请求，后端用后台模板引擎直接生成 html，前端接收到数据之后，直接插入页面
-
-**区别**
-
-|              | 前端渲染                                                                                                 | 后端渲染                               |
-| ------------ | -------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 页面呈现速度 | 主要受限于带宽和客户端机器的好坏，优化的好，可以逐步动态展开内容，感觉上会更快一点                       | 快，受限于用户的带宽                   |
-| 流量消耗     | 多一点点（一个前端框架大概 50KB）                                                                        | 少一点点（可以省去前端框架部分的代码） |
-| 可维护性     | 好，前后端分离，各施其职，代码一目明了                                                                   | 差（前后端东西放一起，不利于维护）     |
-| SEO 友好度   | 差，大量使用 Ajax，多数浏览器不能抓取 Ajax 数据                                                          | 好                                     |
-| 编码效率     | 高，前后端各自只做自己擅长的东西，后端最后只输出接口，不用管页面呈现，只要前后端人员能力不错，效率不会低 | 低（这个跟不同的团队不同，可能不对）   |
 
 # 性能优化
 
@@ -11295,347 +10387,5 @@ SSO 一般都需要一个独立的认证中心（passport），子系统的登�
 
 8、自动打开浏览器并打开特定网址（localhost:8080）
 
-# 小程序
 
-## 1.请谈谈微信小程序主要目录和文件的作用
-
-- **project.config.json**：项目配置文件，用的最多的就是配置是否开启 https 校验
-- **App.js**：设置一些全局的基础数据等
-- **App.json**：底部 tab，标题栏和路由等设置
-- **App.wxss**：公共样式，引入 iconfont 等
-- **pages**：里面包含一个个具体的页面
-- **index.json**：配置当前页面标题和引入组件
-- **index.wxml**：页面结构
-- **index.wxss**：页面样式表
-- **index.js**：页面的逻辑，请求和数据处理
-
-## 2.请谈谈 wxml 与标准的 html 的异同
-
-- 都是用来描述页面的结构
-- 都由标签，属性等构成
-- 标签名字不一样，且小程序标签更少，单一标签更多
-- 多了一些 wx:if 这样的属性以及{{}} 这样的表达式
-- WXML 仅能在微信小程序开发者工具中预览，而 HTML 可以在浏览器内预览
-- 组件封装不同，WXML 对组件进行了重新封装
-- 小程序运行在 JS Core 内，没有 DOM 树和 windiw 对象，小程序中无法使用 window 对象和 document 对象。
-
-## 3.请谈谈 WXSS 和 CSS 的异同？
-
-都是用来描述页面的样子
-
-- WXSS 具有 CSS 大部分的特性，也做了一些扩充和修改
-- WXSS 新增了尺寸单位，WXSS 在底层支持新的尺寸单位 rpx
-- WXSS 仅支持部分 CSS 选择器
-- WXSS 提供全局样式与局部样式
-
-## 4.你是怎么封装微信小程序的数据请求的？
-
-1. 在根目录下创建 util 目录及 api.js 文件和 apiConfig.js 文件
-2. 在 apiConfig.js 封装基础的 get，post 和 put，upload 等请求方法，设置请求体，带上 token 和异常处理等
-3. 在 api 中引入 apiConfig.js 封装好的请求方法.根据页面数据请求的 urls，设置对应的方法并导出
-4. 在具体的页面中导入或将所有的接口放在统一的 js 文件中并导出
-5. 在 app.js 中创建封装请求数据的方法
-6. 在子页面中调用封装的请求数据
-
-## 5.小程序页面之间有哪些（传值）传递数据的方法？
-
-1. 页面跳转或重定向时，使用 url 带参数传递数据
-2. 使用组件模板 template 传递参数
-3. 使用缓存传递参数
-4. 使用数据库传递参数
-5. 给 html 元素添加 data-\*属性来传递值，然后通过 e.currentTarget.dataset 或 onload 的 param 参数获取（data- 名称不能有大写字母，不可以存放对象）
-6. 设置 id 的方法标识来传值，通过 e.currentTarget.id 获取设置的 id 值，然后通过设置全局对象的方式来传递数据
-7. 在 navigator 中添加参数数值
-
-## 6.请谈谈小程序的双向绑定和 vue 的异同？
-
-大体相同，但小程序之间 this.data 的属性是不可以同步到视图的，必须调用 this.setData()方法
-
-## 7.请谈谈小程序的生命周期函数
-
-- onLoad()页面加载时触发，只会调用一次，可获取当前页面路径中的参数
-- onShow()页面显示/切入前台时候触发，一般用来发送数据请求
-- onReady()页面初次渲染完成时触发，只会调用一次，代表页面已可和视图层进行交互
-- onHide()页面隐藏/切入后台时触发，如底部 tab 切换到其他页面或小程序切入后台等
-- onUnload()页面卸载时触发，如 redirectTO 或 navigateBack 到其他页面时
-
-## 8.简述微信小程序原理
-
-小程序本质就是一个**单页面应用**，所有的页面渲染和事件处理，都在一个页面内进行，但又可以通过微信客户端调用原生的各种接口；它的架构，是数据驱动的架构模式，它的 UI 和数据是分离的，所有的页面更新，都需要通过对数据的更改来实现； 它从技术讲和现有的前端开发差不多，采用**JavaScript、WXML、WXSS**三种技术进行开发；
-
-功能可分为**webview**和**APPService**两个部分：
-
-webview 主要用来展示 UI，appservice 用来处理业务逻辑，数据及接口调用，它们在两个进程中进行，通过系统层 JSBridge 实现通信，实现 UI 的渲染，事件处理； appService 有来处理业务逻辑、数据及接口调用；
-
-两个部分在两个进程中运行，通过系统层 JSBridge 实现通信，实现 UI 的渲染、事件的处理等。 javaScript 的代码是运行在微信 App 中的，因此一些 h5 技术的应用需要微信 APP 提供对应的 API 支持 wxml 微信自己基于 xml 语法开发的，因此在开发时只能使用微信提供的现有标签，html 的标签是无法使用的 wxss 具有 css 的大部分特性，但并不是所有都支持，没有详细文档（wxss 的图片引入需要使用外链地址，没有 body，样式可以使用 import 导入）
-
-## 9.请谈谈原生开发小程序，wepy，mpvue 的对比？
-
-个人认为，如果是新项目，且没有旧的 h5 项目迁移，则考虑用小程序原生开发，好处是相比于第三方框架，坑少。 而如果有 老的 h5 项目是 vue 开发 或者 也有 h5 项目也需要小程序开发，则比较适合 wepy 或者 mpvue 来做迁移或者开发，近期看 wepy 几乎不更新了，所以推荐美团的 mpvue。 而如果如果团队前端强大，自己做一套框架也没问题。
-
-## 10.简单描述下微信小程序的 相关文件类型
-
-1. wxml 模板文件，是框架设计的一套标签预言，结合基础组件，事件系统，可以构建出页面的结构 wxss 样式文件，是一套样式语言，用于描述 WXML 的组件样式 js 脚本逻辑文件。逻辑处理网络请求 json 配置文件，小程序设置，如页面注册，页面标题及 tabBar
-2. app.json 是整个小程序的全局配置，包括：
-   - pages:所有页面路径
-   - 网络设置（网络超时事件）
-   - 页面表现（页面注册）
-   - window：（背景色，导航样式，默认标题）
-   - 底部 tab 等
-3. app.js 监听并处理小程序的生命周期函数，声明全局变量
-4. app.wxss 全局配置的样式文件
-
-## 11.那些方法来提高微信小程序的应用速度？
-
-- 提高页面的加载速度
-- 用户行为预测
-- 减少默认的 data 的大小
-- 组件化方案
-
-## 12.分析微信小程序的优劣势？
-
-**优势：**
-
-- 容易上手，基础组件库比较全，基本不需要考虑兼容问题
-- 开发文档比较完善，开发社区比较活跃，支持插件式开发
-- 良好的用户体验，无需下载，通过搜索和扫一扫就可以打开，打开速度快，安卓上可以添加到桌面，与原生 APP 差不多
-- 开发成本比 APP 要低
-- 为用户提供良好的保障（小程序发布，严格是审查流程）
-
-**劣势：**
-
-- 限制较多，页面大小不能超过 1M，不能打开超过 5 个层级的页面
-- 样式单一，部分组件已经是成型的，样式不可修改，例如：幻灯片，导航
-- 推广面窄，不能分享朋友圈，只能通过分享给朋友，附加小程序推广
-- 依托与微信，无法开发后台管理功能
-- 后台调试麻烦，因为 api 接口必须 https 请求且公网地址
-- 真机测试，个别安卓和苹果表现迥异，例如安卓的定位功能加载很慢
-
-## 13.微信小程序和 H5 的区别？
-
-- 运行环境不同（小程序在微信运行，h5 在浏览器运行）
-- 开发成本不同（h5 需要兼容不同的浏览器）
-- 获取系统权限不同（系统级权限可以和小程序无缝衔接）
-- 应用在生成环境的运行速度流程（h5 需不断对项目优化来提高用户体验）
-
-## 14.怎么解决微信小程序的异步请求问题？
-
-**在回调函数中调用下一个组件的函数**
-
-```javascript
-*/app.js*/
-
-success:function(info){
-
-  that.apirtnCallback(info)
-
-}
-*/index.js*/
-
-onLoad:function(){
-
-    app.apirtnCallback = res =>{
-
-        console.log(res)
-
-    }
-
-}
-复制代码
-```
-
-## 15.小程序关联微信公众号如何确定用户的唯一性？
-
-使用 wx.getUserlnfo 方法 withCredentials 为 true 时，可获取 encryptedData，里面有 union_id，后端需要进行对称解密
-
-## 16.使用 webview 直接加载要注意那些事项？
-
-- 必须要在小程序后台使用管理员添加业务域名
-- h5 页面跳转至小程序的脚步必须是 1.3.1 以上
-- 微信分享只可以是小程序的主名称，如要自定义分享内容，需小程序版本在 1.7.1 以上
-- h5 的支付不可以是微信公众号的 appid，必须是小程序的 appid，而且用户的 openid 也必须是用户和小程序的
-
-## 17.小程序调用后台接口遇到那些问题？
-
-- 数据的大小限制，超过范围会直接导致整个小程序崩溃，除非重启小程序
-
-- 小程序不可以直接渲染文章内容这类型的 html 文本，显示需要借助插件
-
-  注：插件渲染会导致页面加载变慢，建议在后台对文章内容的 html 进行过滤，后台直接处理批量替换 p 标签 div 标签为 view 标签，然后其他的标签让插件来做
-
-## 18.微信小程序如何实现下拉刷新？
-
-用 view 代替 scroll-view，设置 onPullDownRefresh 函数实现
-
-## 19.webview 中的页面怎么跳转回小程序?
-
-```php
-wx.miniProgram.navigateTo({
-    url:'pages/login/login'+'$params'
-})
-//跳转到小程序导航页面
-wx.miniProgram.switchTab({
-    url:'/pages/index/index'
-})
-复制代码
-```
-
-## 20.bindtap 和 catchtap 的区别？
-
-bind 事件绑定不会阻止冒泡事件向上冒泡 catch 事件绑定可以阻止冒泡事件向上冒泡
-
-## 21.简述 wx.navigateTo(),wx.redirectTo(),wx.switchTab(),wx.navigateBack(),wx.reLaunch()的区别？
-
-- wx.navigateTo()：保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面
-- wx.redirectTo()：关闭当前页面，跳转到应用内的某个页面。但是不能跳转 tabbar 页面
-- wx.switchTab()：跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
-- wx.navigateBack()关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages() 获取当前的页面栈，决定需要返回几层
-- wx.reLaunch()：关闭所有页面，打开到应用内的某个页面
-
-## 22.小程序和 Vue 写法的区别？
-
-1. 遍历的时候：小程序 wx:for="list", 而 Vue 是 v-for="item in list"
-
-1. 调用 data 模型（赋值）的时候：
-
-   小程序：this.data.item // 调用，this.setDate({item:1})//赋值
-
-   Vue：this.item //调用，this.item=1 //赋值
-
-## 23.小程序与原生 App 那个好？
-
-各有各自的优点，都又有缺点
-
-**小程序的优点：**
-
-- 基于微信平台开发，享受微信自带的流量，这个优点最大
-
-- 无需安装，只要打开微信就能用，不占手机内存，体验好
-
-- 开发周期段，一般最多一个月就可以上线完成
-
-- 开发所需的资金少，所需资金是开发原生 APP 的一半不到
-
-- 小程序名称是唯一的，在微信的搜索里权重很高
-
-- 容易上手，只要之前有 HTML+CSS+JS 基础知识，写小程序基本没有大问题
-
-- 基本不需要考虑兼容性问题，只要微信可以正常运行的机器，就可以运行小程序
-
-- 发布，审核高效，基本上午发布审核，下午就审核通过，升级简单，支持灰度发布
-
-- 开发文档完善，社区活跃
-
-- 支持插件式开发，一些基本功能可以开发成插件，供多个小程序使用
-
-  **缺点：**
-
-- 局限性很强（比如页面大小不能超过 1M，不能打开超过 5 个层级的页面，样式单一，小程序的部分组件已经是成型的了，样式不能修改，比如幻灯片，导航）只能依赖于微信依托与微信，无法开发后台管理功能
-
-- 不利于推广，推广面窄，不能分享朋友圈，只能分享给朋友，附近小程序推广，其中附加小程序也收到微信限制
-
-- 后台调试麻烦，因为 API 接口必须 https 请求，且公网地址，也就是说后台代码必须发布到远程服务器上；当然我们可以修改 host 进行 dns 映射把远程服务器转到本地，或者开启 tomcat 远程调试；不管怎么说终归调试比较麻烦
-
-- 前台测试有诸多坑，最头疼莫过于模拟器与真机显示不一致
-
-- js 引用只能使用绝对路径，不能操作 DOM
-
-**原生 App 优点：**
-
-- 原生的相应速度快
-
-- 对于有无网络操作时，譬如离线操作基本选用原生开发
-
-- 需要调用系统硬件的功能（摄像头，拨号，短信蓝牙..）
-
-- 在无网络或者弱网情况下体验好
-
-  **原生 App 缺点：**
-
-- 开发周期长，开发成本高，需要下载
-
-## 24.小程序的发布流程（开发流程）
-
-1. 注册微信小程序账号
-2. 获取微信小程序的 AppID
-3. 下载微信小程序开发者工具
-4. 创建 demo 项目
-5. 去微信公众号配置域名
-6. 手机浏览
-7. 代码上传
-8. 提交审核
-9. 小程序发布
-
-## 25.webview 中的页面怎么跳回小程序中？
-
-```javascript
-// 首先，需要在你的html页面中引用一个js文件
-;<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.0.js"></script>
-//然后为你的按钮标签注册一个点击事件
-$(".kaiqi").click(function () {
-  wx.miniProgram.redirectTo({ url: "/pages/indexTwo/indexTwo" })
-})
-// 这里的redirectTo跟小程序的wx.redirectTo()跳转页面是一样的，会关闭当前跳转到页面，换成navigateTo，跳转页面就不会关闭当前页面
-复制代码
-```
-
-## 26.小程序授权登录流程
-
-授权，微信登录获取 code，微信登录，获取 iv , encryptedData 传到服务器后台，如果没有注册就需要注册。
-
-## 27.小程序支付如何实现？
-
-```javascript
-//1.小程序注册，要以公司的身份去注册一个小程序，才有微信支付权限
-//2.绑定商户号
-//3.在小程序填写合法域
-//4.调用wx.login()获取appid
-//5.调用 wx.requestPayment({
-    'timeStamp': '',//时间戳从1970年1月1日00:00:00至今的秒数,即当前的时间
-    'nonceStr': '',//随机字符串，长度为32个字符以下。
-    'package': '',//统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=*
-    'signType': 'MD5',//签名类型，默认为MD5，支持HMAC-SHA256和MD5。注意此处需与统一下单的签名类型一致
-    'paySign': '',//签名,具体签名方案参见微信公众号支付帮助文档;
-    'success':function(res){},//成功回调
-    'fail':function(res){},//失败
-    'complete':function(res){}//接口调用结束的回调函数（调用成功、失败都会执行）
-})
-```
-
-## 28.小程序还有那些功能？
-
-客服功能，录音，视频，音频，地图，定位，拍照，动画，canvas
-
-## 29. 小程序的常见问题：
-
-- rpx：小程序的尺寸单位，规定屏幕为 750rpx，可适配不同分辨率屏幕 本地资源无法通过 wxss 获取：background-image：可以使用网络图片，或者 base64，或者使用标签
-
-- wx.navigateTo 无法打开页面：一个应用同时只能打开 5 个页面，请避免多层级的交互方式，或使用 wx.redirectTo
-
-- tabBar 设置不显示：
-
-  1.tabBar 的数量少于 2 项或超过 5 项都不会显示。
-
-  2.tabBar 写法错误导致不会显示。
-
-  3.tabBar 没有写 pagePath 字段（程序启动后显示的第一个页面）
-
-## 30. 什么是 uni-app
-
-`uni-app` 是一个使用 Vue.js (opens new window)开发所有前端应用的框架，开发者编写一套代码，可发布到 iOS、Android、Web（响应式）、以及各种小程序（微信/支付宝/百度/头条/飞书/QQ/快手/钉钉/淘宝）、快应用等多个平台。
-
-# Git
-
-## Git 和 SVN 有什么区别
-
-- git 是分布式版本控制，svn 是集中式版本控制（核心区别）
-- git 相对于 svn 的优势就是不需要网络即可版本控制
-- git 把内容按数据方式存储，而 svn 是按文件
-- git 可以是公用的，可以分享，svn 基本是公司内部才能访问，网外不方便访问
-- git 不依赖中央服务器，即使服务器有问题也不受影响，svn 依赖服务器，一旦服务器有问题就会受影响
-- git 没有一个全局的版本号，svn 有
-
-## git fetch、git merge、git pull 的区别
-
-## Git 的 rebase 和 merge 的区别是什么
 
