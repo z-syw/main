@@ -568,12 +568,12 @@ top + margin-top + 可见框高度 + margin-bottom + bottom = 包含块的内容
 ## 定位
 
 ~~~bash
-position用来设置元素的定位方式，取值
-1. static默认值，元素没有开启定位，不脱离文档流，top，right，bottom，left，z-index 等属性不生效。
-2. relative相对定位，不脱离文档流。参照物：元素偏移前位置。相对定位会提升元素的层级。
-3. fixed固定定位，脱离文档流。参照物：浏览器窗口。
-4. sticky粘性定位
-5. 当绝对定位和固定定位参照物都是浏览器窗口时的区别： 当出现滚动条时，固定定位的元素不会跟随滚动条滚动，绝对定位会跟随滚动条滚动
+#position用来设置元素的定位方式，取值
+1. static默认值，元素没有开启定位，不脱离文档流，top，right，bottom，left，z-index等属性不生效
+2. relative相对定位，不脱离文档流。参照物：元素偏移前位置。相对定位会提升元素的层级
+3. fixed固定定位，脱离文档流。参照物：浏览器窗口。固定定位也是一种绝对定位，它的大部分的特点和绝对定位是相同的。不同点在于固定定位总是参照于浏览器的窗口进行定位，一旦定位，不会随窗口进行滚动
+4. 当绝对定位和固定定位参照物都是浏览器窗口时的区别： 当出现滚动条时，固定定位的元素不会跟随滚动条滚动，绝对定位会跟随滚动条滚动
+5. sticky粘性定位，不脱离文档流。参照物：粘滞定位相对于离它最近的拥有滚动条祖先元素来定位的
 ~~~
 
 ~~~bash
@@ -596,100 +596,29 @@ absolute绝对定位，脱离文档流。
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      body {
+        height: 3000px;
+      }
       .header {
         position: sticky;
         /* 设置盒子距离浏览器的顶部边缘，多少时开始吸顶 */
         top: 0;
       }
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      .header {
-        width: 100%;
-        height: 100px;
-        background-color: orange;
-      }
-      .nav {
-        width: 100%;
-        height: 200px;
-        background-color: pink;
-        position: sticky;
-        top: 0px;
-      }
-      .main {
-        width: 100%;
-        height: 100px;
-        background-color: skyblue;
-      }
     </style>
-
-    <div class="header">我是头部</div>
-    <div class="nav">我是导航</div>
-    <div class="container">
-      <div class="main">我是主体部分1</div>
-      <div class="main">我是主体部分2</div>
-      <div class="main">我是主体部分3</div>
-      <div class="main">我是主体部分4</div>
-      <div class="main">我是主体部分5</div>
-      <div class="main">我是主体部分6</div>
-      <div class="main">我是主体部分7</div>
-      <div class="main">我是主体部分8</div>
-    </div>
   </head>
-  <body></body>
+  <body>
+    <div class="header">我是头部</div>
+  </body>
 </html>
 ```
 
 ## z-index
 
-z-index 元素的 position 属性需要是 relative，absolute 或是 fixed。
-
-可以将它看做三维坐标系中的 z 轴方向上的图层层叠顺序。
-
-元素默认的 z-index 为 0，可通过修改 z-index 来控制设置了 postion 值的元素的图层位置。
-
-<img src="./images/image-20210209212043708.png" alt="image-20210209212043708" style="zoom:70%;" />
-
-可以将这种关系想象成一摞书本，通过 z-index 可以改变一本书在这摞书中的上下位置。
-
-`z-index 的小坑`，如果父辈元素有定位，且配置了 z-index，优先按照父辈元素的定位的 z-index 进行比较层级
-
-```html
-<style>
-  .father {
-    width: 100%;
-    height: 200px;
-    position: relative;
-    background-color: skyblue;
-    z-index: 1;
-  }
-  .son {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background-color: red;
-    left: 0;
-    top: 0;
-    z-index: 999;
-  }
-  .box2 {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background-color: blue;
-    left: 0;
-    top: 0;
-    z-index: 100;
-  }
-</style>
-
-<div class="father">
-  <div class="son"></div>
-</div>
-
-<div class="box2"></div>
-```
+~~~bash
+z-index元素的position属性需要是relative，absolute或是fixed
+元素默认的z-index为0，可通过修改z-index来控制设置了postion值的元素的图层位置
+z-index的小坑，如果父辈元素有定位，且配置了z-index，优先按照父辈元素的定位的z-index进行比较层级
+~~~
 
 ## 浮动
 

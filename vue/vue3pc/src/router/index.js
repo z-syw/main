@@ -7,7 +7,8 @@ const Goods = () => import('@/views/goods')
 const Login = () => import('@/views/login')
 const Layout = () => import('@/views/Layout')
 const MemberOrderDetail = () => import('@/views/member/order/detail')
-const echarts = () => import('@/components/library/xtx-echarts.vue')
+const carousel = () => import('@/components/xtx-carousel.vue')
+const echarts = () => import('@/components/xtx-echarts.vue')
 const LoginCallback = () => import('@/views/login/callback')
 const MemberLayout = () => import('@/views/member/Layout')
 const TopCategory = () => import('@/views/category/index')
@@ -45,6 +46,7 @@ const routes = [
   },
   { path: '/login', component: Login },
   { path: '/login/callback', component: LoginCallback },
+  { path: '/carousel', component: carousel },
   { path: '/echarts', component: echarts }
 ]
 
