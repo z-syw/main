@@ -363,11 +363,9 @@ W3C 对 web 标准提出了规范化的要求，也就是在实际编程中的�
 ## visibility
 
 ~~~bash
-visibility用来设置一个元素的可见性，可选值：
-
-visible 默认值 元素可见
-
-hidden 元素是隐藏的在页面中不可见，但是依然占据页面的位置
+visibility用来设置一个元素的可见性，可选值
+visible默认值 元素可见
+hidden元素是隐藏的在页面中不可见，但是依然占据页面的位置
 ~~~
 
 ## overflow
