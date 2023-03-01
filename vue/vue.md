@@ -313,9 +313,9 @@ export default {
 
 key 就是给 虚拟 dom 添加了一个 标识, 优化了对比策略，提升性能
 
-vue对比新旧虚拟dom，找出不同的部分，进行更新视图
+vue 对比新旧虚拟 dom，找出不同的部分，进行更新视图
 
-diff算法：默认按照索引进行对比
+diff 算法：默认按照索引进行对比
 
 往后面加，默认的对比策略，按照下标，没有任何问题
 
@@ -400,27 +400,17 @@ SPA 单页面应用：所有的功能，都在一个页面中，单页面跳转�
 
 比如：
 
-1. 配置异步组件，路由懒加载
-
-   ```js
-   const login = () => import("../pages/login.vue")
-   ```
+1. 配置异步组件，路由懒加载。const login = () => import("../pages/login.vue")
 
 2. 图片压缩：使用 webp 格式的图片，提升首页加载的速度
-
 3. CDN 加速：配置 CDN 加速（公司的地址和用户使用的地方太远了），加快资源的加载效率 (花钱)
-
 4. 开启 gzip 压缩 (一般默认服务器开启的，如果没开，确实可能会很慢，可以让后台开一下)
-
-   浏览器请求服务器，原本是服务器有什么图片就给我们什么图片，比如 jpg/png，但是这样文件会比较大，所以服务器可以将文件进行 gzip 压缩，发送给浏览器，浏览器看到这样压缩过的资源会自动解压，不需要我们做什么东西。
 
 5. 使用 v-if 代替 v-show
 
-6. ...
-
 ![image-20210309172322244](images/image-20210309172322244.png)
 
-博客: https://www.cnblogs.com/xidian-Jingbin/p/10643391.html
+https://www.cnblogs.com/xidian-Jingbin/p/10643391.html
 
 ## 什么是组件
 
@@ -432,7 +422,7 @@ SPA 单页面应用：所有的功能，都在一个页面中，单页面跳转�
 
 一种是使用链式命名"my-component"，一种是使用大驼峰命名"MyComponent"
 
-## v-show和v-if的区别
+## v-show 和 v-if 的区别
 
 https://cn.vuejs.org/guide/essentials/conditional.html#v-if-vs-v-show
 
@@ -528,9 +518,9 @@ export default {
 
 使用函数返回对象，每次返回的都是一个新对象，则不会出现这个问题。
 
-## 数组更新有时v-for不渲染
+## 数组更新有时 v-for 不渲染
 
-~~~vue
+```vue
 <template>
   <div>
     <ul>
@@ -546,17 +536,17 @@ export default {
 
 <script>
 export default {
-  data(){
+  data() {
     return {
-      arr: [5, 3, 9, 2, 1]
+      arr: [5, 3, 9, 2, 1],
     }
   },
   methods: {
-    revBtn(){
+    revBtn() {
       // 1. 数组翻转可以让v-for更新
       this.arr.reverse()
     },
-    sliceBtn(){
+    sliceBtn() {
       // 数组slice方法不会造成v-for更新
       // slice不会改变原始数组
       // this.arr.slice(0, 3)
@@ -564,19 +554,19 @@ export default {
       let newArr = this.arr.slice(0, 3)
       this.arr = newArr
     },
-    updateBtn(){
+    updateBtn() {
       // this.arr[0] = 1000
       // 更新某个值时, v-for监测不到
       // 解决办法：this.$set()
       // 参数1: 更新目标结构。参数2: 更新位置。参数3: 更新值
       this.$set(this.arr, 0, 1000)
-    }
-  }
+    },
+  },
 }
 </script>
-~~~
+```
 
-如果需要请使用this.$set()或者覆盖整个数组
+如果需要请使用 this.$set()或者覆盖整个数组
 
 ## 动态给 vue 的 data 添加一个新的属性时会发生什么
 
@@ -658,21 +648,15 @@ vue 开发过程中，我们会做出特别多的组件，包括 login,header,fo
 
 ## 函数式组件
 
-## Vue2兼容IE哪个版本以上
+## Vue2 兼容 IE 哪个版本以上
 
-不支持ie8及以下，部分兼容ie9 ，完全兼容10以上， 因为vue的响应式原理是基于es5的Object.defineProperty()，而这个方法不支持ie8及以下
+不支持 ie8 及以下，部分兼容 ie9 ，完全兼容 10 以上， 因为 vue 的响应式原理是基于 es5 的 Object.defineProperty()，而这个方法不支持 ie8 及以下
 
-## Vue常用修饰符有哪些
+## Vue 常用修饰符有哪些
 
 https://cn.vuejs.org/guide/essentials/event-handling.html#event-modifiers
 
 ## Vue2 怎么内部监听生命周期钩子
-
-
-
-## 
-
-
 
 
 
@@ -821,9 +805,36 @@ Vue3 `:show @update:show` === v-model:show `:modelValue @update:modeValue` ===v-
 
 vue3(vue-router@4)默认不支持了，代替方案：pinia
 
-## 虚拟DOM
+## 虚拟 DOM
 
-什么是虚拟DOM？用普通的js对象来描述DOM对象。
+什么是虚拟 DOM？用普通的 js 对象来描述 DOM 对象。
 
-为什么使用虚拟DOM？因为真实DOM对象中的成员非常多，创建DOM对象的成本非常高。
+为什么使用虚拟 DOM？因为真实 DOM 对象中的成员非常多，创建 DOM 对象的成本非常高。
+
+
+
+## 性能优化
+
+加载优化
+
+~~~bash
+1.看下可不可以减少http请求
+2.link标签css的引入，一般放在head中
+3.script标签位置，放在body底部或者使用defer/async
+~~~
+
+图片优化
+
+~~~bash
+1.使用精灵/雪碧图：多个小图标，包含到一张大图里，然后利用css的background进行背景定位使用，可以减少http请求。缺点：图片放大会失真。目前其他主流处理图片的方案：iconfont字体图标，svg矢量图（将用到的svg图，收集到svg精灵图中）
+2.如果浏览器兼容尽量使用webp格式的图片
+3.图片懒加载/按需加载。图片的加载是由src引起的，当对src赋值时，浏览器就会请求图片资源
+4.图片gzip压缩（一般默认服务器开启的，如果没开，确实可能会很慢，可以让后台开一下）
+~~~
+
+首屏优化
+
+~~~bash
+1.后台一次性给我1000条数据，我该怎么办？首先1000条数据不可能一次性全部加载，我可以当用户触底的时候再去加载
+~~~
 
