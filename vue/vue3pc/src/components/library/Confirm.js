@@ -17,7 +17,12 @@ export default ({ title, text }) => {
       render(null, div)
       reject(new Error('点击取消'))
     }
-    const vnode = createVNode(XtxConfirm, { title, text, submitCallback, cancelCallback })
+    const vnode = createVNode(XtxConfirm, {
+      title,
+      text,
+      submitCallback,
+      cancelCallback
+    })
     render(vnode, div)
   })
 }

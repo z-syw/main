@@ -1,15 +1,18 @@
 <template>
   <div class="goods-tabs">
     <nav>
-      <a :class="{ active: activeName === 'goodsDetail' }" @click="activeName = 'goodsDetail'"
-        href="javascript:;">商品详情</a>
+      <a :class="{ active: activeName === 'goodsDetail' }" @click="activeName = 'goodsDetail'" href="javascript:;">
+        商品详情
+      </a>
 
-      <a :class="{ active: activeName === 'goodsComment' }" @click="activeName = 'goodsComment'"
-        href="javascript:;">商品评价<span>({{ goods.commentCount }})</span></a>
+      <a :class="{ active: activeName === 'goodsComment' }" @click="activeName = 'goodsComment'" href="javascript:;">
+        商品评价<span>({{ goods.commentCount }})</span>
+      </a>
     </nav>
-    <keep-alive>
+
+    <KeepAlive>
       <component :is="activeName === 'goodsDetail' ? goodsDetail : goodsComment" />
-    </keep-alive>
+    </KeepAlive>
   </div>
 </template>
 

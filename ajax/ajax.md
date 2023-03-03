@@ -1,4 +1,4 @@
-## form表单
+## 表单
 
 在网页中，表单主要负责数据采集功能，ajax用来发起网络请求。
 
@@ -45,13 +45,130 @@
 </html>
 ~~~
 
+## 数据交换格式
 
+数据交换格式，是服务器端与客户端之间数据传输的格式，目前主流是`JSON`。客户端以JSON格式把数据发给服务器，服务器以JSON格式把数据响应给客户端。
 
-# HTTP
+JSON本质上是用字符串的方式来表示对象或数组类型的数据
 
-## 01. HTTP 有哪些请求⽅法
+~~~js
+// 外层单引号表示这是一个字符串
+// 这是用字符串的方式表示对象格式的数据
+const obj = '{"name": "zs", "age": 20}'
 
-## 02. HTTP 请求方法的具体作用（前 5 个）
+// 这是用字符串的方式表示数组格式的数据
+const arr = '["java", "js"]'
+~~~
+
+`序列化和反序列化`
+
+~~~js
+//序列化
+const obj = {"name": "zs", "age": 20}
+JSON.stringy(obj)
+
+// 反序列化
+const obj = '{"name": "zs", "age": 20}'
+JSON.parse(obj)
+~~~
+
+## XMLHttpRequest
+
+xhr是浏览器内置的一个构造函数，基于 new 出来的xhr实例对象，可以发起 Ajax 请求。axios 中的 axios.get()、axios.post()、axios() 方法，都是基于xhr封装出来的！
+
+get请求
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 使用xhr发起get请求
+      // 1.创建xhr对象
+      const xhr = new XMLHttpRequest()
+      // 2.调用xhr.open()函数。get请求在url地址后面通过?的形式携带查询参数
+      xhr.open("GET", "http://www.liulongbin.top:3009/api/get?name=zs&age=20")
+      // 3.调用xhr.send()函数
+      xhr.send()
+      // 4.监听load事件
+      xhr.addEventListener("load", function () {
+        console.log(xhr.response)
+      })
+    </script>
+  </body>
+</html>
+~~~
+
+post请求
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        name: "zs",
+        age: 20,
+      }
+      const xhr = new XMLHttpRequest()
+      xhr.open("POST", "http://www.liulongbin.top:3009/api/post")
+      // 告诉服务器我是以什么格式发送的
+      xhr.setRequestHeader("Content-Type", "application/json")
+      // 需要自己来处理，把js对象转成json数据，在发送给后台
+      xhr.send(JSON.stringify(obj))
+      xhr.addEventListener("load", function () {
+        console.log(xhr.response)
+      })
+    </script>
+  </body>
+</html>
+~~~
+
+## Postman
+
+<img src="images/image-20230301204250937.png" alt="image-20230301204250937" style="zoom: 50%;" />
+
+<img src="images/image-20230301204712604.png" alt="image-20230301204712604" style="zoom: 50%;" />
+
+## 服务器
+
+客户端指Web浏览器。服务器是提供服务的设备。
+
+通信过程：（请求）在浏览器地址栏中输入www.baidu.com，服务器把百度首页html内容发送给客户端浏览器（响应）。
+
+url地址：url地址用来表示服务器上每个资源的确切访问路径。一个标准的 URL 地址主要由以下 4 个部分构成：
+
+<img src="images/image-20230301205636148.png" alt="image-20230301205636148" style="zoom:50%;" />
+
+概念：协议是网络协议的简称，用来保证通信的双方能读懂彼此发送过来的消息内容。
+
+概念：主机名用来标识互联网中服务器的唯一性。
+
+概念：端口号是 0 - 65535 之间的整数，它的主要作用是表示一台计算机中的特定进程所提供的服务。
+
+概念：路径用来表示资源在服务器上具体的存放位置。
+
+## Ajax
+
+Ajax 是浏览器中的技术：用来实现客户端网页请求服务器的数据。它的英文全称是 Asynchronous Javascript And XML，简称 Ajax。服务器对外提供资源，获取服务器上的资源使用ajax技术。
+
+## Axios
+
+注意事项：地址栏中不可以出现中文，如果出现了，浏览器会自动帮我们处理，不用管
+
+## HTTP 请求方法的具体作用（前 5 个）
 
 |  方法   |                                                                                   功能                                                                                   |
 | :-----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
@@ -680,7 +797,7 @@ Etag 是服务器自动生成或者由开发者生成的对应资源在服务器
 
    - 协商缓存：当强缓存未命中（资源过期了），会发请求（带上最后修改时间或者文件唯一标识 Etage），问后台，这个资源是否还能用。后台对比最后修改时间或者对比唯一标识，如果发现一致，这个资源还能用（不会返回资源）304。如果不一致，资源变化了，返回新资源 200。
 
-# TCP
+
 
 ## 01. TCP 协议是什么
 

@@ -1,3 +1,65 @@
+## 插件
+
+## 修饰符
+
+https://cn.vuejs.org/guide/essentials/event-handling.html#event-modifiers
+
+## scoped
+
+## 组件通信
+
+## 组件的命名规范
+
+一种是使用链式命名"my-component"，一种是使用大驼峰命名"MyComponent"
+
+## v-show 和 v-if 的区别
+
+https://cn.vuejs.org/guide/essentials/conditional.html#v-if-vs-v-show
+
+## 为什么避免 v-for 和 v-if 在一起使用
+
+https://cn.vuejs.org/guide/essentials/list.html#v-for-with-v-if
+
+## 单向数据流
+
+在 vue 中需要遵循单向数据流原则 1. 父组件的数据发生了改变，子组件会自动跟着变 2. 子组件不能直接修改父组件传递过来的 props props 是只读的
+
+## nextTick
+
+vue 数据更新后，dom 不会立刻发生变化。nextTick 会等组件的 dom 更新后，再执行 callback 回调函数
+
+```vue
+<template>
+  <div>
+    <!-- 自动获取焦点 -->
+    <input ref="inp" type="text" v-if="isShowInput" />
+    <button @click="fn" v-else>点此搜索</button>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      isShowInput: false,
+    }
+  },
+  methods: {
+    fn() {
+      this.isShowInput = true
+      this.$nextTick(() => {
+        this.$refs.inp.focus()
+      })
+    },
+  },
+}
+</script>
+```
+
+## data 为什么是一个函数而不是对象
+
+对象是引用数据类型，复用组件时，由于数据都指向同一个 data，当在一个组件中修改 data 时，其它复用组件中的 data 会同时被修改。使用函数返回对象，每次返回的都是一个新对象，则不会出现这个问题。
+
 ## MVVM
 
 MVVM 是一种双向数据绑定的模式，通过 ViewModel 建立起 Model 数据层和 View 视图层的连接。数据变化，视图自动更新。视图变化，数据自动更新。
@@ -226,168 +288,31 @@ export default {
 
 如果使用了 keep-alive 组件，当前的组件会额外增加两个生命周期 activated deactivated，第一次进入当前组件时会执行五个生命周期 beforeCreate created beforeMount mounted activated，下次再次进入这个组件时，只会执行 activated 这一个生命周期。
 
-## 组件通信
+## 使用异步组件有什么好处
 
-父子通信
+所谓的异步组件就是通过 import 或者 require 导入的 vue 组件
 
-```js
-<jack :money="count" :obj="myobj"></jack>
-```
+vue 开发过程中，我们会做出特别多的组件，包括 login header footer main 等等，会使页面打开很慢
 
-```jsx
-export default {
-  // props: ['money']
-  props: {
-    money: {
-      type: Number,
-      default: 1,
-    },
-    obj: {
-      type: Object,
-      // 工厂函数可以创建对象
-      default: () => {
-        return {
-          name: "zs",
-          age: 18,
-        }
-      },
-    },
-  },
-}
-```
+可以避免页面一加载时就去加载全部的组件，从而导致页面访问时间变长的问题。使用异步加载组件后，只有当需要某个组件时才会去加载需要的组件
 
-子父通信$emit
+## 什么是组件
 
-```js
-<jack @add-action="fatherFn"></jack>
-```
-
-```jsx
-this.$emit('add-action', 参数1, 参数2, ...)
-```
-
-ref，通过添加 ref 和 $refs 配合，也可以很方便的获取子组件，访问调用子组件的属性或方法
-
-```js
-// 父组件中
-<templete>
-  <div class="hello_world">
-    <com-a ref="coma"></com-a> // this.$refs.coma.count = 200
-    <com-b ref="comb"></com-b> // this.$refs.comb.addFn()
-  </div>
-</templete>
-```
-
-provide inject
-
-父组件
-
-```jsx
-export default {
-  provide() {
-    return {
-      value: this.value, // 共享给子孙组件的数据
-    }
-  },
-  data() {
-    return {
-      value: "父组件的数据",
-      money: 100,
-    }
-  },
-}
-```
-
-子孙组件
-
-```jsx
-export default {
-  inject: ['value'],
-  props: {
-      ...
-  }
-}
-```
+组件就是一个可以复用的普通 js 对象
 
 ## Vue 中的 key 作用
+
+v-for 数组变化（增加一项/删除一项）会更新页面，内存中创建虚拟 dom，快速比较新旧变化，给真实 dom 打补丁。
+
+什么是虚拟 DOM？用普通的 js 对象来描述 DOM 对象。
+
+为什么使用虚拟 DOM？因为真实 DOM 对象中的成员非常多，创建 DOM 对象的成本非常高。
 
 key 就是给 虚拟 dom 添加了一个 标识, 优化了对比策略，提升性能
 
 vue 对比新旧虚拟 dom，找出不同的部分，进行更新视图
 
-diff 算法：默认按照索引进行对比
-
-往后面加，默认的对比策略，按照下标，没有任何问题
-
-往前面加，由于下标变了，如果按照之前的下标对比，元素是混乱的
-
-```jsx
-// 旧
-<ul>
-  <li>张三</li>
-  <li>李四</li>
-</ul>
-
-// 新
-<ul>
-  <li>张三</li>
-  <li>李四</li>
-  <li>王五</li>
-</ul>
-```
-
-策略: 加上 key，一旦加上了 key，就是按照 key 进行新旧 dom 的对比了
-
-```jsx
-// 旧
-<ul>
-  <li key="17">张三</li>
-  <li key="31">李四</li>
-</ul>
-
-// 新
-<ul>
-  <li key="52">王五</li>
-  <li key="17">张三</li>
-  <li key="31">李四</li>
-</ul>
-```
-
-## 权限处理
-
-现在权限相关管理系统用的框架都是 element 提供的[vue-element-admin](https://panjiachen.github.io/vue-element-admin-site/zh/)模板框架比较常见。
-
-权限控制常见分为三大块
-
-- **菜单权限控制**
-- **按钮权限控制**
-- 请求 url 权限控制
-
-**权限管理在后端中主要体现在对接口访问权限的控制，在前端中主要体现在对菜单访问权限的控制。**
-
-1. 按钮权限控制比较容易，主要采取的方式是从后端返回按钮的权限标识，然后在前端进行显隐操作 v-if / disabled。
-
-2. url 权限控制，主要是后端代码来控制，前端只需要规范好格式即可。
-
-3. 剩下的菜单权限控制，是相对复杂一些的
-
-   (1) **需要在路由设计时, 就拆分成静态路由和动态路由**
-
-   静态路由: 所有用户都能访问到的路由, 不会动态变化的 (登录页, 首页, 404, ...)
-
-   动态路由: 动态控制的路由, 只有用户有这个权限, 才将这个路由添加给你 (审批页, 社保页, 权限管理页...)
-
-   (2) 用户登录进入首页时, 需要立刻发送请求, 获取个人信息 (包含权限的标识)
-
-   ![image-20210309031043592](images/image-20210309031043592.png)
-
-   (3) **利用权限信息的标识, 筛选出合适的动态路由**, 通过路由的 **addRoutes 方法**, 动态添加路由即可!
-
-   (4) router.options.routes (拿的是默认配置的项, 拿不到动态新增的) 不是响应式的!
-
-   为了能正确的显示菜单, 为了能够将来正确的获取到用户路由, 我们需要用**vuex 管理 routes 路由数组**
-
-   (5) 利用 vuex 中的 routes, 动态渲染菜单
+虚拟 dom 的思想：先控制数据再到视图，数据状态是通过 diff 比对，它会比对新旧虚拟 dom 节点，然后找出两者不同，再把不同的节点再发生渲染操作
 
 ## 如何处理项目(首屏)加载过慢的问题
 
@@ -412,111 +337,9 @@ SPA 单页面应用：所有的功能，都在一个页面中，单页面跳转�
 
 https://www.cnblogs.com/xidian-Jingbin/p/10643391.html
 
-## 什么是组件
-
-组件就是一个可以复用的普通 js 对象
-
-![image-20230228182101721](images/image-20230228182101721.png)
-
-## 组件的命名规范
-
-一种是使用链式命名"my-component"，一种是使用大驼峰命名"MyComponent"
-
-## v-show 和 v-if 的区别
-
-https://cn.vuejs.org/guide/essentials/conditional.html#v-if-vs-v-show
-
-## 为什么避免 v-for 和 v-if 在一起使用
-
-https://cn.vuejs.org/guide/essentials/list.html#v-for-with-v-if
-
-## 什么是插件
-
-**插件通常用来为 `Vue` 添加全局功能**。插件的功能范围没有严格的限制——一般有下面几种：
-
-- 添加全局方法或者属性。如: `vue-custom-element`
-- 添加全局资源：指令/过滤器/过渡等。如 `vue-touch`
-- 添加全局公共组件 Vue.component()
-- 添加全局公共指令 Vue.directive()
-- 通过全局混入来添加一些组件选项。如`vue-router`
-- 添加 `Vue` 实例方法，通过把它们添加到 `Vue.prototype` 上实现。
-- 一个库，提供自己的 `API`，同时提供上面提到的一个或多个功能。如`vue-router`
-
-### Vue2 和 Vue3 怎么注册全局组件
-
-Vue2 使用 `Vue.component('组件名'，组件对象)`
-
-Vue3 使用
-
-```scss
-const app = createApp(App)
-app.component('组件名'，组件对象)
-复制代码
-```
-
-### Vue2、Vue3 怎么封装自定义插件并使用/ Vue.use() （install）
-
-**Vue2**
-
-在 compoents.index.js 里，定义一个函数或对象，在里面可以使用 Vue.compoent 全局注册组件，并暴露出去
-
-在 main.js 里使用 Vue.use( )，参数类型必须是 object 或 Function
-
-**Vue3**
-
-在 compoents.index.ts 里，定义一个函数或对象，在里面可以使用 app.compoent 全局注册组件，并暴露出去
-
-在 main.ts 里使用 app.use( )，参数类型必须是 object 或 Function
-
----
-
-如果是 Function 那么这个函数就被当做 install 方法
-
-如果是 object 则需要定义一个 install 方法
-
 ## Vue 为什么采用异步渲染呢
 
-`Vue` 是组件级更新，如果不采用异步更新，那么每次更新数据都会对当前组件进行重新渲染，所以为了性能，`Vue` 会在本轮数据更新后，在异步更新视图。核心思想`nextTick` 。
-
-`dep.notify（）` 通知 watcher 进行更新，`subs[i].update` 依次调用 watcher 的`update` ，`queueWatcher` 将 watcher 去重放入队列， nextTick（`flushSchedulerQueue` ）在下一 tick 中刷新 watcher 队列（异步）。
-
-## nextTick
-
-vue 数据更新后，dom 不会立刻发生变化。nextTick 会等组件的 dom 更新后，再执行 callback 回调函数
-
-```vue
-<template>
-  <div>
-    <!-- 自动获取焦点 -->
-    <input ref="inp" type="text" v-if="isShowInput" />
-    <button @click="fn" v-else>点此搜索</button>
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      isShowInput: false,
-    }
-  },
-  methods: {
-    fn() {
-      this.isShowInput = true
-      this.$nextTick(() => {
-        this.$refs.inp.focus()
-      })
-    },
-  },
-}
-</script>
-```
-
-## data 为什么是一个函数而不是对象
-
-对象是引用数据类型，复用组件时，由于数据都指向同一个 data，当在一个组件中修改 data 时，其它复用组件中的 data 会同时被修改。
-
-使用函数返回对象，每次返回的都是一个新对象，则不会出现这个问题。
+`Vue` 是组件级更新，如果不采用异步更新，那么每次更新数据都会对当前组件进行重新渲染，所以为了性能，`Vue` 会在本轮数据更新后，在异步更新视图。核心思想`nextTick`
 
 ## 数组更新有时 v-for 不渲染
 
@@ -595,246 +418,319 @@ vue 在检测到你的数据发生变化时，将开启一个异步更新队列�
 - **不相同点：** `assets` 中存放的静态资源文件在项目打包时，也就是运行 `npm run build` 时会将 `assets` 中放置的静态资源文件进行打包上传，所谓打包简单点可以理解为压缩体积，代码格式化。而压缩后的静态资源文件最终也都会放置在 `static` 文件中跟着 `index.html` 一同上传至服务器。`static` 中放置的静态资源文件就不会要走打包压缩格式化等流程，而是直接进入打包好的目录，直接上传至服务器。因为避免了压缩直接进行上传，在打包时会提高一定的效率，但是 `static` 中的资源文件由于没有进行压缩等操作，所以文件的体积也就相对于 `assets` 中打包后的文件提交较大点。在服务器中就会占据更大的空间。
 - **建议：** 将项目中 `template`需要的样式文件 js 文件等都可以放置在 `assets` 中，走打包这一流程。减少体积。而项目中引入的第三方的资源文件如`iconfoont.css` 等文件可以放置在 `static` 中，因为这些引入的第三方文件已经经过处理，不再需要处理，直接上传。
 
-## Vue 的 template 模版编译原理
+## template 模版编译原理
 
-vue 中的模板 template 无法被浏览器解析并渲染，因为这不属于浏览器的标准，不是正确的 HTML 语法，所有需要将 template 转化成一个 JavaScript 函数，这样浏览器就可以执行这一个函数并渲染出对应的 HTML 元素，就可以让视图跑起来了，这一个转化的过程，就成为模板编译。模板编译又分三个阶段，解析 parse，优化 optimize，生成 generate，最终生成可执行函数 render。
+模版编译：template无法被浏览器解析渲染，不是html语法，需要将template转成js函数，这样浏览器可以执行js函数，渲染出对应的html元素
 
-- **解析阶段**：使用大量的正则表达式对 template 字符串进行解析，将标签、指令、属性等转化为抽象语法树 AST。
-- **优化阶段**：遍历 AST，找到其中的一些静态节点并进行标记，方便在页面重渲染的时候进行 diff 比较时，直接跳过这一些静态节点，优化 runtime 的性能。
-- **生成阶段**：将最终的 AST 转化为 render 函数字符串。
-
-## 使用异步组件有什么好处
-
-所谓的异步组件就是通过 import 或者 require 导入的 vue 组件
-
-vue 开发过程中，我们会做出特别多的组件，包括 login,header,footer,main 等等，会使页面打开很慢
-
-可以避免页面一加载时就去加载全部的组件，从而导致页面访问时间变长的问题。使用异步加载组件后，只有当需要某个组件时才会去加载需要的组件。
-
-## https://www.jianshu.com/p/16081205159c
-
-## 单向数据流
-
-在 vue 中需要遵循单向数据流原则 1. 父组件的数据发生了改变，子组件会自动跟着变 2. 子组件不能直接修改父组件传递过来的 props props 是只读的
-
-## scoped
-
-- 作用：组件 css 作用域，避免`子组件`内部的 css 样式被`父组件`覆盖
-  - 默认情况下，如果子组件和父组件 css 选择器权重相同，优先加载父组件 css 样式
-- 原理：给元素添加一个自定义属性 v-data-xxxxx
-  - `一针见血答案`： 通过属性选择题来提高 css 权重值
-
-## 说说从 template 到 render 处理过程(compiler 的工作原理)
-
-1. Vue 中有个独特的编译器模块，称为“compiler”，它的主要作用是将用户编写的 template 编译为 js 中可执行的 render 函数。
-2. 之所以需要这个编译过程是为了便于前端程序员能高效的编写视图模板。相比而言，我们还是更愿意用 HTML 来编写视图，直观且高效。手写 render 函数不仅效率底下，而且失去了编译期的优化能力。
-3. 在 Vue 中编译器会先对 template 进行解析，这一步称为 parse，结束之后会得到一个 JS 对象，我们成为抽象语法树 AST，然后是对 AST 进行深加工的转换过程，这一步成为 transform，最后将前面得到的 AST 生成为 JS 代码，也就是 render 函数。
-
-## Vue 实例挂载的过程中发生了什么
-
-1. 挂载过程指的是 app.mount()过程，这个过程中整体上做了两件事：**初始化**和**建立更新机制**
-2. 初始化会创建组件实例、初始化组件状态，创建各种响应式数据
-3. 建立更新机制这一步会立即执行一次组件更新函数，这会首次执行组件渲染函数并执行 patch 将前面获得 vnode 转换为 dom；同时首次执行渲染函数会创建它内部响应式数据之间和组件更新函数之间的依赖关系，这使得以后数据变化时会执行对应的更新函数。
-
-## Vue 初始化过程中 new Vue(options)都做了什么
-
-- 处理组件配置项；初始化根组件时进行了选项合并操作，将全局配置合并到根组件的局部配置上；初始化每个子组件时做了一些性能优化，将组件配置对象上的一些深层次属性放到 vm.$options 选项中，以提高代码的执行效率
-- 初始化组件实例的关系属性，比如 parent、parent、children、r o o t 、 root、root、refs 等 处理自定义事件
-- 调用 beforeCreate 钩子函数
-- 初始化组件的 inject 配置项，得到 ret[key] = val 形式的配置对象，然后对该配置对象进行响应式处理，并代理每个 key 到 vm 实例上
-- 数据响应式，处理 props、methods、data、computed、watch 等选项
-- 解析组件配置项上的 provide 对象，将其挂载到 vm.\_provided 属性上 调用 created 钩子函数
-- 如果发现配置项上有 el 选项，则自动调用 mount 方法，也就是说有了 el 选项，就不需要再手动调用 mount 方法，也就是说有了 el 选项，就不需要再手动调用 mount 方法，反之，没提供 el 选项则必须调用 $mount
+![image-20230301230622059](images/image-20230301230622059.png)
 
 ## 函数式组件
 
-## Vue2 兼容 IE 哪个版本以上
-
-不支持 ie8 及以下，部分兼容 ie9 ，完全兼容 10 以上， 因为 vue 的响应式原理是基于 es5 的 Object.defineProperty()，而这个方法不支持 ie8 及以下
-
-## Vue 常用修饰符有哪些
-
-https://cn.vuejs.org/guide/essentials/event-handling.html#event-modifiers
-
-## Vue2 怎么内部监听生命周期钩子
-
-
-
-## vue3 的优点
-
-从使用语法上，比较大的区别就是多了组合式 API，可以更好的组织逻辑。新增了 Suspense Teleport 组件，v-model 语法糖更新，去除 filter .sync 功能。
-
-从框架本身看，首次渲染更快（proxy 代理），diff 算法更快（静态标记），打包体积更小（tree-shaking），更好的支持 TS，放弃 IE 浏览器。
-
-### 响应式系统
-
-提供 reactive 和 ref 实现响应式数据。
-
-reactive 是使用 proxy 实现数据劫持，不用遍历属性，支持删除属性和添加属性。vue2 是单独额外处理的，vue2 是使用 Object.defineProperty。
-
-ref 如果是对象使用 proxy 实现数据劫持，如果是简单数据使用 obj 的 getter setter 代理 value 属性的写法实现的。
-
-其他发布订阅，观察者模式基本一样。
-
-### Vue2 的数据劫持
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>数据劫持-vue2</title>
-  </head>
-  <body>
-    <div id="app"></div>
-
-    <script>
-      const target = {
-        name: "jack",
-        age: 18,
-      }
-
-      const vm = {}
-      Object.keys(target).forEach(key => {
-        // 代理对象，原对象的key，get和set函数，这是ES5提供的函数
-        Object.defineProperty(vm, key, {
-          get() {
-            return target[key]
-          },
-          set(v) {
-            target[key] = v
-            // 模拟更新效果
-            render()
-          },
-        })
-      })
-
-      const render = () => {
-        document.querySelector("#app").innerHTML = `我是 ${vm.name} 今年 ${vm.age} 岁`
-      }
-      render()
-    </script>
-  </body>
-</html>
-```
-
-### Vue3 的数据劫持
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>数据劫持-vue3</title>
-  </head>
-  <body>
-    <div id="app"></div>
-
-    <script>
-      const data = {
-        name: "jack",
-        age: 18,
-        get fullName() {
-          return this.name + "Ma"
-        },
-      }
-
-      const proxy = new Proxy(data, {
-        get(target, key, receiver) {
-          console.log("get")
-          // return target[key]
-          return Reflect.get(target, key, receiver)
-        },
-        set(target, key, value, receiver) {
-          // target[key] = value
-          Reflect.set(target, key, value, receiver)
-          render()
-          return true
-        },
-      })
-
-      console.log(proxy)
-
-      const render = () => {
-        document.querySelector("#app").innerHTML = `我是 ${proxy.name} 今年 ${proxy.age} 岁`
-      }
-      render()
-    </script>
-  </body>
-</html>
-```
-
-### vite 构建工具优势
-
-先启动开发服务器（启动快），使用 ES Module 加载资源（热更新快），开发体验好。由于只支持 ES6 模块化，commonJs 的代码需要改造，从 webpack（vue-cli） 迁移到 vite（create-vue） 还是有一些困难，建议新项目采用 vite。
-
-### 组件如何才能支持 v-model 指令
-
-Vue2 `:value @input` === v-model `:show update:show ` === .sync
-
-Vue3 `:show @update:show` === v-model:show `:modelValue @update:modeValue` ===v-model
-
-### 路由传参
-
-- 路由
-  - 路径 ===> 组件 `{path: '/user', component: User}`
-  - 只有路径是 `/user` 才能来到 `User` 组件
-  - 如果要传参？
-    - `/user?id=100` 或者 `{path:'/user', query: {id: 100}}`
-  - 如果取参数？`route.query`
-- 动态路由
-  - 当你不同的路径，想指向同一个组件的时候使用：`/user/100` `/user/200`
-  - 路径 ===> 组件 `{path: '/user/:id', component: User, name: 'user'}`
-  - 如果要传参？
-    - `/user/100` 或者 `{name:'user', params: {id: 100}}`
-  - 如果取参数？`route.params`
-
-上面两种即是标准的路由写法和传参写法，其他的写法都不规范。如：
-
-- 如何实现地址栏看不见的传参？
-- vue2（vue-router@3）写法
-  - `{path: '/user', component: User, name: 'user'}` 路由规则
-  - `{name:'user', params: {id: 100}}` 跳转路由传参 ID
-  - 这种写法地址栏不出现 id，地址是`/user` params 上的 id 值没有在地址上，刷新后消失。
-
-![image-20220925152713914](./images/image-20220925152713914.png)
-
-vue3(vue-router@4)默认不支持了，代替方案：pinia
-
-## 虚拟 DOM
-
-什么是虚拟 DOM？用普通的 js 对象来描述 DOM 对象。
-
-为什么使用虚拟 DOM？因为真实 DOM 对象中的成员非常多，创建 DOM 对象的成本非常高。
-
-
-
-## 性能优化
+# 性能优化
 
 加载优化
 
-~~~bash
+```bash
 1.看下可不可以减少http请求
 2.link标签css的引入，一般放在head中
 3.script标签位置，放在body底部或者使用defer/async
-~~~
+```
 
-图片优化
+图片优化（浏览器第一次请求会发网络，下次请求会走缓存）
 
-~~~bash
-1.使用精灵/雪碧图：多个小图标，包含到一张大图里，然后利用css的background进行背景定位使用，可以减少http请求。缺点：图片放大会失真。目前其他主流处理图片的方案：iconfont字体图标，svg矢量图（将用到的svg图，收集到svg精灵图中）
-2.如果浏览器兼容尽量使用webp格式的图片
-3.图片懒加载/按需加载。图片的加载是由src引起的，当对src赋值时，浏览器就会请求图片资源
-4.图片gzip压缩（一般默认服务器开启的，如果没开，确实可能会很慢，可以让后台开一下）
-~~~
+- 使用精灵/雪碧图：多个小图标，包含到一张大图里，可以减少http请求。缺点：图片放大会失真。目前其他主流处理图片的方案：iconfont字体图标，svg矢量图（将用到的svg图，收集到svg精灵图中）
+- 如果浏览器兼容尽量使用webp格式的图片
+- 图片懒加载/按需加载。图片的加载是由src引起的，当对src赋值时，浏览器就会请求图片资源
+- 图片gzip压缩（一般默认服务器开启的，如果没开，确实可能会很慢，可以让后台开一下）
 
 首屏优化
 
-~~~bash
-1.后台一次性给我1000条数据，我该怎么办？首先1000条数据不可能一次性全部加载，我可以当用户触底的时候再去加载
-~~~
+```bash
+1.后台一次性给我1000条数据，我该怎么办？首先1000条数据不可能一次性全部加载，我可以等用户触底的时候再去加载，分页
+```
 
+
+
+## CND
+
+### CDN 的概念
+
+CDN（Content Delivery Network，**内容分发网络**）**是指一种通过互联网互相连接的电脑网络系统**，利用最靠近每位用户的服务器，更快、更可靠地将音乐、图片、视频、应用程序及其他文件发送给用户，来提供高性能、可扩展性及低成本的网络内容传递给用户。
+
+### CDN 的作用
+
+CDN 一般会用来托管 Web 资源（包括文本、图片和脚本等），可供下载的资源（媒体文件、软件、文档等），应用程序（门户网站等）。**使用 CDN 来加速这些资源的访问。**
+
+### CDN 的使用场景
+
+**使用第三方的 CDN 服务：** 如果想要开源一些项目，可以使用第三方的 CDN 服务
+
+**使用 CDN 进行静态资源的缓存：** 将自己网站的静态资源放在 CDN 上，比如 js、css、图片等。可以将整个项目放在 CDN 上，完成一键部署。
+
+**直播传送：** 直播本质上是使用流媒体进行传送，CDN 也是支持流媒体传送的，所以直播完全可以使用 CDN 来提高访问速度。CDN 在处理流媒体的时候与处理普通静态文件有所不同，普通文件如果在边缘节点没有找到的话，就会去上一层接着寻找，但是流媒体本身数据量就非常大，如果使用回源的方式，必然会带来性能问题，所以流媒体一般采用的都是主动推送的方式来进行。
+
+## 什么是懒加载(图片)
+
+### 懒加载的概念
+
+懒加载也叫做延迟加载、按需加载，指的是在长网页中延迟加载图片数据，是一种较好的网页性能优化的方式。在比较长的网页或应用中，如果图片很多，所有的图片都被加载出来，而用户只能看到可视窗口的那一部分图片数据，这样就浪费了性能。
+
+如果使用图片的懒加载就可以解决以上问题。在滚动屏幕之前，可视化区域之外的图片不会进行加载，在滚动屏幕时才加载。这样使得网页的加载速度更快，减少了服务器的负载。懒加载适用于图片较多，页面列表较长（长列表）的场景中。
+
+### 懒加载的特点
+
+**减少无用资源的加载**：使用懒加载明显减少了服务器的压力和流量，同时也减小了浏览器的负担。
+
+**提升用户体验**: 如果同时加载较多图片，可能需要等待的时间较长，这样影响了用户体验，而使用懒加载就能大大的提高用户体验。
+
+**防止加载过多图片而影响其他资源文件的加载** ：会影响网站应用的正常使用。
+
+### 懒加载的实现原理
+
+图片的加载是由`src`引起的，当对`src`赋值时，浏览器就会请求图片资源。根据这个原理，我们使用 HTML5 的`data-xxx`属性来储存图片的路径，在需要加载图片的时候，将`data-xxx`中图片的路径赋值给`src`，这样就实现了图片的按需加载，即懒加载。
+
+注意：`data-xxx` 中的`xxx`可以自定义，这里我们使用`data-src`来定义。
+
+懒加载的实现重点在于确定用户需要加载哪张图片，在浏览器中，可视区域内的资源就是用户需要的资源。所以当图片出现在可视区域时，获取图片的真实地址并赋值给图片即可。
+
+#### Vue3 实现图片懒加载
+
+导入 vueuse 插件，使用 vueuse 封装的 useIntersectionObserver 监听对应的 DOM 元素，通过里面的 isIntersecting 属性的布尔值判断来设置 img 的 src
+
+可以封装一个 v-lazy 的自定义指令来控制 img 的 src
+
+```javascript
+app.directive("lazy", {
+  mounted: (el: HTMLImageElement, { value }) => {
+    // el:选中的元素,value:传过来的属性,这里是图片地址
+    const { stop } = useIntersectionObserver(el, ([{ isIntersecting }]) => {
+      if (isIntersecting) {
+        // 判断元素是否在可视区域
+        // 满足条件就停止监听
+        stop()
+        // 给el元素设置src属性
+        el.src = value
+        el.onerror = () => {
+          // 如果图片加载失败就显示默认图片
+          el.src = defaultImg // 默认图片需要导入进来,不能直接写路径
+        }
+      }
+    })
+  },
+})
+复制代码
+```
+
+#### 列表数据懒加载 (利用 hooks 抽取)
+
+在 hooks 里封装通用的数据懒加载 api
+
+```javascript
+export function useLazyData(callBack: () => void) {
+  // 通过 ref 获得组件实例
+  const target = ref(null)
+  const { stop } = useIntersectionObserver(
+    // target这个参数是观察的目标dom容器，必须是dom容器，而且是vue3.0方式绑定的dom对象
+    target,
+    // isIntersecting 是否进入可视区域，true是进入 false是移出
+    // observerElement 被观察的dom
+    ([{ isIntersecting }]) => {
+      // 在此处可根据isIntersecting来判断，然后做业务
+      if (isIntersecting) {
+        stop()
+        callBack()
+      }
+    }
+  )
+  return target // 将响应对象作为返回值传递
+}
+```
+
+在组件中使用
+
+```javascript
+import useStore from "@/store"
+import { useLazyData } from "@/utils/hooks"
+const { home } = useStore()
+const target = useLazyData(() => home.getHotList())
+```
+
+### 懒加载与预加载的区别
+
+这两种方式都是提高网页性能的方式，两者主要区别是一个是提前加载，一个是迟缓甚至不加载。懒加载对服务器前端有一定的缓解压力作用，预加载则会增加服务器前端压力。
+
+- **懒加载也叫延迟加载，指的是在长网页中延迟加载图片的时机，当用户需要访问时，再去加载**，这样可以提高网站的首屏加载速度，提升用户的体验，并且可以减少服务器的压力。它适用于图片很多，页面很长的电商网站的场景。
+- **预加载指的是将所需的资源提前请求加载到本地，这样后面在需要用到时就直接从缓存取资源。** 通过预加载能够减少用户的等待时间，提高用户的体验。我了解的预加载的最常用的方式是使用 js 中的 image 对象，通过为 image 对象来设置 scr 属性，来实现图片的预加载。
+
+## 什么是回流(重排)与重绘
+
+### 什么是回流(重排)，哪些操作会导致回流
+
+当渲染树中部分或者全部元素的尺寸、结构或者属性发生变化时，浏览器会重新渲染部分或者全部文档的过程就称为**回流**。
+
+下面这些操作会导致回流：
+
+- 页面的首次渲染
+- 浏览器的窗口大小发生变化
+- 元素的内容发生变化
+- 元素的尺寸或者位置发生变化
+- 元素的字体大小发生变化
+- 激活 CSS 伪类
+- 查询某些属性或者调用某些方法
+- 添加或者删除可见的 DOM 元素
+
+在触发回流（重排）的时候，由于浏览器渲染页面是基于流式布局的，所以当触发回流时，会导致周围的 DOM 元素重新排列，它的影响范围有两种：
+
+- 全局范围：从根节点开始，对整个渲染树进行重新布局
+- 局部范围：对渲染树的某部分或者一个渲染对象进行重新布局
+
+### 什么是重绘，哪些操作会导致重绘
+
+当页面中某些元素的样式发生变化，但是不会影响其在文档流中的位置时，浏览器就会对元素进行重新绘制，这个过程就是**重绘**。
+
+下面这些操作会导致回流：
+
+- color、background 相关属性：background-color、background-image 等
+- outline 相关属性：outline-color、outline-width 、text-decoration
+- border-radius、visibility、box-shadow
+
+注意： **当触发回流时，一定会触发重绘，但是重绘不一定会引发回流。**
+
+### 如何避免回流与重绘
+
+**减少回流与重绘的措施：**
+
+- 操作 DOM 时，尽量在低层级的 DOM 节点进行操作
+- 不要使用`table`布局， 一个小的改动可能会使整个`table`进行重新布局
+- 使用 CSS 的表达式
+- 不要频繁操作元素的样式，对于静态页面，可以修改类名，而不是样式。
+- 使用 absolute 或者 fixed，使元素脱离文档流，这样他们发生变化就不会影响其他元素
+- 避免频繁操作 DOM，可以创建一个文档片段`documentFragment`，在它上面应用所有 DOM 操作，最后再把它添加到文档中
+- 将元素先设置`display: none`，操作结束后再把它显示出来。因为在 display 属性为 none 的元素上进行的 DOM 操作不会引发回流和重绘。
+- 将 DOM 的多个读操作（或者写操作）放在一起，而不是读写操作穿插着写。这得益于**浏览器的渲染队列机制**。
+
+#### 浏览器的渲染队列
+
+浏览器针对页面的回流与重绘，进行了自身的优化——**渲染队列**
+
+**浏览器会将所有的回流、重绘的操作放在一个队列中，当队列中的操作到了一定的数量或者到了一定的时间间隔，浏览器就会对队列进行批处理。这样就会让多次的回流、重绘变成一次回流重绘。**
+
+### 如何优化动画
+
+对于如何优化动画，我们知道，一般情况下，动画需要频繁的操作 DOM，就就会导致页面的性能问题，我们可以将动画的`position`属性设置为`absolute`或者`fixed`，将动画脱离文档流，这样他的回流就不会影响到页面了。
+
+### documentFragment (文档碎片)是什么 用它跟直接操作 DOM 的区别是什么
+
+当我们把一个 DocumentFragment 节点插入文档树时，插入的不是 DocumentFragment 自身，而是它的所有子孙节点。在频繁的 DOM 操作时，我们就可以将 DOM 元素插入 DocumentFragment，之后一次性的将所有的子孙节点插入文档中。DocumentFragment 不是真实 DOM 树的一部分，它的变化**不会触发 DOM 树的重新渲染**，这样就**大大提高了页面的性能**。
+
+##### 假如有 10000 个元素需要添加到页面上，你觉得怎么操作性能最好（考察`文档碎片`）
+
+```ini
+<script>
+     /* console.time('耗时')
+    for (let i = 1; i <= 1000; i++) {
+      document.body.innerHTML = document.body.innerHTML + `<div>${i}</div>`
+    }
+    console.timeEnd('耗时') // 1586.053955078125 ms */
+
+    /* console.time('耗时')
+    let str = ''
+    for (let i = 1; i <= 1000; i++) {
+      str += `<div>${i}</div>`
+    }
+    document.body.innerHTML = str
+    console.timeEnd('耗时') // 2.5810546875 ms */
+
+    /* console.time('耗时')
+    const arr = []
+    for (let i = 1; i <= 1000; i++) {
+      arr.push(`<div>${i}</div>`)
+    }
+    document.body.innerHTML = arr.join('')
+    console.timeEnd('耗时') // 2.883056640625 ms */
+
+    /* console.time('耗时')
+    for (let i = 1; i <= 1000; i++) {
+      const oDiv = document.createElement('div')
+      // 更灵活
+      oDiv.innerHTML = i
+      oDiv.onclick = function () { }
+      oDiv.style.backgroundColor = 'red'
+      document.body.appendChild(oDiv)
+    }
+    console.timeEnd('耗时') // 7.409912109375 ms */
+
+    console.time('耗时')
+    // 篮子，“文档碎片”
+    const oFrag = document.createDocumentFragment()
+    for (let i = 1; i <= 1000; i++) {
+      const oDiv = document.createElement('div')
+      oDiv.innerHTML = i
+      oFrag.appendChild(oDiv)
+    }
+    document.body.appendChild(oFrag)
+    console.timeEnd('耗时') // 13.442138671875 ms
+</script>
+复制代码
+```
+
+## 节流与防抖
+
+### 对节流与防抖的理解
+
+- 函数防抖是指**事件被触发 n 秒后再执行回调，如果在这 n 秒内事件又被触发，则重新计时。** 这可以使用在一些点击请求的事件上，避免因为用户的多次点击向后端发送多次请求。
+- 函数节流是指规定一个单位时间，**在这个单位时间内，只能有一次触发事件的回调函数执行**，如果在同一个单位时间内某事件被触发多次，只有一次能生效。节流可以使用在 scroll 函数的事件监听上，通过事件节流来降低事件调用的频率。
+
+### 适用场景
+
+**防抖函数的应用场景**
+
+- 按钮提交场景：防⽌多次提交按钮，**只执⾏最后提交的⼀次**
+- 服务端验证场景：表单验证需要服务端配合，只执⾏⼀段连续的输⼊事件的最后⼀次，还有搜索联想词功能类似⽣存环境请⽤ lodash.debounce
+
+**节流函数的适⽤场景：**
+
+- 拖拽场景：**固定时间内只执⾏⼀次**，防⽌超⾼频次触发位置变动
+- 缩放场景：监控浏览器 resize
+- 动画场景：避免短时间内多次触发动画引起性能问题
+
+### 代码实现
+
+```javascript
+// //防抖
+function debounce(fn, date) {
+  let timer //声明接收定时器的变量
+  return function (...arg) {
+    // 获取参数
+    timer && clearTimeout(timer) // 清空定时器
+    timer = setTimeout(() => {
+      //  生成新的定时器
+      //因为箭头函数里的this指向上层作用域的this,所以这里可以直接用this，不需要声明其他的变量来接收
+      fn.apply(this, arg) // fn()
+    }, date)
+  }
+}
+//--------------------------------
+// 节流
+function debounce(fn, data) {
+  let timer = +new Date() // 声明初始时间
+  return function (...arg) {
+    // 获取参数
+    let newTimer = +new Date() // 获取触发事件的时间
+    if (newTimer - timer >= data) {
+      // 时间判断,是否满足条件
+      fn.apply(this, arg) // 调用需要执行的函数,修改this值,并且传入参数
+      timer = +new Date() // 重置初始时间
+    }
+  }
+}
+// --------------------------------
+box.addEventListener(
+  "click",
+  debounce(function (e) {
+    if (e.target.tagName === "BUTTON") {
+      console.log(111)
+    }
+  }, 2000)
+)
+```

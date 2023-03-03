@@ -1,3 +1,15 @@
+## JS 组成部分
+
+ECMAScript：js 的核心内容，描述了语言的基础语法，比如 let const 数据类型等
+
+文档对象模型 DOM：使用 JavaScript 去操作页面文档
+
+浏览器对象模型 BOM：使用 JavaScript 去操作浏览器
+
+什么是 DOM？文档对象模型，用来操作网页文档，开发网页特效和实现用户交互
+
+## JS 内置对象
+
 ## 对象
 
 对象的 key 都是字符串类型
@@ -213,24 +225,13 @@ js 全局有全局可执行上下文, 每个函数调用时, 有着函数的可�
 
 **=> 就形成了作用域链**
 
-## 谈谈你对闭包的理解
+## 闭包
 
-这个问题想考察的主要有两个方面：
+MDN 解释：闭包是函数和声明该函数的词法环境的组合
 
-- 对闭包的基本概念的理解
-- 对闭包的作用的了解
+更通俗一点的解释是：`内层函数，引用外层函数上的变量，就可以形成闭包`
 
-**什么是闭包？**
-
-MDN 的官方解释：
-
-> 闭包是函数和声明该函数的词法环境的组合
-
-更通俗一点的解释是：
-
-> 内层函数, 引用外层函数上的变量, 就可以形成闭包
-
-需求: 定义一个计数器方法, 每次执行一次函数, 就调用一次进行计数
+需求：定义一个计数器方法，每次执行一次函数，就调用一次进行计数
 
 ```js
 let count = 0
@@ -241,9 +242,7 @@ function fn() {
 fn()
 ```
 
-这样不好! count 定义成了全局变量, 太容易被别人修改了, 我们可以利用闭包解决
-
-闭包实例:
+这样不好，count 定义成了全局变量，太容易被别人修改了，我们可以利用闭包解决
 
 ```jsx
 function fn() {
@@ -259,101 +258,15 @@ function fn() {
 const addFn = fn()
 addFn()
 addFn()
-addFn()
 ```
 
-**闭包的主要作用是什么？**
-
-在实际开发中，闭包最大的作用就是用来 **变量私有**。
-
-下面再来看一个简单示例：
-
-```js
-function Person() {
-  // 以 let 声明一个局部变量，而不是 this.name
-  // this.name = 'zs'     =>  p.name
-  let name = "hm_programmer" // 数据私有
-
-  this.getName = function () {
-    return name
-  }
-
-  this.setName = function (value) {
-    name = value
-  }
-}
-
-// new:
-// 1. 创建一个新的对象
-// 2. 让构造函数的this指向这个新对象
-// 3. 执行构造函数
-// 4. 返回实例
-const p = new Person()
-console.log(p.getName()) // hm_programmer
-
-p.setName("Tom")
-console.log(p.getName()) // Tom
-
-p.name // 访问不到 name 变量：undefined
-```
-
-在此示例中，变量 `name` 只能通过 Person 的实例方法进行访问，外部不能直接通过实例进行访问，形成了一个私有变量。
+`闭包的主要作用是变量私有，但是会造成内存泄漏`
 
 ## 隐式类型转换
 
 判断时，尽量不要用 `==` , 要用 `===`，两个等号判断，如果类型不同，默认会进行隐式类型转换再比较。
 
 <img src="images/image-20210218171603780.png" alt="image-20210218171603780" style="zoom:45%;" />
-
-## 谈谈你对原型链的理解
-
-要讲清楚这个问题，主要着重这几个方面
-
-- 什么是原型对象
-- 构造函数，原型对象，实例对象的三角关系图
-- 原型链如何形成
-
-![image-20210306104516852](images/image-20210306104516852.png)
-
-`原型对象`
-
-js 规定，每一个构造函数都有一个 prototype 属性，指向另一个对象，这个对象称为原型对象。
-
-基于构造函数创建出来的实例，都可以共享访问原型对象的属性。
-
-例如我们的 `hasOwnProperty`, `toString` ⽅法等其实是 Obejct 原型对象的方法，它可以被任何对象当做⾃⼰的⽅法来使⽤。
-
-`hasOwnProperty` 用于判断，某个属性，是不是自己的 (还是原型链上的)
-
-来看一段代码：
-
-```js
-let person = {
-  name: "Tom",
-  age: 18,
-  job: "student",
-}
-
-console.log(person.hasOwnProperty("name")) // true
-console.log(person.hasOwnProperty("hasOwnProperty")) // false
-console.log(Object.prototype.hasOwnProperty("hasOwnProperty")) // true
-```
-
-可以看到，`hasOwnProperty` 并不是 `person` 对象的属性，但是 `person` 却能调用它。
-
-那么 `person` 对象是如何找到 Object 原型中的 `hasOwnProperty` 的呢？这就要靠原型链的能力了。
-
-需求: 简单绘制原型三角关系图!
-
-**原型链**
-
-在 JavaScript 中，每个对象中都有一个 `__proto__` 属性，这个属性指向了当前对象的构造函数的原型。
-
-对象可以通过自身的 `__proto__`属性与它的构造函数的原型对象连接起来，
-
-而因为它的原型对象也有 `__proto__`，因此这样就串联形成一个链式结构，也就是我们称为的原型链。
-
-<img src="images/image-20210218212449526.png" alt="image-20210218212449526" style="zoom:50%;" />
 
 ## 谈谈对于继承的理解
 
@@ -522,108 +435,6 @@ class Teacher extends Person {
 let teacher1 = new Teacher("zs", 18, "体育")
 console.log(teacher1)
 ```
-
-## 判断是否是数组
-
-使用 ES6 新增的 `Array.isArray` 方法
-
-```js
-let arr = [1, 2, 3]
-Array.isArray(arr) // true
-```
-
-## slice splice
-
-mdn文档
-
-## 数组去重
-
-方式一
-
-~~~js
-const arr = [1, 2, 3, 1, 2, 3]
-function repeat(arr) {
-  // return Array.from(new Set(arr))
-  return [...new Set(arr)]
-}
-const res = repeat(arr)
-console.log(res)
-~~~
-
-方式二
-
-~~~js
-const arr = [10, 20, 30, 10, 20, 30]
-function repeat(arr) {
-  let newArr = []
-  for (let i = 0; i < arr.length; i++) {
-    if (newArr.indexOf(arr[i]) === -1) {
-      newArr.push(arr[i])
-    }
-  }
-  return newArr
-}
-const res = repeat(arr)
-console.log(res)
-~~~
-
-## 多维数组求最大值
-
-~~~js
-<script>
-  const arr = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-  ]
-  function max(arr) {
-    const newArr = []
-    arr.forEach((item, i) => {
-      newArr.push(Math.max(...item))
-    })
-    return newArr
-  }
-  const res = max(arr)
-  console.log(res)
-</script>
-~~~
-
-## 给字符串新增方法实现功能
-
-~~~js
-<script>
-  String.prototype.addPrefix = function (str) {
-    return str + this
-  }
-  const res = "world".addPrefix("hello")
-  console.log(res)
-</script>
-~~~
-
-## 统计字符串出现最多的次数
-
-~~~js
-<script>
-  const str = "aaabbbcccc"
-  let obj = {}
-  for (let i = 0; i < str.length; i++) {
-    if (obj[str[i]]) obj[str[i]]++
-    else obj[str[i]] = 1
-  }
-  // 求出最大值
-  let max = 0
-  for (let k in obj) {
-    if (max < obj[k]) max = obj[k]
-  }
-  // 拿最大值去对比
-  for (let k in obj) {
-    if (obj[k] === max) {
-      console.log("最多的字符是" + k)
-      console.log("出现的次数是" + max)
-    }
-  }
-</script>
-~~~
 
 ## this
 
@@ -818,10 +629,10 @@ js 是`单线程执行`的编程语言。也就是说同一时间只能做一件
   ```js
   setTimeout(() => {
     console.log("延时 1 秒后输出")
-  
+
     setTimeout(() => {
       console.log("再延时 2秒后输出")
-  
+
       setTimeout(() => {
         console.log("再延时 3秒后输出")
       }, 3000)
@@ -1056,13 +867,21 @@ let obj = {
 let obj2 = JSON.parse(JSON.stringify(obj))
 ```
 
-## 数据类型
+## \*数据类型
 
 基本数据类型 Undefined Null Boolean Number String Symbol BigInt
 
 引用数据类型 Object
 
-## 隐式转换
+## 参数传递方式
+
+栈：优点访问速度快，基本数据类型存放到栈里面，变量的数据直接存放在栈空间中
+
+ <img src="images/image-20230302135518894.png" alt="image-20230302135518894" style="zoom: 33%;" />
+
+堆：优点存储容量大，引用数据类型存放到堆里面，栈空间里存放的是地址，真正数据存放在堆空间中
+
+ <img src="images/image-20230302135657234.png" alt="image-20230302135657234" style="zoom: 33%;" />
 
 ## null 和 undefined 区别
 
@@ -1088,6 +907,132 @@ let obj2 = JSON.parse(JSON.stringify(obj))
 
 ===除了比较值，还比较类型
 
+## 数据类型检测的方式有哪些
+
+```js
+typeof：检测基本数据类型，只能检测出除了 null 外的基本数据类型和引用数据类型中的 function
+typeof [] // 'object'
+
+instanceof：检测引用数据类型
+[] instanceof Array // true
+'a' instanceof String // false
+
+constructor：两种都可以检测，onstructor易被修改，如果声明了一个构造函数，并把它的原型指向了Array，就检测不出来了
+[].constructor === Array // true
+'a'.cnstructor === String // true
+
+Object.prototype.toString.call：检测出所有的类型
+Object.prototype.toString.call(0) // '[object Number]'
+```
+
+## 伪数组
+
+有长度，有索引，但是没有 pop() push() 等数组方法的数组
+
+https://www.jianshu.com/p/8e1660a2162c
+
+## 判断是否是数组
+
+使用 ES6 新增的 `Array.isArray` 方法
+
+```js
+let arr = [1, 2, 3]
+Array.isArray(arr) // true
+```
+
+## slice splice
+
+mdn 文档
+
+## 数组去重
+
+方式一
+
+```js
+const arr = [1, 2, 3, 1, 2, 3]
+function repeat(arr) {
+  // return Array.from(new Set(arr))
+  return [...new Set(arr)]
+}
+const res = repeat(arr)
+console.log(res)
+```
+
+方式二
+
+```js
+const arr = [10, 20, 30, 10, 20, 30]
+function repeat(arr) {
+  let newArr = []
+  for (let i = 0; i < arr.length; i++) {
+    if (newArr.indexOf(arr[i]) === -1) {
+      newArr.push(arr[i])
+    }
+  }
+  return newArr
+}
+const res = repeat(arr)
+console.log(res)
+```
+
+## 多维数组求最大值
+
+```js
+<script>
+  const arr = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ]
+  function max(arr) {
+    const newArr = []
+    arr.forEach((item, i) => {
+      newArr.push(Math.max(...item))
+    })
+    return newArr
+  }
+  const res = max(arr)
+  console.log(res)
+</script>
+```
+
+## 给字符串新增方法实现功能
+
+```js
+<script>
+  String.prototype.addPrefix = function (str) {
+    return str + this
+  }
+  const res = "world".addPrefix("hello")
+  console.log(res)
+</script>
+```
+
+## 统计字符串出现最多的次数
+
+```js
+<script>
+  const str = "aaabbbcccc"
+  let obj = {}
+  for (let i = 0; i < str.length; i++) {
+    if (obj[str[i]]) obj[str[i]]++
+    else obj[str[i]] = 1
+  }
+  // 求出最大值
+  let max = 0
+  for (let k in obj) {
+    if (max < obj[k]) max = obj[k]
+  }
+  // 拿最大值去对比
+  for (let k in obj) {
+    if (obj[k] === max) {
+      console.log("最多的字符是" + k)
+      console.log("出现的次数是" + max)
+    }
+  }
+</script>
+```
+
 ## 事件循环
 
 ![image-20230301110019913](images/image-20230301110019913.png)
@@ -1102,14 +1047,7 @@ JS 把异步任务又做了进一步的划分，异步任务又分为两类，�
 
 宏任务和微任务的执行顺序：每一个宏任务执行完之后，都会检查是否存在待执行的微任务，如果有，则执行完所有微任务之后，再继续执行下一个宏任务。
 
-## 数据类型检测的方式有哪些
-
-判断数据类型的方法一般可以通过：**typeof**、**instanceof**、**constructor**、**toString**四种常用方法
-
-| 不同类型的优缺点 | typeof                                                        | instanceof                          | constructor                                    | Object.prototype.toString.call        |
-| ---------------- | ------------------------------------------------------------- | ----------------------------------- | ---------------------------------------------- | ------------------------------------- |
-| 优点             | 使用简单                                                      | 能检测出`引用类型`                  | 基本能检测所有的类型（除了 null 和 undefined） | 检测出所有的类型                      |
-| 缺点             | 只能检测出除 null 外的基本数据类型和引用数据类型中的 function | 不能检测出基本类型，且不能跨 iframe | constructor 易被修改，也不能跨 iframe          | IE6 下，undefined 和 null 均为 Object |
+# 11
 
 ## typeof null 的结果是什么 为什么
 
@@ -1256,10 +1194,6 @@ console.log(JSON.stringify(obj)) // {"title":"devpoint"}
 - 如果需要对象的`toString`方法被重写，则需要使用 String()。
 - 在其他情况下，使用`String()`将变量转换为字符串。
 
-## 伪数组(类数组)
-
-https://www.jianshu.com/p/8e1660a2162c
-
 ## Unicode、UTF-8、UTF-16、UTF-32 的区别
 
 - `Unicode` 是编码字符集（字符集），而`UTF-8`、`UTF-16`、`UTF-32`是字符集编码（编码规则）；
@@ -1371,14 +1305,6 @@ use strict 是一种 ECMAscript5 添加的（严格模式）运行模式，这�
 **两者主要区别在于：** 后者源程序编译后即可在该平台运行，前者是在运行期间才编译。所以后者运行速度快，前者跨平台性好。
 
 ## for...in 和 for...of 的区别
-
-for…of 是 ES6 新增的遍历方式，允许遍历一个含有 iterator 接口的数据结构（数组、对象等）并且返回各项的值，和 ES3 中的 for…in 的区别如下
-
-- for…of 遍历获取的是对象的键值，for…in 获取的是对象的键名；
-- for… in 会遍历对象的整个原型链，性能非常差不推荐使用，而 for … of 只遍历当前对象不会遍历原型链；
-- 对于数组的遍历，for…in 会返回数组中所有可枚举的属性(包括原型链上可枚举的属性)，for…of 只返回数组的下标对应的属性值；
-
-**总结：** for...in 循环主要是为了遍历对象而生，不适用于遍历数组；for...of 循环可以用来遍历数组、类数组对象，字符串、Set、Map 以及 Generator 对象。
 
 ## ajax axios fetch 的区别
 
@@ -1624,9 +1550,7 @@ JavaScript 中的数组存储大致需要分为两种情况
 
 > 温馨提示：可以想象一下连续的内存空间只需要根据索引（指针）直接计算存储位置即可。如果是哈希映射那么首先需要计算索引值，然后如果索引值有冲突的场景下还需要进行二次查找（需要知道哈希的存储方式）
 
-
-
-### 什么是函数式编程
+## 什么是函数式编程
 
 函数式编程是一种"编程范式"（programming paradigm），一种编写程序的方法论
 
@@ -1634,7 +1558,7 @@ JavaScript 中的数组存储大致需要分为两种情况
 
 相比命令式编程，函数式编程更加强调程序执行的结果而非执行的过程，倡导利用若干简单的执行单元让计算结果不断渐进，逐层推导复杂的运算，而非设计一个复杂的执行过程
 
-### 函数式编程的优缺点
+## 函数式编程的优缺点
 
 **优点**
 
@@ -1649,7 +1573,7 @@ JavaScript 中的数组存储大致需要分为两种情况
 - 资源占用：在 JS 中为了实现对象状态的不可变，往往会创建新的对象，因此，它对垃圾回收所产生的压力远远超过其他编程方式
 - 递归陷阱：在函数式编程中，为了实现迭代，通常会采用递归操作
 
-### 什么是纯函数，它有什么优点
+## 什么是纯函数，它有什么优点
 
 纯函数是对给定的输入返还相同输出的函数，并且要求你所有的数据都是不可变的，即纯函数=无状态+数据不可变
 
@@ -1665,7 +1589,7 @@ JavaScript 中的数组存储大致需要分为两种情况
 - 可读性更强 ，函数不管是否是纯函数 都会有一个语义化的名称，更便于阅读
 - 可以组装成复杂任务的可能性。符合模块化概念及单一职责原则
 
-### 什么是组合函数 (compose)
+## 什么是组合函数 (compose)
 
 在函数式编程中，有一个很重要的概念就是函数组合，实际上就是把处理的函数数据像管道一样连接起来，然后让数据穿过管道连接起来，得到最终的结果。
 
@@ -1691,7 +1615,7 @@ resFn(1)
 
 组合函数的思想，在很多框架中也被使用，例如：redux，实现效果来说是其实和上面的代码等价。
 
-### 什么是惰性函数
+## 什么是惰性函数
 
 惰性载入表示函数执行的分支只会在函数第一次掉用的时候执行，在第一次调用过程中，该函数会被覆盖为另一个按照合适方式执行的函数，这样任何对原函数的调用就不用再经过执行的分支了
 
@@ -1725,11 +1649,11 @@ console.log(test())
 复制代码
 ```
 
-### 什么是高阶函数
+## 什么是高阶函数
 
 高阶函数是指使用其他函数作为参数、或者返回一个函数作为结果的函数。
 
-### 说说你对函数柯里化的理解
+## 说说你对函数柯里化的理解
 
 柯里化（Currying）是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下的参数且返回结果的新函数的技术。
 
@@ -1741,7 +1665,7 @@ console.log(test())
 
 （3）延迟运行：避免重复的去执行程序，等真正需要结果的时候再执行
 
-### 说说你对递归函数的理解
+## 说说你对递归函数的理解
 
 如果一个函数在内部调用自身本身，这个函数就是递归函数
 
@@ -1753,7 +1677,7 @@ console.log(test())
 
 **缺点**：效率低、调用栈可能会溢出，其实每一次函数调用会在内存栈中分配空间，而每个进程的栈的容量是有限的，当调用的层次太多时，就会超出栈的容量，从而导致栈溢出。
 
-### 什么是尾递归
+## 什么是尾递归
 
 尾递归，即在函数尾位置调用自身（或是一个尾调用本身的其他函数等等）。
 
@@ -1761,7 +1685,7 @@ console.log(test())
 
 这时候，我们就可以使用尾递归，即一个函数中所有递归形式的调用都出现在函数的末尾，对于尾递归来说，由于只存在一个调用记录，所以永远不会发生"栈溢出"错误
 
-### 什么是函数缓存，如何实现
+## 什么是函数缓存，如何实现
 
 **概念**
 
@@ -1782,3 +1706,78 @@ console.log(test())
 - 对于具有重复输入值的递归函数
 - 对于纯函数，即每次使用特定输入调用时返回相同输出的函数
 
+## 事件流
+
+事件流⼜称为事件传播，是⻚⾯中接收事件的顺序。DOM2 级事件规定的事件流包括了 3 个阶段：
+
+- 事件捕获阶段
+- 处于⽬标阶段
+- 事件冒泡阶段
+
+ <img src="images/image-20230302130734887.png" alt="image-20230302130734887" style="zoom:50%;" />
+
+事件冒泡：当一个元素触发事件后，会依次向上调用所有父级元素的 同名事件
+
+如果点击了页面代码中的 `<button>` 按钮，那么该 `click` 点击事件会沿着 DOM 树向上逐级传播，在途经的每个节点上都会发生，具体顺序如下：
+
+1. button 元素
+2. body 元素
+3. html 元素
+4. document 对象
+
+因为默认就有冒泡阶段的存在，所以容易导致事件影响到父级元素 ，若想把事件就限制在当前元素内，就需要阻止事件冒泡。
+
+`e.stopPropagation()`
+
+```html
+<html>
+  <head>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <button>按钮</button>
+  </body>
+</html>
+```
+
+事件捕获：当一个元素的事件被触发时，会从 DOM 的根元素开始依次调用同名事件 (从外到里)
+
+事件捕获的最大作用在于：事件在到达预定⽬标之前就可以捕获到它
+
+如果仍以上面那段 HTML 代码为例，当点击按钮后，在事件捕获的过程中，document 对象会首先接收到这个 `click` 事件，然后再沿着 DOM 树依次向下，直到 `<button>`。具体顺序如下：
+
+1. document 对象
+2. html 元素
+3. body 元素
+4. button 元素
+
+## 事件委托
+
+`事件委托其实是利用事件冒泡的特点，给父元素注册事件，当我们触发子元素的时候，会冒泡到父元素身上，从而触发父元素的事件`
+
+```html
+<ul id="list">
+  <li>111</li>
+  <li>222</li>
+  <li>333</li>
+  <li>444</li>
+  <li>555</li>
+</ul>
+
+<script type="text/javascript">
+  // ⽗元素
+  var list = document.getElementById("list")
+
+  // 为⽗元素绑定事件，委托管理它的所有⼦元素li的点击事件
+  list.onclick = function (event) {
+    var currentTarget = event.target // 触发事件的事件源
+    // 为什么这样写？因为ul里可能不止嵌套li，虽然不合法。
+    if (currentTarget.tagName.toLowerCase() === "li") {
+      alert(currentTarget.innerText)
+    }
+  }
+</script>
+```
+
+适用场景：在绑定大量事件的时候，可以选择事件委托，可以减少事件注册数量，节省内存占⽤
