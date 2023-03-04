@@ -1,3 +1,11 @@
+## Node 是什么
+
+node 是 js 的运行环境，node 可以让前端去创建服务器，服务器一般由后端去写，但是 node 学习成本低（因为 node 走的 js），适合前端，localhost:8080 就是由 node 做支持
+
+## 模块化
+
+模块化：一个js文件可以引入另一个js文件中的数据，这种开发方式就叫做模块化开发
+
 ## commonJS 规范
 
 ```js
@@ -57,14 +65,6 @@ devDependencies开发环境
 把很多文件打包整合到一起，缩小项目体积，提高加载速度
 
 ![image-20210207234927772](images/image-20210207234927772.png)
-
-其中功能
-
-- less/sass -> css
-
-- ES6/7/8 -> ES5
-
-- html/css/js -> 压缩合并
 
 ## webpack 的使用步骤
 
@@ -634,13 +634,11 @@ babel：用于处理高版本 js 语法 的兼容性 [babel 官网](https://www.
 
 ## webpack 开发服务器
 
-### webpack 开发服务器为何学
-
-文档地址https://webpack.docschina.org/configuration/dev-server/
+https://webpack.docschina.org/configuration/dev-server/
 
 抛出问题：每次修改代码，都需要重新 yarn build 打包，才能看到最新的效果，实际工作中，打包 yarn build 非常费时
 
-为什么费时?
+为什么费时：
 
 1. 构建依赖
 2. 磁盘读取对应的文件到内存，才能加载
@@ -651,7 +649,7 @@ babel：用于处理高版本 js 语法 的兼容性 [babel 官网](https://www.
 
 ### webpack-dev-server 自动刷新
 
-> 启动本地服务，可实时更新修改的代码，打包**变化代码**到内存中，然后直接提供端口和网页访问
+启动本地服务，可实时更新修改的代码，打包 变化代码 到内存中，然后直接提供端口和网页访问
 
 1. 下载包
 
@@ -675,13 +673,13 @@ babel：用于处理高版本 js 语法 的兼容性 [babel 官网](https://www.
    #或者 npm run serve
    ```
 
-> 总结：以后改了 src 下的资源代码，就会直接更新到内存打包，然后反馈到浏览器上了
+总结：以后改了 src 下的资源代码，就会直接更新到内存打包，然后反馈到浏览器上了
 
 ### webpack-dev-server 配置
 
 1. 在 webpack.config.js 中添加服务器配置
 
-   更多配置参考这里https://webpack.docschina.org/configuration/dev-server/#devserverafter
+   https://webpack.docschina.org/configuration/dev-server/#devserverafter
 
    ```js
    module.exports = {
@@ -692,19 +690,17 @@ babel：用于处理高版本 js 语法 的兼容性 [babel 官网](https://www.
    }
    ```
 
-## 面试题
-
-### 1、什么是 webpack（必会）
+## 什么是 webpack（必会）
 
 webpack 是一个打包模块化 javascript 的工具，在 webpack 里一切文件皆模块，通过 loader 转换文件，通过 plugin 注入钩子，最后输出由多个模块组合成的文件，webpack 专注构建模块化项目，简单说就是模块打包工具
 
-### 2、Webpack 的优点是什么（必会）
+## Webpack 的优点是什么（必会）
 
 减少文件体积、减少文件数量
 
 提高网页加载速度
 
-### 3、webpack 的构建流程是什么 从读取配置到输出文件这个过程尽量说全（必会）
+## webpack 的构建流程是什么 从读取配置到输出文件这个过程尽量说全（必会）
 
 Webpack 的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：
 
@@ -718,7 +714,7 @@ Webpack 的运行流程是一个串行的过程，从启动到结束会依次执
 
 在以上过程中，Webpack 会在特定的时间点广播出特定的事件，插件在监听到感兴趣的事件后会执行特定的逻辑，并且插件可以调用 Webpack 提供的 API 改变 Webpack 的运行结果
 
-### 4、说一下 Webpack 的热更新原理(必会)
+## 说一下 Webpack 的热更新原理(必会)
 
 webpack 的热更新又称热替换（Hot Module Replacement），缩写为 HMR。这个机制可以做到不用刷新浏览器而将新变更的模块替换掉旧的模块。
 
@@ -726,7 +722,7 @@ HMR 的核心就是客户端从服务端拉取更新后的文件，准确的说�
 
 后续的部分(拿到增量更新之后如何处理？哪些状态该保留？哪些又需要更新？)由 HotModulePlugin 来完成，提供了相关 API 以供开发者针对自身场景进行处理，像 react-hot-loader 和 vue-loader 都是借助这些 API 实现 HMR。
 
-### 5、webpack 与 grunt gulp 的不同（必会）
+## webpack 与 grunt gulp 的不同（必会）
 
 - 三者之间的区别
 
@@ -744,7 +740,7 @@ gulp 和 grunt 需要开发者将整个前端构建过程拆分成多个`Task`�
 
 gulp 更像后端开发者的思路，需要对于整个流程了如指掌 webpack 更倾向于前端开发者的思路
 
-### 6、有哪些常见的 Loader 他们是解决什么问题的（必会）
+## 有哪些常见的 Loader 他们是解决什么问题的（必会）
 
 1、 file-loader：把文件输出到一个文件夹中，在代码中通过相对 URL 去引用输出的文件
 
@@ -762,7 +758,7 @@ gulp 更像后端开发者的思路，需要对于整个流程了如指掌 webpa
 
 8、 eslint-loader：通过 ESLint 检查 JavaScript 代码
 
-### 7、Loader 和 Plugin 的不同（必会）
+## Loader 和 Plugin 的不同（必会）
 
 - 不同的作用
 
@@ -776,7 +772,7 @@ Loader 在 module.rules 中配置，也就是说他作为模块的解析规则�
 
 Plugin 在 plugins 中单独配置。 类型为数组，每一项是一个 plugin 的实例，参数都通过构造函数传入。
 
-### 8、代码分割的本质是什么 有什么意义呢
+## 代码分割的本质是什么 有什么意义呢
 
 代码分割的本质其实就是在`源代码直接上线`和`打包成唯一脚本main.bundle.js`这两种极端方案之间的一种更适合实际场景的中间状态。`用可接受的服务器性能压力增加来换取更好的用户体验。`
 
@@ -793,64 +789,62 @@ new Vue({
 }).$mount("#app") // 把vue文件的标签结构 -> 挂载到id为app的标签里
 ```
 
-# Webpack 优化
+## 如何提⾼**webpack**的打包速度
 
-### 7.1 如何提⾼**webpack**的打包速度
-
-**（1）优化 Loader**
+**优化 Loader**
 
 对于 Loader 来说，影响打包效率首当其冲必属 Babel 了。因为 Babel 会将代码转为字符串生成 AST，然后对 AST 继续进行转变最后再生成新的代码，项目越大，**转换代码越多，效率就越低**。
 
-**（2）HappyPack**
+**HappyPack**
 
 受限于 Node 是单线程运行的，所以 Webpack 在打包的过程中也是单线程的，特别是在执行 Loader 的时候，长时间编译的任务很多，这样就会导致等待的情况。
 
 **HappyPack 可以将 Loader 的同步执行转换为并行的**，这样就能充分利用系统资源来加快打包效率了
 
-**（3）DllPlugin**
+**DllPlugin**
 
 **DllPlugin 可以将特定的类库提前打包然后引入**。这种方式可以极大的减少打包类库的次数，只有当类库更新版本才有需要重新打包，并且也实现了将公共代码抽离成单独文件的优化方案。
 
-**（4）代码压缩**
+**代码压缩**
 
 在 Webpack3 中，一般使用 `UglifyJS` 来压缩代码，但是这个是单线程运行的，为了加快效率，可以使用 `webpack-parallel-uglify-plugin` 来并行运行 `UglifyJS`，从而提高效率。
 
 在 Webpack4 中，不需要以上这些操作了，只需要**将 `mode` 设置为 `production`** 就可以默认开启以上功能。代码压缩也是我们必做的性能优化方案，当然我们不止可以压缩 JS 代码，还可以压缩 HTML、CSS 代码，并且在压缩 JS 代码的过程中，我们还可以通过配置实现比如删除 `console.log` 这类代码的功能。
 
-### 7.2 如何减少 Webpack 打包**体积**
+## 如何减少 Webpack 打包体积
 
-**（1）按需加载**
+**按需加载**
 
 在开发 SPA 项目的时候，项目中都会存在很多路由页面。如果将这些页面全部打包进一个 JS 文件的话，虽然将多个请求合并了，但是同样也加载了很多并不需要的代码，耗费了更长的时间。那么为了首页能更快地呈现给用户，希望首页能加载的文件体积越小越好，**这时候就可以使用按需加载，将每个路由页面单独打包为一个文件**。当然不仅仅路由可以按需加载，对于 `loadash` 这种大型类库同样可以使用这个功能。
 
-**（2）Scope Hoisting**
+**Scope Hoisting**
 
-**Scope Hoisting 会分析出模块之间的依赖关系，尽可能的把打包出来的模块合并到一个函数中去。**
+**Scope Hoisting 会分析出模块之间的依赖关系，尽可能的把打包出来的模块合并到一个函数中去**
 
-**（3）Tree Shaking**
+**Tree Shaking**
 
 **Tree Shaking 可以实现删除项目中未被引用的代码**。可以通过在启动 webpack 时追加参数 --optimize-minimize 来实现
 
-### 7.3 如何⽤**webpack**来优化前端性能
+## 如何⽤**webpack**来优化前端性能
 
 ⽤ webpack 优化前端性能是指优化 webpack 的输出结果，让打包的最终结果在浏览器运⾏快速⾼效。
 
-- **压缩代码**：删除多余的代码、注释、简化代码的写法等等⽅式。可以利⽤ webpack 的 UglifyJsPlugin 和 ParallelUglifyPlugin 来压缩 JS ⽂件， 利⽤ cssnano （css-loader?minimize）来压缩 css
-- **利⽤ CDN 加速**: 在构建过程中，将引⽤的静态资源路径修改为 CDN 上对应的路径。可以利⽤ webpack 对于 output 参数和各 loader 的 publicPath 参数来修改资源路径
-- **Tree Shaking**: 将代码中永远不会⾛到的⽚段删除掉。可以通过在启动 webpack 时追加参数 --optimize-minimize 来实现
-- **Code Splitting (自动):** 将代码按路由维度或者组件分块(chunk),这样做到按需加载,同时可以充分利⽤浏览器缓存
-- **提取公共第三⽅库**: SplitChunksPlugin 插件来进⾏公共模块抽取,利⽤浏览器缓存可以⻓期缓存这些⽆需频繁变动的公共代码
+- **压缩代码**删除多余的代码、注释、简化代码的写法等等⽅式。可以利⽤ webpack 的 UglifyJsPlugin 和 ParallelUglifyPlugin 来压缩 JS ⽂件， 利⽤ cssnano （css-loader?minimize）来压缩 css
+- **利⽤ CDN 加速** 在构建过程中，将引⽤的静态资源路径修改为 CDN 上对应的路径。可以利⽤ webpack 对于 output 参数和各 loader 的 publicPath 参数来修改资源路径
+- **Tree Shaking** 将代码中永远不会⾛到的⽚段删除掉。可以通过在启动 webpack 时追加参数 --optimize-minimize 来实现
+- **Code Splitting (自动)**将代码按路由维度或者组件分块(chunk)，这样做到按需加载,同时可以充分利⽤浏览器缓存
+- **提取公共第三⽅库** SplitChunksPlugin 插件来进⾏公共模块抽取，利⽤浏览器缓存可以⻓期缓存这些⽆需频繁变动的公共代码
 
-### 7.4 如何提⾼**webpack**的构建速度
+## 如何提⾼**webpack**的构建速度
 
 - 多⼊⼝情况下，使⽤ CommonsChunkPlugin 来提取公共代码
 - 通过 **externals** 配置来提取常⽤库
-- 利⽤ DllPlugin 和 DllReferencePlugin 预编译资源模块 通过 DllPlugin 来对那些我们引⽤但是绝对不会修改的 npm 包来进⾏预编译，再通过 DllReferencePlugin 将预编译的模块加载进来。
+- 利⽤ DllPlugin 和 DllReferencePlugin 预编译资源模块 通过 DllPlugin 来对那些我们引⽤但是绝对不会修改的 npm 包来进⾏预编译，再通过 DllReferencePlugin 将预编译的模块加载进来
 - 使⽤ Happypack 实现多线程加速编译
 - 使⽤ webpack-uglify-parallel 来提升 uglifyPlugin 的压缩速度。 原理上 webpack-uglify-parallel 采⽤了多核并⾏压缩来提升压缩速度
 - 使⽤ Tree-shaking 和 Scope Hoisting 来剔除多余代码
 
-### 7.5 什么是长缓存 在 Webpack 中如何做到长缓存优化
+## 什么是长缓存 在 Webpack 中如何做到长缓存优化
 
 1、什么是长缓存
 
@@ -860,15 +854,15 @@ new Vue({
 
 在 Webpack 中，可以在 output 给出输出的文件制定 chunkhash，并且分离经常更新的代码和框架代码，通 NameModulesPlugin 或者 HashedModulesPlugin 使再次打包文件名不变
 
-### 7.6 怎么实现 Webpack 的按需加载
+## 怎么实现 Webpack 的按需加载
 
-在 Webpack 中，import 不仅仅是 ES6module 的模块导入方式，还是一个类似 require 的函数，我们可以通过 import('module')的方式引入一个模块，import()返回的是一个 Promise 对象；使用 import（）方式就可以实现 Webpack 的按需加载
+在 Webpack 中，import 不仅仅是 ES6module 的模块导入方式，还是一个类似 require 的函数，我们可以通过 import('module')的方式引入一个模块，import()返回的是一个 Promise 对象。使用 import（）方式就可以实现 Webpack 的按需加载
 
-### 7.7 什么是神奇注释
+## 什么是神奇注释
 
 在 import（）里可以添加一些注释，如定义该 chunk 的名称，要过滤的文件，指定引入的文件等等，这类带有特殊功能的注释被称为神器注释。
 
-## 8. 什么是虚拟列表
+## 什么是虚拟列表
 
 `虚拟列表`其实是按需显示的一种实现，即**只对`可见区域`进行渲染，对`非可见区域`中的数据不渲染或部分渲染的技术，从而达到极高的渲染性能。**
 
@@ -930,9 +924,7 @@ new Vue({
 
 可以使用`IntersectionObserver`替换监听 scroll 事件，`IntersectionObserver`可以监听目标元素是否出现在可视区域内，在监听的回调事件中执行可视区域数据的更新，并且`IntersectionObserver`的监听回调是异步触发，不随着目标元素的滚动而触发，性能消耗极低。
 
-## 9. 前端工程化
-
-#### Babel 的原理是什么
+## Babel 的原理是什么
 
 **Babel 的主要工作是对代码进行转译。** (解决兼容, 解析执行一部分代码)
 
@@ -949,7 +941,7 @@ let a = 1 + 1    =>  var a = 2
 
 我们可以通过 AST Explorer 工具来查看 Babel 具体生成的 AST 节点。
 
-## 10. 什么是单点登录
+## 什么是单点登录
 
 单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一
 
@@ -959,7 +951,7 @@ SSO 一般都需要一个独立的认证中心（passport），子系统的登�
 
 当一个系统成功登录以后，`passport`将会颁发一个令牌给各个子系统，子系统可以拿着令牌会获取各自的受保护资源，为了减少频繁认证，各个子系统在被`passport`授权以后，会建立一个局部会话，在一定时间内可以无需再次向`passport`发起认证
 
-## 11. 大文件上传如何做分片上传、断点继传
+## 大文件上传如何做分片上传、断点继传
 
 ### 分片上传
 
@@ -999,7 +991,7 @@ SSO 一般都需要一个独立的认证中心（passport），子系统的登�
 - 网络环境较差：建议使用分片上传。当出现上传失败的时候，仅需重传失败的 Part
 - 流式上传：可以在需要上传的文件大小还不确定的情况下开始上传。这种场景在视频监控等行业应用中比较常见
 
-## 12. npm run dev 的时候 webpack 做了什么事情
+## npm run dev 的时候 webpack 做了什么事情
 
 执行**npm run dev**时候最先执行的**build/dev-server.js**文件，该文件主要完成下面几件事情：
 
@@ -1021,7 +1013,7 @@ SSO 一般都需要一个独立的认证中心（passport），子系统的登�
 
 # 打包
 
-## 打包发布 - 概念介绍
+## 概念介绍
 
 ### 目标
 
@@ -1045,7 +1037,7 @@ SSO 一般都需要一个独立的认证中心（passport），子系统的登�
 
    yarn build 打包生成的 dist 目录，在开发服务器中是把这些代码打包到了内存里
 
-## 打包发布 - publicPath
+## publicPath
 
 ### 目标
 
@@ -1074,7 +1066,7 @@ SSO 一般都需要一个独立的认证中心（passport），子系统的登�
 
    可以影响打包时 index.html 引入其他资源的相对路径
 
-## 打包发布 - 减少包体积 - 整体分析
+## 减少包体积 - 整体分析
 
 ### 目标
 
@@ -1100,7 +1092,7 @@ SSO 一般都需要一个独立的认证中心（passport），子系统的登�
 
    把一些不必经常维护的第三方插件，不用 webpack 模块化方式打包，而是变成 cdn 的 script 的 src 方式加载，因为 cdn 有物理加速的能力，会找用户就近的服务器拿到指定地址的文件
 
-## 打包发布 - 减少包体积 - 排除第三方
+## 减少包体积 - 排除第三方
 
 ### 目标
 
@@ -1150,7 +1142,7 @@ configureWebpack: {
 
    webpack 把对应几个包名写在 key 上，就可以刨除掉
 
-## 打包发布 - 了解 CDN
+## 了解 CDN
 
 ### 目标
 
@@ -1176,7 +1168,7 @@ CDN 全称叫做“Content Delivery Network”，中文叫**内容分发网络**
 
    可以适当提高第三方插件的链接速度, 但是开发的时候我们还是可以在本地用 npm 下载, 但是上线后要配置 cdn 地址, 用户的浏览器默认还有缓存功能
 
-## 打包发布 - 引用 CDN
+## 引用 CDN
 
 ### 目标
 
