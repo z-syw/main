@@ -12,8 +12,9 @@ module.exports = defineConfig({
   },
   // webpack的配置
   configureWebpack: {
-    // 设置外部扩展，模块名为qc，变量名为QC，页面中使用import导入时，qc将不会被webpack打包，前提是在index.html导入此文件
-    externals: { qc: 'QC' },
+    externals: {
+      qc: 'QC'
+    },
     plugins: [require('unplugin-vue-define-options/webpack')()]
   },
   pluginOptions: {
@@ -26,5 +27,6 @@ module.exports = defineConfig({
         path.join(__dirname, './src/assets/styles/variables.less')
       ]
     }
-  }
+  },
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : './'
 })

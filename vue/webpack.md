@@ -1,11 +1,11 @@
-## commonJS规范
+## commonJS 规范
 
 ```js
 // 导出 module.exports = {}
 // 导入 const 变量 = require("模块标识")
 ```
 
-## ES6规范
+## ES6 规范
 
 ```js
 // 导出 export 或者 export default {}
@@ -36,23 +36,23 @@ dependencies生产环境
 devDependencies开发环境
 ```
 
-## base64字符串
+## base64 字符串
 
-~~~bash
+```bash
 通过base64对图片进行编码，编码后可以直接在网页引入图片，这样图片就可以和网页一起加载了，加快图片的加载速度，但是不要大量使用
-~~~
+```
 
-## webpack基本概念
+## webpack 基本概念
 
-* 有了webpack让模块化开发前端项目成为了可能，底层需要node支持
+- 有了 webpack 让模块化开发前端项目成为了可能，底层需要 node 支持
 
-* webpack本身是node的一个第三方模块包，用于打包压缩代码
+- webpack 本身是 node 的一个第三方模块包，用于打包压缩代码
 
-* 现代 javascript 应用程序的 静态模块打包器 (module bundler)
+- 现代 javascript 应用程序的 静态模块打包器 (module bundler)
 
-* 为要学的 vue-cli 开发环境做铺垫
+- 为要学的 vue-cli 开发环境做铺垫
 
-## webpack能做什么
+## webpack 能做什么
 
 把很多文件打包整合到一起，缩小项目体积，提高加载速度
 
@@ -60,18 +60,17 @@ devDependencies开发环境
 
 其中功能
 
-* less/sass -> css
+- less/sass -> css
 
-* ES6/7/8 -> ES5
+- ES6/7/8 -> ES5
 
-* html/css/js -> 压缩合并
+- html/css/js -> 压缩合并
 
+## webpack 的使用步骤
 
-## webpack的使用步骤
+### webpack 基础使用
 
-### webpack基础使用
-
-> 把src下的2个js文件，打包到1个js中，并输出到默认dist目录下
+> 把 src 下的 2 个 js 文件，打包到 1 个 js 中，并输出到默认 dist 目录下
 
 默认入口 ./src/index.js
 
@@ -89,7 +88,7 @@ devDependencies开发环境
    yarn add webpack webpack-cli -D
    ```
 
-3. 配置scripts(自定义命令)
+3. 配置 scripts(自定义命令)
 
    ```bash
    scripts: {
@@ -97,20 +96,20 @@ devDependencies开发环境
    }
    ```
 
-4. 新建目录src
+4. 新建目录 src
 
-5. 新建src/add/add.js 定义求和函数导出
+5. 新建 src/add/add.js 定义求和函数导出
 
    ```js
    export const addFn = (a, b) => a + b
    ```
 
-6. 新建src/index.js导入使用
+6. 新建 src/index.js 导入使用
 
    ```js
-   import {addFn} from './add/add'
-   
-   console.log(addFn(10, 20));
+   import { addFn } from "./add/add"
+
+   console.log(addFn(10, 20))
    ```
 
 7. 运行打包命令
@@ -120,26 +119,26 @@ devDependencies开发环境
    #或者 npm run build
    ```
 
-> 总结：src并列处，生成默认dist目录和打包后默认main.js文件
+> 总结：src 并列处，生成默认 dist 目录和打包后默认 main.js 文件
 
-### webpack更新打包
+### webpack 更新打包
 
 > 以后代码变更，如何重新打包呢
 
-1. 新建src/tool/tool.js定义导出数组求和方法
+1. 新建 src/tool/tool.js 定义导出数组求和方法
 
    ```js
-   export const getArrSum = arr => arr.reduce((sum, val) => sum += val, 0)
+   export const getArrSum = arr => arr.reduce((sum, val) => (sum += val), 0)
    ```
 
-2. src/index.js导入使用
+2. src/index.js 导入使用
 
    ```js
-   import {addFn} from './add/add'
-   import {getArrSum} from './tool/tool'
-   
-   console.log(addFn(10, 20));
-   console.log(getArrSum([1, 2, 3]));
+   import { addFn } from "./add/add"
+   import { getArrSum } from "./tool/tool"
+
+   console.log(addFn(10, 20))
+   console.log(getArrSum([1, 2, 3]))
    ```
 
 3. 重新打包
@@ -148,38 +147,38 @@ devDependencies开发环境
    yarn build
    ```
 
-> 总结：src下开发环境，dist是打包后，分别独立
+> 总结：src 下开发环境，dist 是打包后，分别独立
 >
 > 总结：打包后格式压缩，变量压缩等
 
-## webpack的配置
+## webpack 的配置
 
 ### 入口和出口
 
-> 告诉webpack从哪开始打包，打包后输出到哪里
+> 告诉 webpack 从哪开始打包，打包后输出到哪里
 
 默认入口 ./src/index.js
 
 默认出口 ./dist/main.js
 
-webpack配置 - webpack.config.js(默认)
+webpack 配置 - webpack.config.js(默认)
 
-1. 新建src并列处webpack.config.js
+1. 新建 src 并列处 webpack.config.js
 2. 填入配置项
 
 ```js
 const path = require("path")
 
 module.exports = {
-    entry: "./src/main.js", // 入口
-    output: { 
-        path: path.join(__dirname, "dist"), // 出口路径
-        filename: "bundle.js" // 出口文件名
-    }
+  entry: "./src/main.js", // 入口
+  output: {
+    path: path.join(__dirname, "dist"), // 出口路径
+    filename: "bundle.js", // 出口文件名
+  },
 }
 ```
 
-3. 修改package.json，自定义打包命令，让webpack使用配置文件
+3. 修改 package.json，自定义打包命令，让 webpack 使用配置文件
 
 ```json
 "scripts": {
@@ -197,147 +196,143 @@ module.exports = {
 
 ### 案例：隔行变色
 
-> 目标：工程化模块化开发前端项目，webpack会对ES6模块化处理
+> 目标：工程化模块化开发前端项目，webpack 会对 ES6 模块化处理
 
-1. 回顾从0准备环境
+1. 回顾从 0 准备环境
 
-   * 初始化包环境
+   - 初始化包环境
 
-   * 下载依赖包
-   * 配置自定义打包命令
+   - 下载依赖包
+   - 配置自定义打包命令
 
-2. 下载jquery，新建public/index.html
+2. 下载 jquery，新建 public/index.html
 
    ```bash
    yarn add jquery
    ```
 
-   
-
    ![image-20210208100817930](images/image-20210208100817930.png)
 
-3. index.html 准备一些li
+3. index.html 准备一些 li
 
-   * 因为import语法浏览器支持性不好，需要被webpack转换后，再使用JS代码
+   - 因为 import 语法浏览器支持性不好，需要被 webpack 转换后，再使用 JS 代码
 
    ```html
    <!DOCTYPE html>
    <html lang="en">
-   <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-     <title>Document</title>
-   </head>
-   <body>
-   
-   <div id="app">
-     <!-- ul>li{我是第$个li}*10 -->
-     <ul>
-       <li>我是第1个li</li>
-       <li>我是第2个li</li>
-       <li>我是第3个li</li>
-       <li>我是第4个li</li>
-       <li>我是第5个li</li>
-       <li>我是第6个li</li>
-       <li>我是第7个li</li>
-       <li>我是第8个li</li>
-       <li>我是第9个li</li>
-     </ul>
-   </div>
-   
-   </body>
+     <head>
+       <meta charset="UTF-8" />
+       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+       <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+       <title>Document</title>
+     </head>
+     <body>
+       <div id="app">
+         <!-- ul>li{我是第$个li}*10 -->
+         <ul>
+           <li>我是第1个li</li>
+           <li>我是第2个li</li>
+           <li>我是第3个li</li>
+           <li>我是第4个li</li>
+           <li>我是第5个li</li>
+           <li>我是第6个li</li>
+           <li>我是第7个li</li>
+           <li>我是第8个li</li>
+           <li>我是第9个li</li>
+         </ul>
+       </div>
+     </body>
    </html>
    ```
 
-4. 在src/main.js引入jquery
+4. 在 src/main.js 引入 jquery
 
    ```bash
    yarn add jquery
    ```
 
-5. src/main.js中编写隔行变色代码
+5. src/main.js 中编写隔行变色代码
 
    ```js
    // 引入jquery
-   import $ from 'jquery'
-   $(function() {
-     $('#app li:nth-child(odd)').css('color', 'red')
-     $('#app li:nth-child(even)').css('color', 'green')
+   import $ from "jquery"
+   $(function () {
+     $("#app li:nth-child(odd)").css("color", "red")
+     $("#app li:nth-child(even)").css("color", "green")
    })
    ```
 
 6. 执行打包命令观察效果
 
-7. 可以在dist下把public/index.html引入过来
+7. 可以在 dist 下把 public/index.html 引入过来
 
    ![image-20210421125602484](images/image-20210421125602484.png)
 
-   在index.html中，手动引入js
+   在 index.html 中，手动引入 js
 
    ```vue
    <script src="../dist/bundle.js"></script>
    ```
 
-> 总结：前端工程化模块化，webpack打包后引入到html中使用
+> 总结：前端工程化模块化，webpack 打包后引入到 html 中使用
 
-### 插件：自动生成html文件
+### 插件：自动生成 html 文件
 
-> html-webpack-plugin插件，让webpack打包后生成html文件并自动引入打包后的js
+> html-webpack-plugin 插件，让 webpack 打包后生成 html 文件并自动引入打包后的 js
 
-[html-webpack-plugin插件地址](https://www.webpackjs.com/plugins/html-webpack-plugin/)
+[html-webpack-plugin 插件地址](https://www.webpackjs.com/plugins/html-webpack-plugin/)
 
-  1. 下载插件
+1. 下载插件
 
-     ```
-     yarn add html-webpack-plugin  -D
-     ```
+   ```
+   yarn add html-webpack-plugin  -D
+   ```
 
-  2. webpack.config.js配置
+2. webpack.config.js 配置
 
-     ```js
-     // 引入自动生成 html 的插件
-     const HtmlWebpackPlugin = require('html-webpack-plugin')
-     
-     module.exports = {
-         // ...省略其他代码
-         plugins: [
-             new HtmlWebpackPlugin({
-                 template: './public/index.html' // 以此为基准生成打包后html文件
-             })
-         ]
-     }
-     ```
+   ```js
+   // 引入自动生成 html 的插件
+   const HtmlWebpackPlugin = require("html-webpack-plugin")
 
-3. 重新打包后观察dist下是否多出html并运行看效果
+   module.exports = {
+     // ...省略其他代码
+     plugins: [
+       new HtmlWebpackPlugin({
+         template: "./public/index.html", // 以此为基准生成打包后html文件
+       }),
+     ],
+   }
+   ```
 
-   打包后的index.html自动引入打包后的js文件
+3. 重新打包后观察 dist 下是否多出 html 并运行看效果
 
-> 总结：webpack就像一个人，webpack.config.js是人物属性，给它穿什么装备它就干什么活
+   打包后的 index.html 自动引入打包后的 js 文件
 
-### 加载器：处理css文件问题
+> 总结：webpack 就像一个人，webpack.config.js 是人物属性，给它穿什么装备它就干什么活
 
-> 自己准备css文件，引入到webpack入口，测试webpack是否能打包css文件
+### 加载器：处理 css 文件问题
 
-1. 新建src/css/index.css
+> 自己准备 css 文件，引入到 webpack 入口，测试 webpack 是否能打包 css 文件
 
-2. 编写去除li圆点样式代码
+1. 新建 src/css/index.css
 
-3. (重要) 一定要引入到入口才会被webpack打包
+2. 编写去除 li 圆点样式代码
+
+3. (重要) 一定要引入到入口才会被 webpack 打包
 
 4. 执行打包命令观察效果
 
-> 总结：处理失败，webpack默认只能处理js类型文件
+> 总结：处理失败，webpack 默认只能处理 js 类型文件
 
-### 加载器：处理css文件
+### 加载器：处理 css 文件
 
-> loaders加载器，可让webpack处理其他类型的文件，打包到js中
+> loaders 加载器，可让 webpack 处理其他类型的文件，打包到 js 中
 
-原因：webpack默认只认识 js 文件和 json文件
+原因：webpack 默认只认识 js 文件和 json 文件
 
-[style-loader文档](https://webpack.docschina.org/loaders/style-loader/)
+[style-loader 文档](https://webpack.docschina.org/loaders/style-loader/)
 
-[css-loader文档](https://webpack.docschina.org/loaders/css-loader/)
+[css-loader 文档](https://webpack.docschina.org/loaders/css-loader/)
 
 1. 安装依赖
 
@@ -348,47 +343,49 @@ module.exports = {
 2. webpack.config.js 配置
 
    ```js
-   const HtmlWebpackPlugin = require('html-webpack-plugin')
-   
+   const HtmlWebpackPlugin = require("html-webpack-plugin")
+
    module.exports = {
-       // ...其他代码
-       module: { 
-           rules: [ // loader的规则
-             {
-               test: /\.css$/, // 匹配所有的css文件
-               // use数组里从右向左运行
-               // 先用 css-loader 让webpack能够识别 css 文件的内容并打包
-               // 再用 style-loader 将样式, 把css插入到dom中
-               use: [ "style-loader", "css-loader"]
-             }
-           ]
-       }
+     // ...其他代码
+     module: {
+       rules: [
+         // loader的规则
+         {
+           test: /\.css$/, // 匹配所有的css文件
+           // use数组里从右向左运行
+           // 先用 css-loader 让webpack能够识别 css 文件的内容并打包
+           // 再用 style-loader 将样式, 把css插入到dom中
+           use: ["style-loader", "css-loader"],
+         },
+       ],
+     },
    }
    ```
 
-3. 新建src/css/li.css去掉li默认样式
+3. 新建 src/css/li.css 去掉 li 默认样式
 
    ```css
-   ul, li{
-       list-style: none;
+   ul,
+   li {
+     list-style: none;
    }
    ```
 
-4. 引入到main.js (因为这里是入口需要产生关系，才会被webpack找到打包起来)
+4. 引入到 main.js (因为这里是入口需要产生关系，才会被 webpack 找到打包起来)
 
    ```js
    import "./css/index.css"
    ```
 
-5. 运行打包后dist/index.html观察效果和css引入情况
+5. 运行打包后 dist/index.html 观察效果和 css 引入情况
 
-> 总结：万物皆模块，引到入口，才会被webpack打包。css打包进js中，然后被嵌入在style标签插入dom上
+> 总结：万物皆模块，引到入口，才会被 webpack 打包。css 打包进 js 中，然后被嵌入在 style 标签插入 dom 上
 
-### 加载器：处理less文件
+### 加载器：处理 less 文件
 
-> less-loader让webpack处理less文件，less模块翻译less代码
+> less-loader 让 webpack 处理 less 文件，less 模块翻译 less 代码
 
-[less-loader文档](https://webpack.docschina.org/loaders/less-loader/)
+[less-loader 文档](https://webpack.docschina.org/loaders/less-loader/)
 
 1. 下载依赖包
 
@@ -400,44 +397,46 @@ module.exports = {
 
    ```js
    module: {
-     rules: [ // loader的规则
+     rules: [
+       // loader的规则
        // ...省略其他
        {
-       	test: /\.less$/,
-       	// 使用less-loader, 让webpack处理less文件, 内置还会用less翻译less代码成css内容
-           use: [ "style-loader", "css-loader", 'less-loader']
-       }
+         test: /\.less$/,
+         // 使用less-loader, 让webpack处理less文件, 内置还会用less翻译less代码成css内容
+         use: ["style-loader", "css-loader", "less-loader"],
+       },
      ]
    }
    ```
 
-3. src/less/index.less设置li字体大小24px
+3. src/less/index.less 设置 li 字体大小 24px
 
    ```less
-   @size:24px;
-   
-   ul, li{
-       font-size: @size
+   @size: 24px;
+
+   ul,
+   li {
+     font-size: @size;
    }
    ```
 
-4. 引入到main.js中
+4. 引入到 main.js 中
 
    ```js
    import "./less/index.less"
    ```
 
-5. 打包运行dist/index.html 观察效果
+5. 打包运行 dist/index.html 观察效果
 
-> 总结：只要找到对应的loader加载器，就能让webpack处理不同类型文件
+> 总结：只要找到对应的 loader 加载器，就能让 webpack 处理不同类型文件
 
 ### 加载器：处理图片文件
 
-> 用asset module方式(webpack5版本新增)
+> 用 asset module 方式(webpack5 版本新增)
 
-[asset module文档](https://webpack.docschina.org/guides/asset-modules/)
+[asset module 文档](https://webpack.docschina.org/guides/asset-modules/)
 
-如果使用的是webpack5版本的，直接配置在webpack.config.js的rules里即可
+如果使用的是 webpack5 版本的，直接配置在 webpack.config.js 的 rules 里即可
 
 ```js
 {
@@ -446,11 +445,11 @@ module.exports = {
 }
 ```
 
-如果你用的是webpack4及以前的，请使用者里的配置
+如果你用的是 webpack4 及以前的，请使用者里的配置
 
-[url-loader文档](https://webpack.docschina.org/loaders/url-loader/)
+[url-loader 文档](https://webpack.docschina.org/loaders/url-loader/)
 
-[file-loader文档](https://webpack.docschina.org/loaders/file-loader/)
+[file-loader 文档](https://webpack.docschina.org/loaders/file-loader/)
 
 1. 下载依赖包
 
@@ -480,31 +479,31 @@ module.exports = {
    - 好处就是浏览器不用发请求了，直接可以读取
    - 坏处就是如果图片太大，再转`base64`就会让图片的体积增大 30% 左右
 
-3. src/assets/准备老师发的2个图文件
+3. src/assets/准备老师发的 2 个图文件
 
-4. 在css/less/index.less把小图片用做背景图
+4. 在 css/less/index.less 把小图片用做背景图
 
    ```less
-   body{
-       background: url(../assets/logo_small.png) no-repeat center;
+   body {
+     background: url(../assets/logo_small.png) no-repeat center;
    }
    ```
 
-5. 在src/main.js把大图插入到创建的img标签上，添加body上显示
+5. 在 src/main.js 把大图插入到创建的 img 标签上，添加 body 上显示
 
    ```js
    // 引入图片-使用
-   import imgUrl from './assets/1.gif'
+   import imgUrl from "./assets/1.gif"
    const theImg = document.createElement("img")
    theImg.src = imgUrl
    document.body.appendChild(theImg)
    ```
 
-6. 打包运行dist/index.html观察2个图片区别
+6. 打包运行 dist/index.html 观察 2 个图片区别
 
-> 总结：url-loader 把文件转base64 打包进js中，会有30%的增大，file-loader 把文件直接复制输出
+> 总结：url-loader 把文件转 base64 打包进 js 中，会有 30%的增大，file-loader 把文件直接复制输出
 
-### webpack加载文件优缺点
+### webpack 加载文件优缺点
 
 图片转成 base64 字符串
 
@@ -513,9 +512,9 @@ module.exports = {
 
 ### 加载器：处理字体文件
 
-> 用asset module技术，asset/resource直接输出到dist目录下
+> 用 asset module 技术，asset/resource 直接输出到 dist 目录下
 
-webpack5使用这个配置
+webpack5 使用这个配置
 
 ```js
 { // webpack5默认内部不认识这些文件，所以当做静态资源直接输出即可
@@ -527,7 +526,7 @@ webpack5使用这个配置
 }
 ```
 
-webpack4及以前使用下面的配置
+webpack4 及以前使用下面的配置
 
 1. webpack.config.js - 准备配置
 
@@ -549,16 +548,16 @@ webpack4及以前使用下面的配置
    }
    ```
 
-2. src/assets/放入字体库fonts文件夹
+2. src/assets/放入字体库 fonts 文件夹
 
-3. 在main.js引入iconfont.css
+3. 在 main.js 引入 iconfont.css
 
    ```js
    // 引入字体图标文件
-   import './assets/fonts/iconfont.css'
+   import "./assets/fonts/iconfont.css"
    ```
 
-4. 在public/index.html使用字体图标样式
+4. 在 public/index.html 使用字体图标样式
 
    ```html
    <i class="iconfont icon-weixin"></i>
@@ -566,91 +565,91 @@ webpack4及以前使用下面的配置
 
 5. 执行打包命令，观察打包后网页效果
 
-> 总结：url-loader和file-loader 可以打包静态资源文件
+> 总结：url-loader 和 file-loader 可以打包静态资源文件
 
-### 加载器：处理高版本js语法
+### 加载器：处理高版本 js 语法
 
-> 让webpack对高版本的js代码，降级处理后打包
+> 让 webpack 对高版本的 js 代码，降级处理后打包
 
-高版本的js代码(箭头函数)，打包后，直接原封不动打入了js文件中，遇到一些低版本的浏览器就会报错
+高版本的 js 代码(箭头函数)，打包后，直接原封不动打入了 js 文件中，遇到一些低版本的浏览器就会报错
 
 webpack 默认仅内置了 模块化的 兼容性处理`import export`
 
-babel：用于处理高版本 js语法 的兼容性  [babel官网](https://www.babeljs.cn/)
+babel：用于处理高版本 js 语法 的兼容性 [babel 官网](https://www.babeljs.cn/)
 
-让webpack配合babel-loader 对js语法做处理
+让 webpack 配合 babel-loader 对 js 语法做处理
 
-[babel-loader文档](https://webpack.docschina.org/loaders/babel-loader/)
+[babel-loader 文档](https://webpack.docschina.org/loaders/babel-loader/)
 
-  1. 安装包
+1. 安装包
 
-     ```bash
-     yarn add -D babel-loader @babel/core @babel/preset-env
-     ```
+   ```bash
+   yarn add -D babel-loader @babel/core @babel/preset-env
+   ```
 
-  2. 配置规则
+2. 配置规则
 
-     ```js
-     module: {
-       rules: [
-         {
-             test: /\.js$/,
-             exclude: /(node_modules|bower_components)/,
-             use: {
-                 loader: 'babel-loader',
-                 options: {
-                     presets: ['@babel/preset-env'] // 预设:转码规则(用bable开发环境本来预设的)
-                 }
-             }
-         }
-       ]
-     }
-     ```
+   ```js
+   module: {
+     rules: [
+       {
+         test: /\.js$/,
+         exclude: /(node_modules|bower_components)/,
+         use: {
+           loader: "babel-loader",
+           options: {
+             presets: ["@babel/preset-env"], // 预设:转码规则(用bable开发环境本来预设的)
+           },
+         },
+       },
+     ]
+   }
+   ```
 
-3. 在main.js中使用箭头函数(高版本js)
+3. 在 main.js 中使用箭头函数(高版本 js)
 
    ```js
    // 高级语法
    const fn = () => {
-     console.log("你好babel");
+     console.log("你好babel")
    }
    console.log(fn) // 这里必须打印不能调用/不使用，不然webpack会精简成一句打印不要函数了/不会编译未使用的代码
    // 没有babel集成时，原样直接打包进lib/bundle.js
    // 有babel集成时，会翻译成普通函数打包进lib/bundle.js
    ```
 
-4. 打包后观察lib/bundle.js被转成成普通函数使用了，这就是babel降级翻译的功能
+4. 打包后观察 lib/bundle.js 被转成成普通函数使用了，这就是 babel 降级翻译的功能
 
-> 总结：babel-loader 可以让webpack 对高版本js语法做降级处理后打包
+> 总结：babel-loader 可以让 webpack 对高版本 js 语法做降级处理后打包
 
 ### 图片是如何加载的
 
-~~~bash
+```bash
 自己项目中的图片素材也需要请求才能拿到
 
 但这个请求不是我们开发人员写的，是浏览器去做，浏览器读取到对应的资源引用去下载对应的资源
 
 因为项目最终也是放在服务器上，所以项目中的图片这些东西也是由浏览器去找域名地址对应的服务器去下载的
-~~~
+```
 
 ## webpack 开发服务器
 
-### webpack开发服务器为何学
+### webpack 开发服务器为何学
 
 文档地址https://webpack.docschina.org/configuration/dev-server/
 
 抛出问题：每次修改代码，都需要重新 yarn build 打包，才能看到最新的效果，实际工作中，打包 yarn build 非常费时
 
-为什么费时? 
+为什么费时?
 
 1. 构建依赖
-2. 磁盘读取对应的文件到内存，才能加载  
-3. 用对应的 loader 进行处理  
-4. 将处理完的内容，输出到磁盘指定目录  
+2. 磁盘读取对应的文件到内存，才能加载
+3. 用对应的 loader 进行处理
+4. 将处理完的内容，输出到磁盘指定目录
 
 解决问题：起一个开发服务器，在电脑内存中打包，缓存一些已经打包过的内容，只重新打包修改的文件，最终运行加载在内存中给浏览器使用
 
-### webpack-dev-server自动刷新
+### webpack-dev-server 自动刷新
 
 > 启动本地服务，可实时更新修改的代码，打包**变化代码**到内存中，然后直接提供端口和网页访问
 
@@ -669,53 +668,53 @@ babel：用于处理高版本 js语法 的兼容性  [babel官网](https://www.b
    }
    ```
 
-3. 运行命令，启动webpack开发服务器
+3. 运行命令，启动 webpack 开发服务器
 
    ```bash
    yarn serve
    #或者 npm run serve
    ```
 
-> 总结：以后改了src下的资源代码，就会直接更新到内存打包，然后反馈到浏览器上了
+> 总结：以后改了 src 下的资源代码，就会直接更新到内存打包，然后反馈到浏览器上了
 
-### webpack-dev-server配置
+### webpack-dev-server 配置
 
-1. 在webpack.config.js中添加服务器配置
+1. 在 webpack.config.js 中添加服务器配置
 
    更多配置参考这里https://webpack.docschina.org/configuration/dev-server/#devserverafter
 
    ```js
    module.exports = {
-       // ...其他配置
-       devServer: {
-         port: 3000 // 端口号
-       }
+     // ...其他配置
+     devServer: {
+       port: 3000, // 端口号
+     },
    }
    ```
 
 ## 面试题
 
-### 1、什么是webpack（必会）
+### 1、什么是 webpack（必会）
 
-webpack是一个打包模块化javascript的工具，在webpack里一切文件皆模块，通过loader转换文件，通过plugin注入钩子，最后输出由多个模块组合成的文件，webpack专注构建模块化项目，简单说就是模块打包工具
+webpack 是一个打包模块化 javascript 的工具，在 webpack 里一切文件皆模块，通过 loader 转换文件，通过 plugin 注入钩子，最后输出由多个模块组合成的文件，webpack 专注构建模块化项目，简单说就是模块打包工具
 
-### 2、Webpack的优点是什么（必会）
+### 2、Webpack 的优点是什么（必会）
 
 减少文件体积、减少文件数量
 
 提高网页加载速度
 
-### 3、webpack的构建流程是什么 从读取配置到输出文件这个过程尽量说全（必会）
+### 3、webpack 的构建流程是什么 从读取配置到输出文件这个过程尽量说全（必会）
 
-​    Webpack 的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：
+Webpack 的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：
 
- 	1. 初始化参数：从配置文件读取与合并参数，得出最终的参数
- 	2. 开始编译：用上一步得到的参数初始化 Compiler 对象，加载所有配置的插件，开始执行编译
- 	3. 确定入口：根据配置中的 entry 找出所有的入口文件
- 	4. 编译模块：从入口文件出发，调用所有配置的 Loader 对模块进行翻译，再找出该模块依赖的模块，再递归本步骤直到所有入口依赖的文件都经过了本步骤的处理
- 	5. 完成模块编译：在经过第4步使用 Loader 翻译完所有模块后，得到了每个模块被翻译后的最终内容以及它们之间的依赖关系
- 	6. 输出资源：根据入口和模块之间的依赖关系，组装成一个个包含多个模块的 Chunk，再把每个 Chunk 转换成一个单独的文件加入到输出列表，这步是可以修改输出内容的最后机会
- 	7. 输出完成：在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统。
+1. 初始化参数：从配置文件读取与合并参数，得出最终的参数
+2. 开始编译：用上一步得到的参数初始化 Compiler 对象，加载所有配置的插件，开始执行编译
+3. 确定入口：根据配置中的 entry 找出所有的入口文件
+4. 编译模块：从入口文件出发，调用所有配置的 Loader 对模块进行翻译，再找出该模块依赖的模块，再递归本步骤直到所有入口依赖的文件都经过了本步骤的处理
+5. 完成模块编译：在经过第 4 步使用 Loader 翻译完所有模块后，得到了每个模块被翻译后的最终内容以及它们之间的依赖关系
+6. 输出资源：根据入口和模块之间的依赖关系，组装成一个个包含多个模块的 Chunk，再把每个 Chunk 转换成一个单独的文件加入到输出列表，这步是可以修改输出内容的最后机会
+7. 输出完成：在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统。
 
 在以上过程中，Webpack 会在特定的时间点广播出特定的事件，插件在监听到感兴趣的事件后会执行特定的逻辑，并且插件可以调用 Webpack 提供的 API 改变 Webpack 的运行结果
 
@@ -723,60 +722,59 @@ webpack是一个打包模块化javascript的工具，在webpack里一切文件�
 
 webpack 的热更新又称热替换（Hot Module Replacement），缩写为 HMR。这个机制可以做到不用刷新浏览器而将新变更的模块替换掉旧的模块。
 
- HMR的核心就是客户端从服务端拉取更新后的文件，准确的说是 chunk diff (chunk 需要更新的部分)，实际上 WDS 与浏览器之间维护了一个 Websocket，当本地资源发生变化时，WDS 会向浏览器推送更新，并带上构建时的 hash，让客户端与上一次资源进行对比。客户端对比出差异后会向 WDS 发起 Ajax 请求来获取更改内容(文件列表、hash)，这样客户端就可以再借助这些信息继续向 WDS 发起 jsonp 请求获取该chunk的增量更新。
+HMR 的核心就是客户端从服务端拉取更新后的文件，准确的说是 chunk diff (chunk 需要更新的部分)，实际上 WDS 与浏览器之间维护了一个 Websocket，当本地资源发生变化时，WDS 会向浏览器推送更新，并带上构建时的 hash，让客户端与上一次资源进行对比。客户端对比出差异后会向 WDS 发起 Ajax 请求来获取更改内容(文件列表、hash)，这样客户端就可以再借助这些信息继续向 WDS 发起 jsonp 请求获取该 chunk 的增量更新。
 
-后续的部分(拿到增量更新之后如何处理？哪些状态该保留？哪些又需要更新？)由 HotModulePlugin 来完成，提供了相关 API 以供开发者针对自身场景进行处理，像react-hot-loader 和 vue-loader 都是借助这些 API 实现 HMR。
+后续的部分(拿到增量更新之后如何处理？哪些状态该保留？哪些又需要更新？)由 HotModulePlugin 来完成，提供了相关 API 以供开发者针对自身场景进行处理，像 react-hot-loader 和 vue-loader 都是借助这些 API 实现 HMR。
 
-### 5、webpack与grunt gulp的不同（必会）
+### 5、webpack 与 grunt gulp 的不同（必会）
 
--  三者之间的区别
+- 三者之间的区别
 
-三者都是前端构建工具，grunt和gulp在早期比较流行，现在webpack相对来说比较主流，不过一些轻量化的任务还是会用gulp来处理，比如单独打包CSS文件等。
+三者都是前端构建工具，grunt 和 gulp 在早期比较流行，现在 webpack 相对来说比较主流，不过一些轻量化的任务还是会用 gulp 来处理，比如单独打包 CSS 文件等。
 
-grunt和gulp是基于任务和流（Task、Stream）的。类似jQuery，找到一个（或一类）文件，对其做一系列链式操作，更新流上的数据， 整条链式操作构成了一个任务，多个任务就构成了整个web的构建流程。
+grunt 和 gulp 是基于任务和流（Task、Stream）的。类似 jQuery，找到一个（或一类）文件，对其做一系列链式操作，更新流上的数据， 整条链式操作构成了一个任务，多个任务就构成了整个 web 的构建流程。
 
-webpack是基于入口的。webpack会自动地递归解析入口所需要加载的所有资源文件，然后用不同的Loader来处理不同的文件，用Plugin来扩展webpack功能。
+webpack 是基于入口的。webpack 会自动地递归解析入口所需要加载的所有资源文件，然后用不同的 Loader 来处理不同的文件，用 Plugin 来扩展 webpack 功能。
 
 - 从构建思路来说
 
-gulp和grunt需要开发者将整个前端构建过程拆分成多个`Task`，并合理控制所有`Task`的调用关系 webpack需要开发者找到入口，并需要清楚对于不同的资源应该使用什么Loader做何种解析和加工
+gulp 和 grunt 需要开发者将整个前端构建过程拆分成多个`Task`，并合理控制所有`Task`的调用关系 webpack 需要开发者找到入口，并需要清楚对于不同的资源应该使用什么 Loader 做何种解析和加工
 
 - 对于知识背景来说
 
-gulp更像后端开发者的思路，需要对于整个流程了如指掌 webpack更倾向于前端开发者的思路
+gulp 更像后端开发者的思路，需要对于整个流程了如指掌 webpack 更倾向于前端开发者的思路
 
-### 6、有哪些常见的Loader 他们是解决什么问题的（必会）
+### 6、有哪些常见的 Loader 他们是解决什么问题的（必会）
 
-1、  file-loader：把文件输出到一个文件夹中，在代码中通过相对 URL 去引用输出的文件
+1、 file-loader：把文件输出到一个文件夹中，在代码中通过相对 URL 去引用输出的文件
 
-2、  url-loader：和 file-loader 类似，但是能在文件很小的情况下以 base64 的方式把文件内容注入到代码中去
+2、 url-loader：和 file-loader 类似，但是能在文件很小的情况下以 base64 的方式把文件内容注入到代码中去
 
-3、  source-map-loader：加载额外的 Source Map 文件，以方便断点调试
+3、 source-map-loader：加载额外的 Source Map 文件，以方便断点调试
 
-4、  image-loader：加载并且压缩图片文件
+4、 image-loader：加载并且压缩图片文件
 
-5、  babel-loader：把 ES6 转换成 ES5
+5、 babel-loader：把 ES6 转换成 ES5
 
-6、  css-loader：加载 CSS，支持模块化、压缩、文件导入等特性
+6、 css-loader：加载 CSS，支持模块化、压缩、文件导入等特性
 
-7、  style-loader：把 CSS 代码注入到 JavaScript 中，通过 DOM 操作去加载 CSS
+7、 style-loader：把 CSS 代码注入到 JavaScript 中，通过 DOM 操作去加载 CSS
 
-8、  eslint-loader：通过 ESLint 检查 JavaScript 代码
+8、 eslint-loader：通过 ESLint 检查 JavaScript 代码
 
-### 7、Loader和Plugin的不同（必会）
+### 7、Loader 和 Plugin 的不同（必会）
 
 - 不同的作用
 
-Loader直译为"加载器"。Webpack将一切文件视为模块，但是webpack原生是只能解析js文件，如果想将其他文件也打包的话，就会用到loader。 所以Loader的作用是让webpack拥有了加载和解析非JavaScript文件的能力。
+Loader 直译为"加载器"。Webpack 将一切文件视为模块，但是 webpack 原生是只能解析 js 文件，如果想将其他文件也打包的话，就会用到 loader。 所以 Loader 的作用是让 webpack 拥有了加载和解析非 JavaScript 文件的能力。
 
-Plugin直译为"插件"。Plugin可以扩展webpack的功能，让webpack具有更多的灵活性。 在 Webpack 运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 Webpack 提供的 API 改变输出结果。
+Plugin 直译为"插件"。Plugin 可以扩展 webpack 的功能，让 webpack 具有更多的灵活性。 在 Webpack 运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 Webpack 提供的 API 改变输出结果。
 
 - 不同的用法
 
+Loader 在 module.rules 中配置，也就是说他作为模块的解析规则而存在。 类型为数组，每一项都是一个 Object，里面描述了对于什么类型的文件（test），使用什么加载(loader)和使用的参数（options）
 
-Loader在module.rules中配置，也就是说他作为模块的解析规则而存在。 类型为数组，每一项都是一个Object，里面描述了对于什么类型的文件（test），使用什么加载(loader)和使用的参数（options）
-
-Plugin在plugins中单独配置。 类型为数组，每一项是一个plugin的实例，参数都通过构造函数传入。
+Plugin 在 plugins 中单独配置。 类型为数组，每一项是一个 plugin 的实例，参数都通过构造函数传入。
 
 ### 8、代码分割的本质是什么 有什么意义呢
 
@@ -786,20 +784,14 @@ Plugin在plugins中单独配置。 类型为数组，每一项是一个plugin的
 
 打包成唯一脚本：一把梭完自己爽，服务器压力小，但是页面空白期长，用户体验不好。
 
-
-
 ```js
-import App from './App.vue' // 根vue文件
-import Vue from 'vue' // 引入vue.js对象
+import App from "./App.vue" // 根vue文件
+import Vue from "vue" // 引入vue.js对象
 
-new Vue({ 
-  render: h => h(App) // 渲染函数, 渲染App组件里的标签
-}).$mount('#app') // 把vue文件的标签结构 -> 挂载到id为app的标签里
+new Vue({
+  render: h => h(App), // 渲染函数, 渲染App组件里的标签
+}).$mount("#app") // 把vue文件的标签结构 -> 挂载到id为app的标签里
 ```
-
-
-
-
 
 # Webpack 优化
 
@@ -1026,3 +1018,273 @@ SSO 一般都需要一个独立的认证中心（passport），子系统的登�
 7、启动服务器监听特定端口（8080）
 
 8、自动打开浏览器并打开特定网址（localhost:8080）
+
+# 打包
+
+## 打包发布 - 概念介绍
+
+### 目标
+
+- 前端资源打包在每个项目中都会有涉及，每位开发者都希望打包是用最少的时间构建出最小的代码，这不仅能提高团队中的效率，也能提高页面的访问性能
+
+### 讲解
+
+项目开发完成之后的打包，需要使用 webpack 做打包
+
+`打包后将项目中的.html .vue .scss .js等素材打包成.htm .js .css`
+
+![](./images/005-打包.png)
+
+### 小结
+
+1. webpack 的作用是什么
+
+   我们可以把文件打包成模块，压缩 整合 提高加载速度
+
+2. webpack 开发服务器
+
+   yarn build 打包生成的 dist 目录，在开发服务器中是把这些代码打包到了内存里
+
+## 打包发布 - publicPath
+
+### 目标
+
+- 介绍 publicPath 的作用
+
+### 讲解
+
+1. 不使用 publicPath，打包的项目必须保证 dist 的内容在服务器的根目录
+
+2. 使用 publicPath 可以影响 index.html 引入其他打包后的资源的前缀相对路径
+
+3. 在 vue.config.js 中添加
+
+   ```js
+   node里有个内置的环境变量process.env.NODE_ENV
+   process.env.NODE_ENV会根据我敲击的命令，来使用不用的值
+   如果敲击的是yarn serve，值就是'development'字符串
+   如果敲击的是yarn build，值就是'production'字符串
+   // 影响打包时，index.html引入其它资源的前缀地址
+   publicPath: process.env.NODE_ENV === 'development' ? '/' : './'
+   ```
+
+### 小结
+
+1. publicPath 这个固定配置项的作用
+
+   可以影响打包时 index.html 引入其他资源的相对路径
+
+## 打包发布 - 减少包体积 - 整体分析
+
+### 目标
+
+了解如何减少包体积的思路
+
+### 讲解
+
+1.  打包过程：从 main.js 开始出发，寻找项目中需要使用到的依赖，最终交由 webpack 进行打包
+
+ <img src="./images/008-性能1.png" style="zoom:66%; border: 1px solid #ccc" />
+
+2. 我们是否需要把**第三方的库**全部打包到自己的项目中呢？
+
+   比如 elementUI 文件就很大，而且这类插件长期不需要我们进行更新，所以**没有必要打包进来**！
+
+3. 思路
+
+<img src="./images/009-性能2.png" style="zoom:56%; border: 1px solid #ccc" />
+
+### 小结
+
+1. 如何减少包体积?
+
+   把一些不必经常维护的第三方插件，不用 webpack 模块化方式打包，而是变成 cdn 的 script 的 src 方式加载，因为 cdn 有物理加速的能力，会找用户就近的服务器拿到指定地址的文件
+
+## 打包发布 - 减少包体积 - 排除第三方
+
+### 目标
+
+通过配置 vue-cli 把一些平常不需要用的包排除在打包文字之外。
+
+例如：让 `webpack` 不打包 `vue` `element` 等等
+
+### 讲解
+
+1. 先找到 `vue.config.js`， 添加 `externals` 项，具体如下：
+
+   - 此选项作用，告诉 webpack 排除掉这些包，不进行打包
+
+   - 一定要去修改掉引入 Element 用的变量名，这里要匹配去替换，因为 cdn 里的源代码配置在 ELEMENT 这个变量上
+
+```js
+configureWebpack: {
+  // provide the app's title in webpack's name field, so that
+  // it can be accessed in index.html to inject the correct title.
+  name: name,
+  externals: {
+    // 基本格式：
+    // '包名' : '在项目中引入的名字'
+    'echarts': 'echarts',
+    'vue': 'Vue',
+    'vue-router': 'VueRouter',
+    'vuex': 'Vuex',
+    'axios': 'axios',
+    'dayjs': 'dayjs',
+    'element-ui': 'ELEMENT',
+    'vue-quill-editor': 'VueQuillEditor',
+    'vuex-persistedstate': 'createPersistedState'
+  },
+  resolve: {
+    alias: {
+      '@': resolve('src')
+    }
+  }
+}
+```
+
+再次运行，我们会发现包的大小已经大幅减小，三个包已经不在打包的目标文件中了。
+
+### 小结
+
+1. webpack 如何剔除包, 不参与打包?
+
+   webpack 把对应几个包名写在 key 上，就可以刨除掉
+
+## 打包发布 - 了解 CDN
+
+### 目标
+
+- 了解什么是 CDN 以及它的好处
+
+### 讲解
+
+CDN 全称叫做“Content Delivery Network”，中文叫**内容分发网络**。我们用它来**提高访问速度**。
+
+<img src="./images/010-cdn.png" style="zoom:56%; border: 1px solid #ccc" /> 之后 <img src="./images/011-cdn.png" style="zoom:56%; border: 1px solid #ccc" /> />
+
+把一些静态资源：css， .js，图片，视频放在第三方的 CDN 服务器上，可以加速访问速度。
+
+前端项目中使用 CDN 好处：
+
+1. 减少应用打包出来的包体积
+2. 加快静态资源的访问，cdn 服务器集群，就近返回
+3. 利用浏览器缓存，不会变动的文件长期缓存
+
+### 小结
+
+1. 我们为何使用 cdn?
+
+   可以适当提高第三方插件的链接速度, 但是开发的时候我们还是可以在本地用 npm 下载, 但是上线后要配置 cdn 地址, 用户的浏览器默认还有缓存功能
+
+## 打包发布 - 引用 CDN
+
+### 目标
+
+- 掌握 CDN 的使用
+
+### 讲解
+
+做相关配置：把排除在外的包，通过公共网络资源方式引入
+
+ <img src="./images/012-引入资源.png" style="zoom:67%; border: 1px solid #ccc" />
+
+1. 请注意，在开发环境时，文件资源还是可以从本地 node_modules 中取出，而只有项目上线了，才需要去使用外部资源。此时我们可以使用**环境变量**来进行区分。具体如下
+
+2. 在**`vue.config.js`**文件中
+
+   ```js
+   // 需要排除的包对象
+   let externals = {}
+   // 判断是否是生产环境
+   const isProduction = process.env.NODE_ENV === "production"
+   // 如何是生产环境，需要执行以下逻辑
+   if (isProduction) {
+     externals = {
+       /**
+        * '包名': '在项目中引入的名字'
+        * 以 element-ui 举例 我再 main.js 里是以
+        * import ELEMENT from 'element-ui'
+        * Vue.use(ELEMENT)
+        * 这样引入的，所以我的 externals 的属性值应该是 ELEMENT
+        * 一定要去main.js设置
+        */
+       echarts: "echarts",
+       vue: "Vue",
+       "vue-router": "VueRouter",
+       vuex: "Vuex",
+       axios: "axios",
+       dayjs: "dayjs",
+       "element-ui": "ELEMENT",
+       "vue-quill-editor": "VueQuillEditor",
+       "vuex-persistedstate": "createPersistedState",
+     }
+   }
+   ```
+
+3. webpack 配置 externals 配置项
+
+   ```js
+   configureWebpack: {
+     // 配置单页应用程序的页面的标题
+     name: name,
+     externals: externals,
+     resolve: {
+       alias: {
+         '@': resolve('src')
+       }
+     }
+   }
+   ```
+
+4. 在`public/index.html`中，填入 cdn 的地址
+
+   因为 webpack 不会再打包这些第三方代码了，所以运行时缺少他们，我们用 cdn 链接的方式引入到 html 里参与运行
+
+   ```html
+   <!-- built files will be auto injected -->
+   <script src="https://unpkg.com/echarts@5.3.2/dist/echarts.min.js"></script>
+   <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+   <script src="https://unpkg.com/vue-router@3.5.1/dist/vue-router.js"></script>
+   <script src="https://unpkg.com/vuex@3.6.2/dist/vuex.js"></script>
+   <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+   <script src="https://unpkg.com/dayjs@1.11.3/dayjs.min.js"></script>
+   <script src="https://unpkg.com/element-ui@2.15.8/lib/index.js"></script>
+   <script src="https://unpkg.com/quill@1.3.7/dist/quill.js"></script>
+   <script src="https://unpkg.com/vue-quill-editor@3.0.6/dist/vue-quill-editor.js"></script>
+   <script src="https://unpkg.com/vuex-persistedstate@3.2.1/dist/vuex-persistedstate.umd.js"></script>
+   ```
+
+5. 在头部再引入样式文件的 cdn 地址
+
+   ```html
+   <link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.8/lib/theme-chalk/index.css" />
+   <link rel="stylesheet" href="https://unpkg.com/quill@1.3.7/dist/quill.core.css" />
+   <link rel="stylesheet" href="https://unpkg.com/quill@1.3.7/dist/quill.snow.css" />
+   <link rel="stylesheet" href="https://unpkg.com/quill@1.3.7/dist/quill.bubble.css" />
+   ```
+
+6. 在 `main.js` 中注释掉 `element-ui` 的引入和 `quill` 的样式
+
+   ```js
+   // 1. 导入 element-ui 组件库的样式
+   // import 'element-ui/lib/theme-chalk/index.css'
+
+   // 2. 导入 quill 的样式
+   // import 'quill/dist/quill.core.css'
+   // import 'quill/dist/quill.snow.css'
+   // import 'quill/dist/quill.bubble.css'
+   ```
+
+7. 最终在重新打包，和在开发环境运行，看看是否都一切正常
+
+8. 而且可以观察下 重新打包出来的包体积 dist 文件夹大小，是否有所减少
+
+### 小结
+
+1. 我们如何引入 cdn 地址?
+
+   在 index.html 网页中引入对应的 js 和 css 代码
+
+## 路由模式
+
+在地址栏中输入 http://localhost:9000/login 会向服务器发请求，但是在服务器找不到 login 这个页面。因为在单页面应用中，只有一个 index.html 页面，所以会报错 404。

@@ -1,6 +1,12 @@
 <template>
-  <van-nav-bar fixed left-arrow :title="title" :right-text="rightText" @click-left="onClickLeft"
-    @click-right="$emit('click-right')" />
+  <van-nav-bar
+    fixed
+    left-arrow
+    :title="title"
+    :right-text="rightText"
+    @click-left="onClickLeft"
+    @click-right="$emit('click-right')"
+  />
 </template>
 
 <script setup lang="ts">
@@ -30,7 +36,6 @@ const onClickLeft = () => {
 // ::v-deep() {}
 :deep() {
   .van-nav-bar {
-
     // &连接符
     // .van-nav-bar__arrow {}
     // .van-nav-bar__text {}

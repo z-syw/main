@@ -1,8 +1,71 @@
 ## 表单
 
-在网页中，表单主要负责数据采集功能，ajax用来发起网络请求。
-
 ~~~html
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>表单</title>
+  </head>
+  <body>
+    <!--
+        disabled禁用表单项，不会被提交
+        placeholder用来设置文本框的占位符
+        value文本框中可以通过value来指定默认值
+        readonly表单项无法修改，但是可以提交
+        checked设置默认选中的单选和多选
+        selected设置默认选中的下拉项
+    -->
+    <form action="">
+      <div>用户名<input type="text" name="username" /></div>
+      <!--
+            使用input的type=password来创建密码框，密码框中的内容不会以明文显示，避免密码被偷看
+            默认情况下，表单中的数据会通过url地址来发送，url地址中?后的内容被称为查询字符串（query string）
+            查询字符串是一个一个的名值对结构，一个数据名对应一个值，多个名值对之间使用&隔开，?username=admin&password=123123
+        -->
+      <div>
+        <input type="password" />
+      </div>
+
+      <!--
+            单选框：使用input的type=radio来创建一个单选框
+            单选框是通过name属性来分组的，相同name属性的为一组
+            像这种选择框，不需要用户填写内容，还必须为表单项指定value，value最终会成为提交给服务器的值
+        -->
+      <div>
+        性别：
+        <label><input type="radio" name="gender" value="male" />男</label>
+        <label><input type="radio" name="gender" value="female" /> 女</label>
+      </div>
+
+      <!-- 多选框：使用input的type=checkbox来创建多选框 -->
+      <div>
+        爱好：
+        <input type="checkbox" name="hobby" value="ppq" />乒乓球 <input type="checkbox" name="hobby" value="lq" /> 篮球
+        <input type="checkbox" name="hobby" value="ymq" />羽毛球 <input type="checkbox" name="hobby" value="zq" /> 足球
+      </div>
+
+      <!-- 下拉列表：使用select来创建下拉列表，添加multiple属性后可以将下拉列表设置为多选的下拉列表 -->
+      <div>
+        你最喜欢的编程语言：
+        <select name="language">
+          <option>Java</option>
+          <option value="js">JS</option>
+          <option>Python</option>
+        </select>
+      </div>
+
+      <div>
+        <input type="submit" value="登录" />
+      </div>
+    </form>
+  </body>
+</html>
+~~~
+
+在网页中，表单主要负责数据采集功能，ajax 用来发起网络请求。
+
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,8 +78,12 @@
     <!-- 表单标签 -->
     <form>
       <!-- 表单域 -->
-      <input type="text" id="username" />
-      <input type="password" id="password" />
+      <div>
+        <input type="text" id="username" />
+      </div>
+      <div>
+        <input type="password" id="password" />
+      </div>
       <!-- 表单按钮 type="submit"表示提交按钮的意思，默认值可以不写 -->
       <button type="submit">提交</button>
     </form>
@@ -43,42 +110,42 @@
     </script>
   </body>
 </html>
-~~~
+```
 
 ## 数据交换格式
 
-数据交换格式，是服务器端与客户端之间数据传输的格式，目前主流是`JSON`。客户端以JSON格式把数据发给服务器，服务器以JSON格式把数据响应给客户端。
+数据交换格式，是服务器端与客户端之间数据传输的格式，目前主流是`JSON`。客户端以 JSON 格式把数据发给服务器，服务器以 JSON 格式把数据响应给客户端。
 
-JSON本质上是用字符串的方式来表示对象或数组类型的数据
+JSON 本质上是用字符串的方式来表示对象或数组类型的数据
 
-~~~js
+```js
 // 外层单引号表示这是一个字符串
 // 这是用字符串的方式表示对象格式的数据
 const obj = '{"name": "zs", "age": 20}'
 
 // 这是用字符串的方式表示数组格式的数据
 const arr = '["java", "js"]'
-~~~
+```
 
 `序列化和反序列化`
 
-~~~js
+```js
 //序列化
-const obj = {"name": "zs", "age": 20}
+const obj = { name: "zs", age: 20 }
 JSON.stringy(obj)
 
 // 反序列化
 const obj = '{"name": "zs", "age": 20}'
 JSON.parse(obj)
-~~~
+```
 
 ## XMLHttpRequest
 
-xhr是浏览器内置的一个构造函数，基于 new 出来的xhr实例对象，可以发起 Ajax 请求。axios 中的 axios.get()、axios.post()、axios() 方法，都是基于xhr封装出来的！
+xhr 是浏览器内置的一个构造函数，基于 new 出来的 xhr 实例对象，可以发起 Ajax 请求。axios 中的 axios.get()、axios.post()、axios() 方法，都是基于 xhr 封装出来的！
 
-get请求
+get 请求
 
-~~~html
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -103,11 +170,11 @@ get请求
     </script>
   </body>
 </html>
-~~~
+```
 
-post请求
+post 请求
 
-~~~html
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -134,7 +201,7 @@ post请求
     </script>
   </body>
 </html>
-~~~
+```
 
 ## Postman
 
@@ -144,11 +211,11 @@ post请求
 
 ## 服务器
 
-客户端指Web浏览器。服务器是提供服务的设备。
+客户端指 Web 浏览器。服务器是提供服务的设备。
 
 通信过程：（请求）在浏览器地址栏中输入www.baidu.com，服务器把百度首页html内容发送给客户端浏览器（响应）。
 
-url地址：url地址用来表示服务器上每个资源的确切访问路径。一个标准的 URL 地址主要由以下 4 个部分构成：
+url 地址：url 地址用来表示服务器上每个资源的确切访问路径。一个标准的 URL 地址主要由以下 4 个部分构成：
 
 <img src="images/image-20230301205636148.png" alt="image-20230301205636148" style="zoom:50%;" />
 
@@ -162,7 +229,7 @@ url地址：url地址用来表示服务器上每个资源的确切访问路径�
 
 ## Ajax
 
-Ajax 是浏览器中的技术：用来实现客户端网页请求服务器的数据。它的英文全称是 Asynchronous Javascript And XML，简称 Ajax。服务器对外提供资源，获取服务器上的资源使用ajax技术。
+Ajax 是浏览器中的技术：用来实现客户端网页请求服务器的数据。它的英文全称是 Asynchronous Javascript And XML，简称 Ajax。服务器对外提供资源，获取服务器上的资源使用 ajax 技术。
 
 ## Axios
 
@@ -796,8 +863,6 @@ Etag 是服务器自动生成或者由开发者生成的对应资源在服务器
    - 强缓存：对缓存的资源，根据过期时间判断，如果未过期，直接用（不发请求），只有过期了，才会发请求。
 
    - 协商缓存：当强缓存未命中（资源过期了），会发请求（带上最后修改时间或者文件唯一标识 Etage），问后台，这个资源是否还能用。后台对比最后修改时间或者对比唯一标识，如果发现一致，这个资源还能用（不会返回资源）304。如果不一致，资源变化了，返回新资源 200。
-
-
 
 ## 01. TCP 协议是什么
 

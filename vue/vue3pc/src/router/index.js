@@ -1,5 +1,5 @@
 import { h } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const Cart = () => import('@/views/cart')
 const Home = () => import('@/views/home')
@@ -51,7 +51,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
   scrollBehavior: () => ({ left: 0, top: 0 }) // 每次切换路由时，滚动到页面顶部
 })
