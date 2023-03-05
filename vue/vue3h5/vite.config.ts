@@ -13,6 +13,7 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteMockServe } from 'vite-plugin-mock'
 
 export default defineConfig({
+  base: '/',
   server: {
     port: 80,
     host: true,

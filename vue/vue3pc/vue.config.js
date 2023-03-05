@@ -28,5 +28,6 @@ module.exports = defineConfig({
       ]
     }
   },
-  publicPath: process.env.NODE_ENV === 'development' ? '/' : './'
+  publicPath: '/'
+  // publicPath: process.env.NODE_ENV === 'development' ? '/' : './'
 })

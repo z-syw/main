@@ -1,20 +1,24 @@
 import { h } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
+// views
 const Cart = () => import('@/views/cart')
 const Home = () => import('@/views/home')
 const Goods = () => import('@/views/goods')
 const Login = () => import('@/views/login')
 const Layout = () => import('@/views/Layout')
 const MemberOrderDetail = () => import('@/views/member/order/detail')
-const carousel = () => import('@/components/xtx-carousel.vue')
-const echarts = () => import('@/components/xtx-echarts.vue')
 const LoginCallback = () => import('@/views/login/callback')
 const MemberLayout = () => import('@/views/member/Layout')
 const TopCategory = () => import('@/views/category/index')
 const SubCategory = () => import('@/views/category/sub')
 const MemberOrder = () => import('@/views/member/order')
 const MemberHome = () => import('@/views/member/home')
+
+// pages
+const PLayout = () => import('@/pages/p-layout.vue')
+const PEcharts = () => import('@/pages/p-echarts.vue')
+const PCarousel = () => import('@/pages/p-carousel.vue')
 
 const routes = [
   {
@@ -46,8 +50,11 @@ const routes = [
   },
   { path: '/login', component: Login },
   { path: '/login/callback', component: LoginCallback },
-  { path: '/carousel', component: carousel },
-  { path: '/echarts', component: echarts }
+
+  // pages
+  { path: '/p-layout', component: PLayout },
+  { path: '/p-carousel', component: PCarousel },
+  { path: '/p-echarts', component: PEcharts }
 ]
 
 const router = createRouter({
