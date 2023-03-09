@@ -2,10 +2,12 @@ import type { MockMethod } from 'vite-plugin-mock'
 import Mock from 'mockjs'
 
 const rules: MockMethod[] = [
+  // 一个对象就是一个接口
   {
-    url: '/patient/message/list',
-    method: 'get',
-    timeout: 1000,
+    url: 'member/collect/', // 请求地址
+    method: 'get', // 请求方式
+    timeout: 1000, // 超时时间
+    // 响应数据（JSON）
     response: () => {
       const data = []
       for (let i = 0; i < 10; i++) {
@@ -19,10 +21,11 @@ const rules: MockMethod[] = [
           })
         )
       }
+      // 在函数里返回前台需要的数据
       return {
         code: 10000,
         message: '获取数据成功',
-        data
+        data: data
       }
     }
   }

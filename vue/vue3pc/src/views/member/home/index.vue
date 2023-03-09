@@ -21,7 +21,7 @@ export default {
     // 会员中心-收藏（商品、专题、品牌）：获取收藏
     const goods = ref([])
     findCollect({ page: 1, pageSize: 4 }).then(data => {
-      goods.value = data.result.items
+      goods.value = data.result.data
     })
     return { goods }
   }
