@@ -1,7 +1,6 @@
 import { h } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
-// views
 const Cart = () => import('@/views/cart')
 const Home = () => import('@/views/home')
 const Goods = () => import('@/views/goods')
@@ -14,11 +13,6 @@ const TopCategory = () => import('@/views/category/index')
 const SubCategory = () => import('@/views/category/sub')
 const MemberOrder = () => import('@/views/member/order')
 const MemberHome = () => import('@/views/member/home')
-
-// pages
-const PLayout = () => import('@/pages/p-layout.vue')
-const PEcharts = () => import('@/pages/p-echarts.vue')
-const PCarousel = () => import('@/pages/p-carousel.vue')
 
 const routes = [
   {
@@ -49,12 +43,7 @@ const routes = [
     ]
   },
   { path: '/login', component: Login },
-  { path: '/login/callback', component: LoginCallback },
-
-  // pages
-  { path: '/p-layout', component: PLayout },
-  { path: '/p-carousel', component: PCarousel },
-  { path: '/p-echarts', component: PEcharts }
+  { path: '/login/callback', component: LoginCallback }
 ]
 
 const router = createRouter({

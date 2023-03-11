@@ -1,8 +1,8 @@
 <template>
-  <div id="main" style="width: 600px;height:400px;"></div>
+  <div id="main" style="width: 600px; height: 400px"></div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {
   GridComponent,
   TitleComponent,
@@ -30,7 +30,7 @@ echarts.use([
 
 onMounted(() => {
   const chartDom = document.getElementById('main')
-  const myChart = echarts.init(chartDom)
+  const myChart = echarts.init(chartDom as HTMLElement)
   const option = {
     // 标题
     title: {

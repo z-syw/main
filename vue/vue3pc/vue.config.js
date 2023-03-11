@@ -1,6 +1,3 @@
-// __filename当前文件的完整路径
-// __dirname当前文件夹的绝对路径
-// path.join()用来将多个路径片段拼接成一个完整的路径字符串
 const path = require('path')
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
