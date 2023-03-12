@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%=VITE_APP_TITLE%></title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+<html lang="zh-CN">
 
-    <!-- 由于www.123456.com是一个线上的域名，qq登陆完回跳www.123456.com这个地址。但这个地址怎么跳到我们自己的系统，我们的系统是localhost：8080。需要将本地的host解析，将127.0.0.1解析成www.123456.com，当它回跳时虽然地址是www.123456.com，但是DNS解析优先的是本地的host，所以能跳到自己的localhost上。（eg：当浏览器访问www.jd.com时，先找DNS服务器将域名解析成IP，再通过IP访问资源，在解析域名的时候会优先解析本地的host文件） -->
-    <script
-      data-appid="102015968"
-      src="https://connect.qq.com/qc_jssdk.js"
-      data-redirecturi="<%=VITE_APP_CALLBACK%>/login/callback"
-    ></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%=VITE_APP_TITLE%>
+  </title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
+
+  <!-- 由于www.123456.com是一个线上的域名，qq登陆完回跳www.123456.com这个地址。但这个地址怎么跳到我们自己的系统，我们的系统是localhost：8080。需要将本地的host解析，将127.0.0.1解析成www.123456.com，当它回跳时虽然地址是www.123456.com，但是DNS解析优先的是本地的host，所以能跳到自己的localhost上。（eg：当浏览器访问www.jd.com时，先找DNS服务器将域名解析成IP，再通过IP访问资源，在解析域名的时候会优先解析本地的host文件） -->
+  <script data-appid="102015968" src="https://connect.qq.com/qc_jssdk.js"
+    data-redirecturi="<%=VITE_APP_CALLBACK%>/login/callback"></script>
+</body>
+
 </html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 类：创建对象的模版
+
+    // Person类，专门创建人的模版
+    class Person {
+      // 封装：(1)属性私有化加# (2)封装可以确保数据的安全
+      #uname
+      constructor(uname, age) {
+        // constructor构造函数会在创建对象时，自动执行
+        // constructor构造函数里的this，指向创建的对象
+        this.#uname = uname
+        this.age = age
+      }
+      get uname() {
+        return this.#uname
+      }
+      set uname(val) {
+        this.#uname = val
+      }
+    }
+
+    const p1 = new Person('周杰伦', 18)
+    console.log(p1)
+
+    // instanceof检测某个对象是否是某个类创建的
+    // console.log(p1 instanceof Person) // true
+  </script>
+</body>
+
+</html>

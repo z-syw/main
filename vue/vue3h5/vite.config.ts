@@ -13,11 +13,12 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteMockServe } from 'vite-plugin-mock'
 
 export default defineConfig({
-  base: '/',
+  base: '/', // 打包路径
   server: {
-    port: 80,
+    port: 80, // 服务端口号
     host: true,
-    open: true
+    open: true // 服务启动时是否自动打开浏览器
+    // cors: true // 允许跨域
   },
   plugins: [
     createHtmlPlugin(), // 动态修改html里的内容需要引入插件
